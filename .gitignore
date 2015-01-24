@@ -1,0 +1,7 @@
+
+# XCode Project files and others
+*.xcodeproj
+
+# 
+dependencies
+build
