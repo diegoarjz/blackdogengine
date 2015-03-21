@@ -17,6 +17,7 @@
 #include "MathLib.h"
 #include "Line3.h"
 
+namespace bde{
 typedef CGAL::Cartesian<REAL>::K::Ray_3 Ray_3;
 
 class Ray3{
@@ -46,13 +47,15 @@ public:
      * ***********/
     REAL SquaredDistance(const Ray3 &ray);
     REAL Distance(const Ray3 &ray);
-    REAL SquaredDistance(const ::Vector3 &v) const;
-    REAL Distance(const ::Vector3 &v) const;
+    REAL SquaredDistance(const Vector3 &v) const;
+    REAL Distance(const Vector3 &v) const;
     
     
     friend class Segment3;
 };
-
+} // namespace bde
 #else
-class Ray3;
+namespace {
+    class Ray3;
+} // namespace bde
 #endif /* defined(__BDEMath__Ray3__) */

@@ -17,7 +17,7 @@ namespace bde {
         
     }
     
-    Rectangle::Rectangle(const ::Vector2 &position, const ::Vector2 &size, const Positions &positionCorner){
+    Rectangle::Rectangle(const Vector2 &position, const Vector2 &size, const Positions &positionCorner){
         SetSize(size);
         SetPosition(position, positionCorner);
     }
@@ -30,37 +30,37 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    ::Vector2 Rectangle::GetPosition(const Positions &positionCorner) const{
+    Vector2 Rectangle::GetPosition(const Positions &positionCorner) const{
         return mPosition + getPositionVector(positionCorner);
     }
     
-    void Rectangle::SetPosition(const ::Vector2 &position, const Positions &positionCorner){
-        ::Vector2 pos = getPositionVector(positionCorner);
+    void Rectangle::SetPosition(const Vector2 &position, const Positions &positionCorner){
+        Vector2 pos = getPositionVector(positionCorner);
         
         mPosition = position - pos;
     }
     
-    ::Vector2 Rectangle::GetSize() const{
+    Vector2 Rectangle::GetSize() const{
         return mSize;
     }
     
-    void Rectangle::SetSize(const ::Vector2 &size){
+    void Rectangle::SetSize(const Vector2 &size){
         mSize = size;
     }
     
-    ::Vector2 Rectangle::GetBottomLeft() const{
+    Vector2 Rectangle::GetBottomLeft() const{
         return mPosition;
     }
     
-    ::Vector2 Rectangle::GetBottomRight() const{
+    Vector2 Rectangle::GetBottomRight() const{
         return mPosition + getPositionVector(BottomRight);
     }
     
-    ::Vector2 Rectangle::GetTopRight() const{
+    Vector2 Rectangle::GetTopRight() const{
         return mPosition + getPositionVector(TopRight);
     }
     
-    ::Vector2 Rectangle::GetTopLeft() const{
+    Vector2 Rectangle::GetTopLeft() const{
         return mPosition + getPositionVector(TopLeft);
     }
     
@@ -68,7 +68,7 @@ namespace bde {
         return getPositionVector(TopRight).Length();
     }
     
-    ::Vector2 Rectangle::GetDiagonal() const{
+    Vector2 Rectangle::GetDiagonal() const{
         return getPositionVector(TopRight);
     }
     
@@ -76,11 +76,11 @@ namespace bde {
      * Operations *
      * ***********/
     bool Rectangle::Intersects(const Rectangle &other) const{
-        ::Vector2 thisX(mPosition.X(),mPosition.X() + mSize.X());
-        ::Vector2 thisY(mPosition.Y(),mPosition.Y() + mSize.Y());
+        Vector2 thisX(mPosition.X(),mPosition.X() + mSize.X());
+        Vector2 thisY(mPosition.Y(),mPosition.Y() + mSize.Y());
         
-        ::Vector2 otherX(other.mPosition.X(),other.mPosition.X() + other.mSize.X());
-        ::Vector2 otherY(other.mPosition.Y(),other.mPosition.Y() + other.mSize.Y());
+        Vector2 otherX(other.mPosition.X(),other.mPosition.X() + other.mSize.X());
+        Vector2 otherY(other.mPosition.Y(),other.mPosition.Y() + other.mSize.Y());
         
         return  thisX.X() < otherX.Y() &&
         thisX.Y() > otherX.X() &&
@@ -94,7 +94,7 @@ namespace bde {
         REAL maxX = mPosition.X() + mSize.X();
         REAL maxY = mPosition.Y() + mSize.Y();
         
-        ::Vector2 otherPos[] =
+        Vector2 otherPos[] =
         {
             other.GetPosition(BottomLeft),
             other.GetPosition(BottomRight),
@@ -103,7 +103,7 @@ namespace bde {
         };
         
         for (int i=0; i<4; ++i) {
-            ::Vector2 corner = otherPos[i];
+            Vector2 corner = otherPos[i];
             
             if(corner.X() < minX)
                 minX = corner.X();
@@ -116,13 +116,13 @@ namespace bde {
                 maxY = corner.Y();
         }
         
-        mPosition = ::Vector2(minX, minY);
-        mSize = ::Vector2(maxX-minX, maxY-minY);
+        mPosition = Vector2(minX, minY);
+        mSize = Vector2(maxX-minX, maxY-minY);
     }
     
-    bool Rectangle::IsInside(const ::Vector2 &point) const{
-        ::Vector2 topLeft = getPositionVector(TopLeft);
-        ::Vector2 bottomRight = getPositionVector(BottomRight);
+    bool Rectangle::IsInside(const Vector2 &point) const{
+        Vector2 topLeft = getPositionVector(TopLeft);
+        Vector2 bottomRight = getPositionVector(BottomRight);
         
         float x = point.X();
         float y = point.Y();
@@ -133,18 +133,18 @@ namespace bde {
         return false;
     }
     
-    ::Vector2 Rectangle::getPositionVector(const Positions &position) const{
+    Vector2 Rectangle::getPositionVector(const Positions &position) const{
         switch (position) {
             case BottomLeft:
-                return ::Vector2(0,0);
+                return Vector2(0,0);
             case BottomRight:
-                return ::Vector2(mSize.X(), 0);
+                return Vector2(mSize.X(), 0);
             case TopRight:
-                return ::Vector2(mSize.X(), mSize.Y());
+                return Vector2(mSize.X(), mSize.Y());
             case TopLeft:
-                return ::Vector2(0,mSize.Y());
+                return Vector2(0,mSize.Y());
             case Center:
-                return ::Vector2(mSize.X()*0.5, mSize.Y()*0.5);
+                return Vector2(mSize.X()*0.5, mSize.Y()*0.5);
             default:
                 break;
         }

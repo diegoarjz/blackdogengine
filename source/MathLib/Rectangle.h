@@ -38,9 +38,9 @@ namespace bde{
         };
     private:
         /// The rectangle's position, always stored relative to the bottom Left corner.
-        ::Vector2 mPosition;
+        Vector2 mPosition;
         ///  The rectangle's size
-        ::Vector2 mSize;
+        Vector2 mSize;
         
     public:
         
@@ -48,35 +48,35 @@ namespace bde{
          * Construction & Destruction *
          * ***************************/
         Rectangle();
-        Rectangle(const ::Vector2 &position, const ::Vector2 &size, const Positions &positionCorner = BottomLeft);
+        Rectangle(const Vector2 &position, const Vector2 &size, const Positions &positionCorner = BottomLeft);
         Rectangle(const Rectangle &other);
         
         /* *******************
          * Getters & Setters *
          * ******************/
-        ::Vector2 GetPosition(const Positions &positionCorner = BottomLeft) const;
-        void SetPosition(const ::Vector2 &position, const Positions &positionCorner = BottomLeft);
-        ::Vector2 GetSize() const;
-        void SetSize(const ::Vector2 &size);
+        Vector2 GetPosition(const Positions &positionCorner = BottomLeft) const;
+        void SetPosition(const Vector2 &position, const Positions &positionCorner = BottomLeft);
+        Vector2 GetSize() const;
+        void SetSize(const Vector2 &size);
         
-        ::Vector2 GetBottomLeft() const;
-        ::Vector2 GetBottomRight() const;
-        ::Vector2 GetTopRight() const;
-        ::Vector2 GetTopLeft() const;
+        Vector2 GetBottomLeft() const;
+        Vector2 GetBottomRight() const;
+        Vector2 GetTopRight() const;
+        Vector2 GetTopLeft() const;
         
         REAL GetDiagonalLength() const;
-        ::Vector2 GetDiagonal() const;
+        Vector2 GetDiagonal() const;
         
         /* ************
          * Operations *
          * ***********/
         bool Intersects(const Rectangle &other) const;
         void Grow(const Rectangle &other);
-        bool IsInside(const ::Vector2 &point) const;
+        bool IsInside(const Vector2 &point) const;
         
         friend std::ostream& operator<<(std::ostream &o, const Rectangle &r);
     private:
-        ::Vector2 getPositionVector(const Positions &position) const;
+        Vector2 getPositionVector(const Positions &position) const;
     };
 }
 

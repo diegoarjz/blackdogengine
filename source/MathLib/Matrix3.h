@@ -14,6 +14,7 @@
 #include "MathLibConfigurations.h"
 #include "Vector3.h"
 
+namespace bde{
 class Matrix3{
 private:
     glm::mat3 mMatrix;
@@ -44,11 +45,11 @@ public:
     /* *******************
      * Getters & Setters *
      * ******************/
-    ::Vector3 GetColumn(const int &c) const;
-    void SetColumn(const int &index, const ::Vector3 &c);
+    Vector3 GetColumn(const int &c) const;
+    void SetColumn(const int &index, const Vector3 &c);
     
-    ::Vector3 GetRow(const int &r) const;
-    void SetRow(const int &index, const ::Vector3 &r);
+    Vector3 GetRow(const int &r) const;
+    void SetRow(const int &index, const Vector3 &r);
     
     REAL Get(const int &column, const int &row) const;
     void Set(const int &column, const int &row, const REAL &value);
@@ -56,14 +57,21 @@ public:
     /* ************
      * Operations *
      * ***********/
-    ::Vector3 operator*(const ::Vector3 &v)const;
-    ::Matrix3 operator*(const ::Matrix3 &m)const;
-    bool operator==(const ::Matrix3 &m);
-    bool operator!=(const ::Matrix3 &m);
+    Vector3 operator*(const Vector3 &v)const;
+    Matrix3 operator*(const Matrix3 &m)const;
+    bool operator==(const Matrix3 &m);
+    bool operator!=(const Matrix3 &m);
     
     bool IsOrthogonal() const;
     
-    friend std::ostream& operator<< (std::ostream& o, const ::Matrix3 &m);
+    friend std::ostream& operator<< (std::ostream& o, const Matrix3 &m);
 };
+} // namespace bde
+
+#else
+
+namespace bde{
+    class Matrix3;
+} // namespace bde
 
 #endif /* defined(__BDEMath__Matrix3__) */

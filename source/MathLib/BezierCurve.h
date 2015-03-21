@@ -13,80 +13,84 @@
 #include <vector>
 #include "Matrix4.h"
 
-class BezierCurve{
-public:
-    enum BezierConstraints{
-        /// The endpoints meet.
-        G0,
-        /// Tangent Vectors at the endpoints are colinear.
-        G1,
-        /// Tangent Vectors at the endpoints are colinear and have the same length.
-        C1
-    };
-    
-private:
-    static const ::Matrix4 sBaseMatrix;
-    
-    class BezierCurvePiece{
+namespace bde{
+    class BezierCurve{
+    public:
+        enum BezierConstraints{
+            /// The endpoints meet.
+            G0,
+            /// Tangent Vectors at the endpoints are colinear.
+            G1,
+            /// Tangent Vectors at the endpoints are colinear and have the same length.
+            C1
+        };
+        
     private:
-        BezierCurvePiece *mNextInChain;
-        BezierCurvePiece *mPreviousInChain;
+        static const Matrix4 sBaseMatrix;
         
+        class BezierCurvePiece{
+        private:
+            BezierCurvePiece *mNextInChain;
+            BezierCurvePiece *mPreviousInChain;
+            
+            BezierConstraints mConstraint;
+            
+            Matrix4 mControlPoints;
+        public:
+            
+            /* ****************************
+             * Construction & Destruction *
+             * ***************************/
+            BezierCurvePiece(const Vector4 &p1,
+                             const Vector4 &p2,
+                             const Vector4 &p3,
+                             const Vector4 &p4,
+                             BezierCurvePiece *previous = NULL);
+            ~BezierCurvePiece();
+            
+            /* *********
+             * Edition *
+             * ********/
+            void AddPiece(BezierCurvePiece *p);
+            void SetControlPoint(const unsigned int &n, const Vector3 &pos);
+            
+            Vector4 GetPositionForT(const float &t);
+            friend class BezierCurve;
+            
+        private:
+            void setControlPointG0(const unsigned int &n, const Vector4 &pos);
+            void setControlPointG1(const unsigned int &n, const Vector4 &pos);
+            void setControlPointC1(const unsigned int &n, const Vector4 &pos);
+        }; // class BezierCurvePiece
+        
+    private:
+        std::vector<BezierCurvePiece*> mPieces;
         BezierConstraints mConstraint;
-        
-        ::Matrix4 mControlPoints;
     public:
         
         /* ****************************
          * Construction & Destruction *
          * ***************************/
-        BezierCurvePiece(const ::Vector4 &p1,
-                         const ::Vector4 &p2,
-                         const ::Vector4 &p3,
-                         const ::Vector4 &p4,
-                         BezierCurvePiece *previous = NULL);
-        ~BezierCurvePiece();
+        BezierCurve(const Vector4 &p1,
+                    const Vector4 &p2,
+                    const Vector4 &p3,
+                    const Vector4 &p4,
+                    const BezierConstraints &constraint = G0);
+        ~BezierCurve();
         
-        /* *********
-         * Edition *
-         * ********/
-        void AddPiece(BezierCurvePiece *p);
-        void SetControlPoint(const unsigned int &n, const ::Vector3 &pos);
+        Vector4 GetPositionForT(const float &T);
         
-        ::Vector4 GetPositionForT(const float &t);
-        friend class BezierCurve;
+        std::vector<Vector4> GetControlPoints() const;
         
-    private:
-        void setControlPointG0(const unsigned int &n, const ::Vector4 &pos);
-        void setControlPointG1(const unsigned int &n, const ::Vector4 &pos);
-        void setControlPointC1(const unsigned int &n, const ::Vector4 &pos);
-    };
-    
-private:
-    std::vector<BezierCurvePiece*> mPieces;
-    BezierConstraints mConstraint;
-public:
-    
-    /* ****************************
-     * Construction & Destruction *
-     * ***************************/
-    BezierCurve(const ::Vector4 &p1,
-                const ::Vector4 &p2,
-                const ::Vector4 &p3,
-                const ::Vector4 &p4,
-                const BezierConstraints &constraint = G0);
-    ~BezierCurve();
-    
-    ::Vector4 GetPositionForT(const float &T);
-    
-    std::vector<::Vector4> GetControlPoints() const;
-    
-    void AppendPiece(const ::Vector4 &p1,
-                     const ::Vector4 &p2,
-                     const ::Vector4 &p3);
-};
+        void AppendPiece(const Vector4 &p1,
+                         const Vector4 &p2,
+                         const Vector4 &p3);
+    }; // class BezierCurve
+} // namespace bde
 
 #else
-class BezierCurvePiece;
-class BezierCurve;
+namespace bde{
+    class BezierCurvePiece;
+    class BezierCurve;
+} // namespace bde
 #endif /* defined(__LinesLibrary__BezierCurve__) */

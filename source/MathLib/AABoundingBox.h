@@ -18,7 +18,7 @@ namespace bde {
     /**
      * Axis Aligned Bounding Box.
      *
-     * @author  Diego Jesus
+     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
      * @date    13 Jan. 2015
      */
     class AABoundingBox{

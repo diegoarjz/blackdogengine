@@ -18,6 +18,7 @@
 
 #include "Vector3.h"
 
+namespace bde{
 class Quaternion{
 private:
     glm::quat mQuaternion;
@@ -47,7 +48,12 @@ public:
     /* ****************
      * Static Methods *
      * ***************/
-    static Quaternion RotationBetweenVectors(const ::Vector3 &v1, const ::Vector3 &v2);
+    static Quaternion RotationBetweenVectors(const Vector3 &v1, const Vector3 &v2);
 };
+} // namespace bde
 
+#else
+namespace bde{
+    class Quaternion;
+} // namespace bde
 #endif /* defined(__BDEMath__Quaternion__) */
