@@ -33,6 +33,6 @@ namespace bde {
     /// Signed 64 bit float
     typedef double F64;
     
-    typedef F64 TIME_VALUE;
+    typedef F64 TIME_T;
 }
 #endif

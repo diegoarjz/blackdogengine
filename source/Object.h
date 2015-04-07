@@ -22,7 +22,6 @@ namespace bde {
      * Object System in the Black Dog Engine does not allow.
      *
      * @author  Diego Jesus
-     * @date    2011
      */
     class Object : public std::enable_shared_from_this<Object>{
     private:
@@ -67,42 +66,6 @@ namespace bde {
          * @return  true if both objects share the same inheritance tree.
          */
         bool IsInstanceOf(const Object* o) const;
-
-        /**
-         * Statically cast this Object to another type. The new class must be towards the root of this object's inheritance tree.
-         * @return The casted object.
-         */
-        template <class T>
-        static T* StaticCast(Object *o){
-            return (T*)o;
-        }
-
-        /**
-         * Statically cast this Object to another type. The new class must be towards the root of this object's inheritance tree.
-         * @return The casted object.
-         */
-        template <class T>
-        static const T* StaticCast(const Object *o){
-            return (T*)o;
-        }
-
-        /**
-         * Dynamically cast this Object to another type.
-         * @return The casted object.
-         */
-        template <class T>
-        static T* DynamicCast(Object *o){
-            return (o && o->IsInstanceOf(T::TYPE)) ? (T*)o : NULL;
-        }
-
-        /**
-         * Dynamically cast this Object to another type.
-         * @return The casted object.
-         */
-        template <class T>
-        static const T* DynamicCast(const Object *o){
-            return (o && o->IsInstanceOf(T::TYPE)) ? (T*)o : NULL;
-        }
 
         /* ****************
          * Object Methods *
