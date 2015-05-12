@@ -14,7 +14,7 @@ namespace bde {
 
   /**
   * Main Black Dog Engine class.
-  * Owns all subsystems composing a game and a messaging system
+  * Owns all subsystems composing a game and subclasses a messaging system
   * that allows inter-system communication.
   *
   * It is responsible for disposing of all subsystems.

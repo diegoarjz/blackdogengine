@@ -1,15 +1,33 @@
 
 #include <iostream>
+#include <map>
 
 #include <cpptest.h>
 
 #include "BlackDogEngineTest.h"
+#include "GeometryTests.h"
+
+#define ADD_TEST(NAME, CLASS) \
+functions[NAME] = [&ts](){ \
+  ts.add(std::auto_ptr<Test::Suite>(new CLASS)); \
+};
 
 int main(int argc, char *argv[]){
 
   Test::Suite ts;
 
-  ts.add(std::auto_ptr<Test::Suite>(new BlackDogEngineTest));
+  std::map<std::string, std::function<void()>> functions;
+
+  ADD_TEST("BlackDogEngine", BlackDogEngineTest);
+  ADD_TEST("Geometry", GeometryTests);
+
+  if(argc == 1){
+    for(auto s : functions){
+      s.second();
+    }
+  }else{
+    functions[argv[1]]();
+  }
 
   Test::TextOutput output(Test::TextOutput::Verbose);
 

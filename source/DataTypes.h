@@ -3,10 +3,14 @@
 
 /*
  * Provides a layer of abstraction for data types.
- * Also helps to ensure that the programmer knows the 
+ * Also helps to ensure that the programmer knows the
  * size of each type.
  */
 namespace bde {
+
+    /// Boolean
+    typedef bool BOOLEAN;
+
     /// Byte
     typedef unsigned char Byte;
 
@@ -32,7 +36,7 @@ namespace bde {
     typedef float F32;
     /// Signed 64 bit float
     typedef double F64;
-    
+
     typedef F64 TIME_T;
 }
 #endif

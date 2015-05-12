@@ -1,5 +1,5 @@
 #include "BlackDogEngine.h"
-#include "Logger.h"
+#include "Debug/Logger.h"
 #include <iostream>
 
 namespace bde {
@@ -47,7 +47,7 @@ namespace bde {
   * *****************************/
   void BlackDogEngine::Init(){
     initLoggers();
-    
+    LOG_INFO("Initializing Black Dog Engine");
   }
 
   void BlackDogEngine::Terminate(){

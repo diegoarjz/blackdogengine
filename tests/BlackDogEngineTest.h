@@ -19,6 +19,7 @@ private:
     TEST_ASSERT_MSG(bde::BlackDogEngine::GetInstance() == nullptr, "Engine Instance should be null before creation.");
 
     bde::BlackDogEnginePtr engine = bde::BlackDogEngine::Create();
+    engine->Init();
 
     TEST_ASSERT_MSG(engine != nullptr, "Engine Instance should have been created.");
     TEST_ASSERT_MSG(engine == bde::BlackDogEngine::GetInstance(), "The singleton instance should be the one created.");
