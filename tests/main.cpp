@@ -6,6 +6,7 @@
 
 #include "BlackDogEngineTest.h"
 #include "GeometryTests.h"
+#include "ThreadTests.h"
 
 #define ADD_TEST(NAME, CLASS) \
 functions[NAME] = [&ts](){ \
@@ -20,6 +21,7 @@ int main(int argc, char *argv[]){
 
   ADD_TEST("BlackDogEngine", BlackDogEngineTest);
   ADD_TEST("Geometry", GeometryTests);
+  ADD_TEST("Thread", ThreadTests);
 
   if(argc == 1){
     for(auto s : functions){
