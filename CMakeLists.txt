@@ -20,5 +20,6 @@ add_subdirectory(tests)
 set_property(TARGET blackdogengine PROPERTY CXX_STANDARD 11)
 set_property(TARGET bdemath PROPERTY CXX_STANDARD 11)
 
-add_test(NAME BlackDogEngine COMMAND UnitTest BlackDogEngine)
-add_test(NAME Geometry COMMAND UnitTest Geometry)
+add_test(NAME BlackDogEngine    COMMAND UnitTest BlackDogEngine)
+add_test(NAME Geometry          COMMAND UnitTest Geometry)
+add_test(NAME Thread            COMMAND UnitTest Thread)
