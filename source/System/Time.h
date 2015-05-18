@@ -1,6 +1,7 @@
 #ifndef TIME_H_
 #define TIME_H_
 
+#include <ostream>
 
 #include "../DataTypes.h"
 

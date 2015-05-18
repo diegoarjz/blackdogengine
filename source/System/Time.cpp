@@ -107,5 +107,6 @@ namespace bde{
       o << t.GetTimestamp() << "ms";
 
       return o;
+  }
 
 } // namespace bde
