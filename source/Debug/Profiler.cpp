@@ -32,8 +32,8 @@ namespace bde {
         for(iter = sCalls.begin(); iter != sCalls.end(); ++iter){
             o << iter->first;
             o << " # calls: " << (iter->second).nCalls;
-            o << " time: " << (iter->second).time.mTimestamp;
-            o << " average: " << (iter->second).mTimestamp/(float)((iter->second).nCalls) << "ms" << std::endl;
+            o << " time: " << (iter->second).time.mTimeDifference;
+            o << " average: " << (iter->second).time.mTimeDifference/(float)((iter->second).nCalls) << "ms" << std::endl;
         }
     }
 }
