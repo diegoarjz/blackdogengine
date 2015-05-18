@@ -5,10 +5,11 @@ include_directories(AFTER SYSTEM ${BDE_INCLUDES})
 
 LINK_DIRECTORIES("/usr/local/lib/")
 
-# Set c++11
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
 project("BlackDogEngine")
+
+# Set c++11
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_STANDARD 11)
 
 # Enable testing for the Black Dog Engine Project
 enable_testing()

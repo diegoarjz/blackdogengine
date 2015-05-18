@@ -1,5 +1,7 @@
 #include "Vertex.h"
 
+#include "VertexDataSourceSemantics.h"
+
 namespace bde{
 
   const VertexDescription Vertex::description = {
