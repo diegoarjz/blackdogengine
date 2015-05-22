@@ -24,6 +24,10 @@
 // Quaternion
 #include "Quaternion.h"
 
+// Colors
+#include "ColorRGB.h"
+#include "ColorRGBA.h"
+
 // Geometric Entities
 #include "Line2.h"
 #include "Line3.h"

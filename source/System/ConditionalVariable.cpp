@@ -38,7 +38,8 @@ namespace bde{
 #if USE_PTHREAD == 1
     pthread_cond_wait(mConditional, mutex.mMutex);
 #else 
-    mConditional.wait();
+    std::unique_lock<std::mutex> lck(mutex.mMutex);
+    mConditional.wait(lck);
 #endif
     }
 } // namespace bde

@@ -33,7 +33,7 @@ namespace bde{
   }
 
   void Logger::Log(const Logger::LoggerLevel &level, const std::string &msg){
-    if(level > sLoggingLevel){
+    if(level >= sLoggingLevel){
       sLoggers[(int)level]->Log(msg);
     }
   }
