@@ -1,6 +1,9 @@
 #ifndef RENDERING_DEVICE_H_
 #define RENDERING_DEVICE_H_
 
+#include "../DataTypes.h"
+#include "../MathLib/ColorRGB.h"
+
 namespace bde{
 
     /**
@@ -16,11 +19,18 @@ namespace bde{
         private:
 
         public:
+            /* ****************************
+             * Construction & Destruction *
+             * ***************************/
+            RenderingDevice(){}
+            virtual ~RenderingDevice(){}
+
             /* ******************
              * Context Creation *
              * *****************/
             virtual void CreateWindow(const U32 &width, const U32 &height, const U32 &poxX = 100, const U32 &posY = 100) = 0;
             virtual void CreateFullScreen() = 0;
+            virtual bool ShouldClose() = 0;
 
             /* ********************
              * Background Methods *
@@ -39,10 +49,14 @@ namespace bde{
             virtual void ClearBuffers()         = 0;
             virtual void SwapBuffers()          = 0;
     }; // class RenderingDevice
+
+    /// Smart pointer for a RenderingDevice
+    typedef std::shared_ptr<RenderingDevice> RenderingDevicePtr;
 } // namespace bde
 
 #else
 namespace bde{
     class RenderingDevice;
+    typedef std::shared_ptr<RenderingDevice> RenderingDevicePtr;
 } // namespace bde
 #endif

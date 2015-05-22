@@ -11,6 +11,8 @@
 
 #endif
 
+#include "Mutex.h"
+
 namespace bde{
     /**
      * Implements a conditional variable for thread
@@ -24,7 +26,7 @@ namespace bde{
 #if USE_PTHREAD == 1
             pthread_cond_t mConditional;
 #else
-            std::conditional_variable mConditional;
+            std::condition_variable mConditional;
 #endif
         public:
 

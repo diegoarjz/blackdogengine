@@ -2,6 +2,7 @@ add_subdirectory(System)
 add_subdirectory(Debug)
 add_subdirectory(MathLib)
 add_subdirectory(Geometry)
+add_subdirectory(Rendering)
 
 file(GLOB srcs
     "*.h"
@@ -13,3 +14,4 @@ target_link_libraries(blackdogengine bdemath)
 target_link_libraries(blackdogengine geometry)
 target_link_libraries(blackdogengine system)
 target_link_libraries(blackdogengine bdedebug)
+target_link_libraries(blackdogengine rendering)
