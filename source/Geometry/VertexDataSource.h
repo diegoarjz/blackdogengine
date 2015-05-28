@@ -67,7 +67,6 @@ namespace bde {
     /* ******************
     * Getters & Setters *
     * ******************/
-
     const vertex_t* GetVertices() const{
       return mVertices;
     }
@@ -102,6 +101,35 @@ namespace bde {
 
     U32 GetStride() const{
       return mStride;
+    }
+
+  public: // static methods
+
+    static std::map<VertexDataSourceSemantics, std::shared_ptr<CustomVertexDataSource<vertex_t>>> CreateDataSources(std::vector<vertex_t> &vertices){
+        std::map<VertexDataSourceSemantics, std::shared_ptr<CustomVertexDataSource<vertex_t>>> dataSources;
+    
+        U64 vertexCount = vertices.size();
+        U32 vertexSize = sizeof(vertex_t);
+        vertex_t *vert_ptr = &(vertices[0]);
+
+        auto description = vertex_t::description;
+        U32 offset = 0;
+
+        for(auto d : description){
+            std::shared_ptr<CustomVertexDataSource<vertex_t>> ds = std::make_shared<CustomVertexDataSource<vertex_t>>( d.mSourceSemantics,
+                    vertexCount,
+                    d.mIsFloat,
+                    d.mComponentCount,
+                    d.mBytesPerComponent,
+                    offset,
+                    vertexSize);
+
+            offset += d.mComponentCount * d.mBytesPerComponent;
+
+            dataSources[ d.mSourceSemantics ] = ds;
+        }
+
+        return dataSources;
     }
   }; // class VertexDataSource
 

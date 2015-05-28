@@ -17,6 +17,7 @@ public:
   GeometryTests(){
     TEST_ADD( GeometryTests::GeometryTest_CreateElementDataSource_CopiedArray );
     TEST_ADD( GeometryTests::GeometryTest_CreateGeometry_CorrectlyCopiedVerticesArray_VertexDataSources );
+    TEST_ADD( GeometryTests::GeometryTest_CreateVertexDataSourcesFromVertexVector );
   }
 
 protected:
@@ -72,6 +73,36 @@ private:
     auto nds = geom->GetVertexDataSourceForSemantics( bde::VertexDataSourceSemantics::Normal );
     TEST_ASSERT( nds == norDS );
     TEST_ASSERT( nds->GetVertices() == geom->GetVertices() );
+  }
+
+  void GeometryTest_CreateVertexDataSourcesFromVertexVector(){
+    std::vector<bde::Vertex> vertices({verts[0], verts[1], verts[2], verts[3]});
+    
+    auto dataSources = bde::VertexDataSource::CreateDataSources( vertices );
+
+    TEST_ASSERT( dataSources.size() == 2 );
+
+    auto pos = dataSources[bde::VertexDataSourceSemantics::Position];
+    auto nor = dataSources[bde::VertexDataSourceSemantics::Normal];
+
+    TEST_ASSERT( pos != nullptr );
+    TEST_ASSERT( nor != nullptr );
+
+    TEST_ASSERT( pos->GetSemantics() == bde::VertexDataSourceSemantics::Position );
+    TEST_ASSERT( pos->GetVertexCount() == 4 );
+    TEST_ASSERT( pos->IsFloat() == true );
+    TEST_ASSERT( pos->GetComponentCount() == 3 );
+    TEST_ASSERT( pos->GetBytesPerComponent() == sizeof(float) );
+    TEST_ASSERT( pos->GetOffset() == 0 );
+    TEST_ASSERT( pos->GetStride() == sizeof(bde::Vertex) );
+    
+    TEST_ASSERT( nor->GetSemantics() == bde::VertexDataSourceSemantics::Normal );
+    TEST_ASSERT( nor->GetVertexCount() == 4 );
+    TEST_ASSERT( nor->IsFloat() == true );
+    TEST_ASSERT( nor->GetComponentCount() == 3 );
+    TEST_ASSERT( nor->GetBytesPerComponent() == sizeof(float) );
+    TEST_ASSERT( nor->GetOffset() == 3*sizeof(float) );
+    TEST_ASSERT( nor->GetStride() == sizeof(bde::Vertex) );
   }
 };
 
