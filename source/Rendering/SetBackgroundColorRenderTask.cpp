@@ -1,18 +1,21 @@
 #include "SetBackgroundColorRenderTask.h"
 
-namespace bde{
+#include "../Debug/Logger.h"
+
+namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    SetBackgroundColorRenderTask::SetBackgroundColorRenderTask(const ColorRGB& backgroundColor){
+    SetBackgroundColorRenderTask::SetBackgroundColorRenderTask(
+        const ColorRGB &backgroundColor) {
         mBackgroundColor = backgroundColor;
     }
 
-    SetBackgroundColorRenderTask::~SetBackgroundColorRenderTask(){
-
+    SetBackgroundColorRenderTask::~SetBackgroundColorRenderTask() {
     }
 
-    void SetBackgroundColorRenderTask::Execute(RenderingDevicePtr device){
+    void SetBackgroundColorRenderTask::Execute(RenderingDevicePtr device) {
+        //        LOG_INFO( "Running SetBackgroundColo ");
         device->SetBackgroundColor(mBackgroundColor);
     }
 } // namespace bde

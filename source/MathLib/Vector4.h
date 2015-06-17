@@ -14,24 +14,24 @@
 #include "MathLib.h"
 #include "Matrix4.h"
 
-namespace bde{
-    class Vector4{
-    private:
+namespace bde {
+    class Vector4 {
+      private:
         glm::vec4 mVector;
-    public:
+      public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
         Vector4();
         Vector4(const REAL &x, const REAL &y, const REAL &z, const REAL &w);
-        Vector4(const Vector4& v);
+        Vector4(const Vector4 &v);
         ~Vector4();
-        
+
 #if GLM_COMPATIBLE == 1
         Vector4(const glm::vec4 &v);
         operator glm::vec4() const;
 #endif
-        
+
         /* *******************
          * Getters & Setters *
          * ******************/
@@ -39,10 +39,10 @@ namespace bde{
         REAL Y() const;
         REAL Z() const;
         REAL W() const;
-        
+
         REAL SquaredLength() const;
         REAL Length() const;
-        
+
         /* ************
          * Operations *
          * ***********/
@@ -54,16 +54,16 @@ namespace bde{
         Vector4 operator*(const REAL &s);
         Vector4 operator*(const Matrix4 &m);
         REAL Normalize();
-        
-        friend std::ostream& operator<< (std::ostream &o, const Vector4 &v);
+
+        friend std::ostream &operator<< (std::ostream &o, const Vector4 &v);
     };
-    
-    std::ostream& operator<< (std::ostream &o, const Vector4 &v);
+
+    std::ostream &operator<< (std::ostream &o, const Vector4 &v);
 } // namespace bde
 
 #else
 
-namespace bde{
+namespace bde {
     class Vector4;
 } // namespace bde
 #endif /* defined(__BDEMath__Vector4__) */

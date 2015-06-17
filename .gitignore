@@ -1,6 +1,11 @@
 
 # XCode Project files and others
 *.xcodeproj
+# astyle original files
+*.orig
+# vim temporary files
+*.swp
+*.swo
 
 # 
 dependencies

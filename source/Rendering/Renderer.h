@@ -6,7 +6,7 @@
 
 #include "../DataTypes.h"
 
-namespace bde{
+namespace bde {
 
     /**
      * Interface for the Rendering system.
@@ -14,27 +14,27 @@ namespace bde{
      * @author  Diego Jesus <diego.a.r.jz@gmail.com>
      * @date    18 May 2015
      */
-    class Renderer{
-        private:
-            RenderingDevicePtr  mRenderingDevice;
-            RenderPoolPtr       mRenderPool;
-        public:
-            /* ****************************
-             * Construction & Destruction *
-             * ***************************/
-            Renderer();
-            ~Renderer();
+    class Renderer {
+      private:
+        RenderingDevicePtr  mRenderingDevice;
+        RenderPoolPtr       mRenderPool;
+      public:
+        /* ****************************
+         * Construction & Destruction *
+         * ***************************/
+        Renderer();
+        ~Renderer();
 
-            /* *******************
-             * Getters & Setters *
-             * ******************/
-            RenderingDevicePtr  GetRenderingDevice() const;
-            void                SetRenderingDevice(RenderingDevicePtr device);
-            RenderPoolPtr       GetRenderPool() const;
-            void                SetRenderPool(RenderPoolPtr renderPool);
+        /* *******************
+         * Getters & Setters *
+         * ******************/
+        RenderingDevicePtr  GetRenderingDevice() const;
+        void                SetRenderingDevice(RenderingDevicePtr device);
+        RenderPoolPtr       GetRenderPool() const;
+        void                SetRenderPool(RenderPoolPtr renderPool);
 
 
-            void Start();
+        void Start();
     }; // class Renderer
 
     typedef std::shared_ptr<Renderer> RendererPtr;
@@ -42,7 +42,7 @@ namespace bde{
 
 #else
 
-namespace bde{
+namespace bde {
     class Renderer;
 }
 

@@ -2,66 +2,70 @@
 
 #include "../Debug/Logger.h"
 
-namespace bde{
+namespace bde {
 
 
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Renderer::Renderer(){
+    Renderer::Renderer() {
         mRenderPool = std::make_shared<RenderPool>();
     }
 
-    Renderer::~Renderer(){
-
+    Renderer::~Renderer() {
     }
 
     /* *******************
      * Getters & Setters *
      * ******************/
-    RenderingDevicePtr  Renderer::GetRenderingDevice() const{
+    RenderingDevicePtr  Renderer::GetRenderingDevice() const {
         return mRenderingDevice;
     }
 
-    void                Renderer::SetRenderingDevice(RenderingDevicePtr device){
+    void                Renderer::SetRenderingDevice(RenderingDevicePtr device) {
         mRenderingDevice = device;
     }
 
-    RenderPoolPtr       Renderer::GetRenderPool() const{
+    RenderPoolPtr       Renderer::GetRenderPool() const {
         return mRenderPool;
     }
 
-    void                Renderer::SetRenderPool(RenderPoolPtr renderPool){
+    void                Renderer::SetRenderPool(RenderPoolPtr renderPool) {
         mRenderPool = renderPool;
     }
 
-    void Renderer::Start(){
+    void Renderer::Start() {
         // check that we have a rendering device
-        if( mRenderingDevice == nullptr){
+        if( mRenderingDevice == nullptr) {
             throw std::runtime_error("Couldn't start the renderer: No rendering device set.");
         }
-        if( mRenderPool == nullptr){
+
+        if( mRenderPool == nullptr) {
             throw std::runtime_error("Couldn't start the renderer: No RenderPool set.");
         }
-       
+
+        mRenderPool->NotifyRenderReady();
+        mRenderPool->WaitForUpdateReady();
+
         // create a window (for now)
         mRenderingDevice->CreateWindow(500, 500);
-        
+
         // while loop
-        while(! mRenderingDevice->ShouldClose() ){
+        while(! mRenderingDevice->ShouldClose() ) {
             mRenderingDevice->ClearBuffers();
-            
             // Read the render pool
             auto pool = mRenderPool->GetCurrentFrameQueue();
 
-            while(!pool.empty()){
+            while(!pool.empty()) {
                 auto task = pool.front();
                 pool.pop();
-
                 task->Execute( mRenderingDevice );
             }
 
             mRenderingDevice->SwapBuffers();
+
+            mRenderPool->NotifyRenderDone();
+            mRenderPool->WaitForSwapDone();
         }
     }
 } // namespace  bde

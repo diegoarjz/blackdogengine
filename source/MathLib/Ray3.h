@@ -17,42 +17,42 @@
 #include "MathLib.h"
 #include "Line3.h"
 
-namespace bde{
-typedef CGAL::Cartesian<REAL>::K::Ray_3 Ray_3;
+namespace bde {
+    typedef CGAL::Cartesian<REAL>::K::Ray_3 Ray_3;
 
-class Ray3{
-private:
-    Ray_3 mRay;
-    
-public:
-    /* ****************************
-     * Construction & Destruction *
-     * ***************************/
-    Ray3();
-    Ray3(const Vector3 &origin, const Vector3 direction);
-    Ray3(const Ray3 &r);
-    
+    class Ray3 {
+      private:
+        Ray_3 mRay;
+
+      public:
+        /* ****************************
+         * Construction & Destruction *
+         * ***************************/
+        Ray3();
+        Ray3(const Vector3 &origin, const Vector3 direction);
+        Ray3(const Ray3 &r);
+
 #if CGAL_COMPATIBLE == 1
-    Ray3(const Ray_3 &ray);
-    operator Ray_3() const;
+        Ray3(const Ray_3 &ray);
+        operator Ray_3() const;
 #endif
-    
-    /* *******************
-     * Getters & Setters *
-     * ******************/
-    Line3 SupportingLine() const;
-    
-    /* ************
-     * Operations *
-     * ***********/
-    REAL SquaredDistance(const Ray3 &ray);
-    REAL Distance(const Ray3 &ray);
-    REAL SquaredDistance(const Vector3 &v) const;
-    REAL Distance(const Vector3 &v) const;
-    
-    
-    friend class Segment3;
-};
+
+        /* *******************
+         * Getters & Setters *
+         * ******************/
+        Line3 SupportingLine() const;
+
+        /* ************
+         * Operations *
+         * ***********/
+        REAL SquaredDistance(const Ray3 &ray);
+        REAL Distance(const Ray3 &ray);
+        REAL SquaredDistance(const Vector3 &v) const;
+        REAL Distance(const Vector3 &v) const;
+
+
+        friend class Segment3;
+    };
 } // namespace bde
 #else
 namespace {

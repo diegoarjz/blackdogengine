@@ -1,79 +1,65 @@
 #ifndef ELEMENT_DATA_SOURCE_H_
 #define ELEMENT_DATA_SOURCE_H_
 
+#include <memory>
+
 #include "../DataTypes.h"
 
+#include "../Rendering/BindingInfo.h"
 #include "PrimitiveType.h"
 
-namespace bde{
+namespace bde {
 
-  /**
-  * Describes how vertices are combined for renderable primitives.
-  *
-  * @author Diego Jesus <diego.a.r.jz@gmail.com>
-  */
-  template<typename I>
-  class CustomElementDataSource{
-  private:
-    I             *mElements;     ///< Array of elements.
-    PrimitiveType mPrimitiveType; ///< The type of primitive.
-    U32           mPrimitiveCount;///< Total number of primitives
-    U32           mElementsCount; ///< Total number of elements.
-  public:
-
-    /* ***************************
-    * Construction & Destruction *
-    * ***************************/
     /**
-    * Constructor taking an array of elements, the type of primitives,
-    * the number of primitives and the number of elements.
-    *
-    * Creates a copy of the array of elements. The passed array can, then,
-    * be safely deleted outside.
-    */
-    CustomElementDataSource(const I *elements,
-                            const PrimitiveType &primitiveType,
-                            const U32 &primitiveCount,
-                            const U32 &elementCount){
+     * Describes how vertices are combined for renderable primitives.
+     *
+     * @author Diego Jesus <diego.a.r.jz@gmail.com>
+     */
+    class ElementDataSource {
+      private:
+        U32             *mElements;     ///< Array of elements.
+        PrimitiveType   mPrimitiveType; ///< The type of primitive.
+        U32             mPrimitiveCount;///< Total number of primitives
+        U32             mElementsCount; ///< Total number of elements.
+        BindingInfoPtr  mBindingInfo;   ///< The binding on the GPU
+      public:
 
-      mElements = new I[ elementCount * sizeof(I) ];
-      memcpy(mElements, elements, elementCount * sizeof(I) );
+        /* ***************************
+         * Construction & Destruction *
+         * ***************************/
+        /**
+         * Constructor taking an array of elements, the type of primitives,
+         * the number of primitives and the number of elements.
+         *
+         * Creates a copy of the array of elements. The passed array can, then,
+         * be safely deleted outside.
+         */
+        ElementDataSource(const U32 *elements,
+                          const PrimitiveType &primitiveType,
+                          const U32 &primitiveCount,
+                          const U32 &elementCount);
+        ~ElementDataSource();
 
-      mPrimitiveType  = primitiveType;
-      mPrimitiveCount = primitiveCount;
-      mElementsCount  = elementCount;
-    }
+        /* ******************
+         * Getters & Setters *
+         * ******************/
+        const U32 *GetElements() const;
+        PrimitiveType GetPrimitiveType() const;
+        U32 GetPrimitiveCount() const;
+        U32 GetElementsCount() const;
+        U32 GetSizeInBytes()const;
+        BindingInfoPtr GetBindingInfo();
+        void SetBindingInfo(BindingInfoPtr bi);
 
-    ~CustomElementDataSource(){
-      delete []mElements;
-    }
+    }; // class ElementDataSource
 
-    /* ******************
-    * Getters & Setters *
-    * ******************/
-    const I* GetElements() const{
-      return mElements;
-    }
-
-    PrimitiveType GetPrimitiveType() const{
-      return mPrimitiveType;
-    }
-
-    U32 GetPrimitiveCount() const{
-      return mPrimitiveCount;
-    }
-
-    U32 GetElementsCount() const{
-      return mElementsCount;
-    }
-  };
-
-  template<typename I = U32>
-  using CustomElementDataSourcePtr = std::shared_ptr<CustomElementDataSource<I>>;
-
-  typedef CustomElementDataSource<U32> ElementDataSource;
-  typedef CustomElementDataSourcePtr<U32> ElementDataSourcePtr;
+    typedef std::shared_ptr<ElementDataSource> ElementDataSourcePtr;
 
 } // namespace bde
 
+#else
+namespace bde {
+    class ElementDataSource;
+    typedef std::shared_ptr<ElementDataSource> ElementDataSourcePtr;
+}
 #endif

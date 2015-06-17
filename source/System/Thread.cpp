@@ -1,20 +1,18 @@
 #include "Thread.h"
 #include "../Debug/Logger.h"
 
-namespace bde{
+namespace bde {
 
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Thread::Thread(){
-
+    Thread::Thread() {
     }
 
-    Thread::~Thread(){
-
+    Thread::~Thread() {
     }
 
-    void Thread::Start(){
+    void Thread::Start() {
 #if USE_PTHREAD == 1
         pthread_create(&mThread, 0, Thread::dispatch, this);
 #else
@@ -22,7 +20,7 @@ namespace bde{
 #endif
     }
 
-    void Thread::Join(){
+    void Thread::Join() {
 #if USE_PTHREAD == 1
         pthread_join(mThread,0);
 #else
@@ -30,20 +28,28 @@ namespace bde{
 #endif
     }
 
-    void* Thread::dispatch(void *ptr){
+    void *Thread::dispatch(void *ptr) {
 #if USE_PTHREAD == 1
-        if(!ptr) return 0;
 
-        static_cast<Thread*>(ptr)->run();
+        if(!ptr) {
+            return 0;
+        }
+
+        static_cast<Thread *>(ptr)->run();
+
         pthread_exit(ptr);
 
         return 0;
-#else
-        if(!ptr) return 0;
 
-        static_cast<Thread*>(ptr)->run();
+#else
+        if(!ptr) {
+            return 0;
+        }
+
+        static_cast<Thread *>(ptr)->run();
 
         return 0;
+
 #endif
     }
 

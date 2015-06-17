@@ -19,30 +19,32 @@
 #define PROFILE(name) bde::Profiler ___PROFILER___(name)
 
 namespace bde {
-    class Profiler{
-    public:
-        struct ProfileInfo{
+    class Profiler {
+      public:
+        struct ProfileInfo {
             U32             nCalls;
             TimeDifference  time;
         };
-    private:
+      private:
         static std::map<std::string, ProfileInfo> sCalls;
 
         Time        mStartTime;
         std::string mName;
-    public:
+      public:
         Profiler(std::string name);
 
         ~Profiler();
 
-        static std::map<std::string, ProfileInfo> GetCalls() { return sCalls; }
+        static std::map<std::string, ProfileInfo> GetCalls() {
+            return sCalls;
+        }
 
-        static void Print(std::ostream& o);
+        static void Print(std::ostream &o);
     }; // class Profiler
 } // namespace bde
 
 #else
-namespace bde{
+namespace bde {
     class Profiler;
 } // namespace bde
 

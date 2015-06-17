@@ -15,13 +15,13 @@
 #include <CGAL/Cartesian.h>
 #include "Vector2.h"
 
-namespace bde{
+namespace bde {
     typedef CGAL::Cartesian<REAL>::Line_2 Line_2;
-    
-    class Line2{
-    private:
+
+    class Line2 {
+      private:
         Line_2 mLine;
-    public:
+      public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
@@ -29,18 +29,18 @@ namespace bde{
         Line2(const Vector2 &origin, const Vector2 &direction);
         Line2(const Line2 &line);
         ~Line2();
-        
+
 #if CGAL_COMPATIBLE == 1
         Line2(const Line_2 &line);
         operator Line_2() const;
 #endif
-        
+
         /* *******************
          * Getters & Setters *
          * ******************/
         Vector2 Point() const;
         Vector2 Vector() const;
-        
+
         /* ************
          * Operations *
          * ***********/
@@ -54,7 +54,7 @@ namespace bde{
 
 #else
 
-namespace bde{
+namespace bde {
     class Line2;
 } // namespace bde
 

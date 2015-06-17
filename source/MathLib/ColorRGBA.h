@@ -19,67 +19,67 @@ namespace bde {
      * It is an extension of ColorRGB which adds a fourth component (Alpha), indicating transparencies.
      * @see ColorRGB
      */
-    class ColorRGBA{
-    private:
+    class ColorRGBA {
+      private:
         /// Color components.
         F32 mComponents[4];
-    public:
+      public:
         /* **************
          * CONSTRUCTORS *
          * *************/
         ColorRGBA();
         ColorRGBA (F32 r, F32 g, F32 b, F32 a);
         ColorRGBA (F32 components[4]);
-        ColorRGBA (const ColorRGBA& o);
-        
+        ColorRGBA (const ColorRGBA &o);
+
         /* ***********
          * ACCESSORS *
          * **********/
         F32 operator[] (U32 i) const;
-        F32& operator[] (U32 i);
+        F32 &operator[] (U32 i);
         F32 R () const;
-        F32& R ();
+        F32 &R ();
         F32 G () const;
-        F32& G ();
+        F32 &G ();
         F32 B () const;
-        F32& B ();
+        F32 &B ();
         F32 A () const;
-        F32& A ();
-        
+        F32 &A ();
+
         /* ***********
          * OPERATORS *
          * **********/
         // Assignment
-        ColorRGBA& operator=(const ColorRGBA& o);
-        
+        ColorRGBA &operator=(const ColorRGBA &o);
+
         // Conversion
-        operator const F32* () const;
-        operator F32* ();
-        
+        operator const F32 *() const;
+        operator F32 *();
+
         // Comparison
-        bool operator== (const ColorRGBA& rkC) const;
-        bool operator!= (const ColorRGBA& rkC) const;
-        bool operator<  (const ColorRGBA& rkC) const;
-        bool operator<= (const ColorRGBA& rkC) const;
-        bool operator>  (const ColorRGBA& rkC) const;
-        bool operator>= (const ColorRGBA& rkC) const;
-        
+        bool operator== (const ColorRGBA &rkC) const;
+        bool operator!= (const ColorRGBA &rkC) const;
+        bool operator<  (const ColorRGBA &rkC) const;
+        bool operator<= (const ColorRGBA &rkC) const;
+        bool operator>  (const ColorRGBA &rkC) const;
+        bool operator>= (const ColorRGBA &rkC) const;
+
         // arithmetic operations
-        ColorRGBA operator+ (const ColorRGBA& o) const;
-        ColorRGBA operator- (const ColorRGBA& o) const;
-        ColorRGBA operator* (const ColorRGBA& o) const;
+        ColorRGBA operator+ (const ColorRGBA &o) const;
+        ColorRGBA operator- (const ColorRGBA &o) const;
+        ColorRGBA operator* (const ColorRGBA &o) const;
         ColorRGBA operator* (F32 s) const;
-        friend ColorRGBA operator* (F32 scalar, const ColorRGBA& o);
-        
-        
+        friend ColorRGBA operator* (F32 scalar, const ColorRGBA &o);
+
+
         // arithmetic updates
-        ColorRGBA& operator+= (const ColorRGBA& o);
-        ColorRGBA& operator-= (const ColorRGBA& o);
-        ColorRGBA& operator*= (const ColorRGBA& o);
-        ColorRGBA& operator*= (F32 s);
-        
-        
-        
+        ColorRGBA &operator+= (const ColorRGBA &o);
+        ColorRGBA &operator-= (const ColorRGBA &o);
+        ColorRGBA &operator*= (const ColorRGBA &o);
+        ColorRGBA &operator*= (F32 s);
+
+
+
         /* *********
          * METHODS *
          * ********/
@@ -94,82 +94,72 @@ namespace bde {
          * all channels by that value. Does not scale Alpha value.
          */
         void ScaleByMax ();
-        
+
         /**
          * Output operation, mainly for debugging purposes.
          * @param stream [in] Output stream.
          * @param o [in] Color to output.
          * @return The stream parameter, allowing to chain operations.
          */
-        friend std::ostream& operator<< (std::ostream& stream, const ColorRGBA& o);
-        
+        friend std::ostream &operator<< (std::ostream &stream, const ColorRGBA &o);
+
         ~ColorRGBA();
-        
-    private:
-        I32 compareColors (const ColorRGBA& rkC) const;
+
+      private:
+        I32 compareColors (const ColorRGBA &rkC) const;
     };
-    
-    inline F32 ColorRGBA::R () const
-    {
+
+    inline F32 ColorRGBA::R () const {
         return mComponents[0];
     }
-    
-    inline F32& ColorRGBA::R ()
-    {
+
+    inline F32 &ColorRGBA::R () {
         return mComponents[0];
     }
-    
-    inline F32 ColorRGBA::G () const
-    {
+
+    inline F32 ColorRGBA::G () const {
         return mComponents[1];
     }
-    
-    inline F32& ColorRGBA::G ()
-    {
+
+    inline F32 &ColorRGBA::G () {
         return mComponents[1];
     }
-    
-    inline F32 ColorRGBA::B () const
-    {
+
+    inline F32 ColorRGBA::B () const {
         return mComponents[2];
     }
-    
-    inline F32& ColorRGBA::B ()
-    {
+
+    inline F32 &ColorRGBA::B () {
         return mComponents[2];
     }
-    
-    inline F32 ColorRGBA::A () const
-    {
+
+    inline F32 ColorRGBA::A () const {
         return mComponents[3];
     }
-    
-    inline F32& ColorRGBA::A ()
-    {
+
+    inline F32 &ColorRGBA::A () {
         return mComponents[3];
     }
-    
-    inline ColorRGBA::operator const F32* () const{
+
+    inline ColorRGBA::operator const F32 *() const {
         return mComponents;
     }
-    
-    inline ColorRGBA::operator F32*(){
+
+    inline ColorRGBA::operator F32 *() {
         return mComponents;
     }
-    
-    inline F32 ColorRGBA::operator[] (U32 i) const
-    {
+
+    inline F32 ColorRGBA::operator[] (U32 i) const {
         return mComponents[i];
     }
-    
-    inline F32& ColorRGBA::operator[] (U32 i)
-    {
+
+    inline F32 &ColorRGBA::operator[] (U32 i) {
         return mComponents[i];
     }
 }
 
 #else
-namespace bde{
+namespace bde {
     class ColorRGBA;
 }
 

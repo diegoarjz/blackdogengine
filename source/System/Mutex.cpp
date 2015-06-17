@@ -1,27 +1,25 @@
 #include "Mutex.h"
 
-namespace bde{
+namespace bde {
 
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Mutex::Mutex(){
+    Mutex::Mutex() {
 #if USE_PTHREAD == 1
         pthread_mutex_init(&mMutex, 0);
 #else
-
 #endif
     }
 
-    Mutex::~Mutex(){
+    Mutex::~Mutex() {
 #if USE_PTHREAD == 1
         pthread_mutex_destroy(&mMutex);
 #else
-    
 #endif
     }
 
-    void Mutex::Lock(){
+    void Mutex::Lock() {
 #if USE_PTHREAD == 1
         pthread_mutex_lock(&mMutex);
 #else
@@ -29,7 +27,7 @@ namespace bde{
 #endif
     }
 
-    void Mutex::Unlock(){
+    void Mutex::Unlock() {
 #if USE_PTHREAD == 1
         pthread_mutex_unlock(&mMutex);
 #else
@@ -37,7 +35,7 @@ namespace bde{
 #endif
     }
 
-    bool Mutex::TryLock(){
+    bool Mutex::TryLock() {
 #if USE_PTHREAD == 1
         return (pthread_mutex_trylock(&mMutex) == 0);
 #else
