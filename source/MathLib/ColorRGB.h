@@ -17,13 +17,13 @@
 
 namespace bde {
     /**
-     * Represents a RGB color. 
+     * Represents a RGB color.
      *
      * Components are stored in an array of floats. Each component must be between 0 and 1.
      *
      * ## Access and Modification ##
      * There are a number of ways to modify the color components.
-     * 
+     *
      * - Using the index operator:
      *     ColorRGB c;
      *     c[0] = 1.0; // Defines the red component
@@ -34,19 +34,19 @@ namespace bde {
      *     c.R() = 1.0;
      *     c.G() = 0.5;
      *     c.B() = 0.3;
-     * 
+     *
      * ## Color Comparison ##
-     * 
-     * Color comparison is done using the memcmp c function and, as such, every byte of the 
-     * color components array is compared in sequence. If all bytes are equal, then the colors 
+     *
+     * Color comparison is done using the memcmp c function and, as such, every byte of the
+     * color components array is compared in sequence. If all bytes are equal, then the colors
      * are equal. Otherwise, color A > color B if the first unequal byte of A has a greater arithmetic
      * value than its counterpart in B. On the other hand, if it is smaller then A < B.
      */
-    class ColorRGB{
-    private:
+    class ColorRGB {
+      private:
         /// Stores the Red, Green and Blue components in that order.
         F32 mComponents[3];
-    public:
+      public:
         /* **************
          * Constructors *
          * *************/
@@ -71,8 +71,8 @@ namespace bde {
          * Copy Constructor.
          * @param o [in] Another color Object.
          */
-        ColorRGB (const ColorRGB& o);
-        
+        ColorRGB (const ColorRGB &o);
+
         /* **********************
          * Acessors & Modifiers *
          * *********************/
@@ -86,7 +86,7 @@ namespace bde {
          * Red Component accessor and modifier.
          * @return A reference to the red component, allowing it to be modified.
          */
-        F32& R ();
+        F32 &R ();
         /**
          * Green Component accessor.
          * @return The green component.
@@ -96,7 +96,7 @@ namespace bde {
          * Green Component accessor and modifier.
          * @return A reference to the green component, allowing it to be modified.
          */
-        F32& G ();
+        F32 &G ();
         /**
          * Blue Component accessor.
          * @return The blue component.
@@ -106,10 +106,10 @@ namespace bde {
          * Blue Component accessor and modifier.
          * @return A reference to the blue component, allowing it to be modified.
          */
-        F32& B ();
-        
+        F32 &B ();
+
         /**
-         * Access color components by index. 
+         * Access color components by index.
          * @param i [in] The index of the component: 0 - red, 1 - green, 2 - blue.
          * @param The component at index i.
          */
@@ -119,8 +119,8 @@ namespace bde {
          * @param i [in] The index of the component: 0 - red, 1 - green, 2 - blue.
          * @param A reference to the component at index i, allowing it to be modified.
          */
-        F32& operator[] (U32 i);
-        
+        F32 &operator[] (U32 i);
+
         /* ***********
          * Operators *
          * **********/
@@ -128,51 +128,51 @@ namespace bde {
          * Assignment Operator. Directly copies components from o to this color.
          * @param o The color to be copied.
          */
-        ColorRGB& operator=(const ColorRGB& o);
+        ColorRGB &operator=(const ColorRGB &o);
         /**
          * Converts the object into a constant array of floats containing the color components.
          * @return A pointer to an array of floats containing the color components.
          */
-        operator const F32* () const;
+        operator const F32 *() const;
         /**
          * Converts the object into an array of floats containing the color components.
          * @return A pointer to an array of floats containing the color components.
          */
-        operator F32* ();
-        
+        operator F32 *();
+
         /* **********************
          * Comparison Operators *
          * *********************/
-        bool operator== (const ColorRGB& rkC) const;
-        bool operator!= (const ColorRGB& rkC) const;
-        bool operator<  (const ColorRGB& rkC) const;
-        bool operator<= (const ColorRGB& rkC) const;
-        bool operator>  (const ColorRGB& rkC) const;
-        bool operator>= (const ColorRGB& rkC) const;
-        
+        bool operator== (const ColorRGB &rkC) const;
+        bool operator!= (const ColorRGB &rkC) const;
+        bool operator<  (const ColorRGB &rkC) const;
+        bool operator<= (const ColorRGB &rkC) const;
+        bool operator>  (const ColorRGB &rkC) const;
+        bool operator>= (const ColorRGB &rkC) const;
+
         /* ***********************
          * Arithmetic Operations *
          * **********************/
-        ColorRGB operator+ (const ColorRGB& o) const;
-        ColorRGB operator- (const ColorRGB& o) const;
-        ColorRGB operator* (const ColorRGB& o) const;
+        ColorRGB operator+ (const ColorRGB &o) const;
+        ColorRGB operator- (const ColorRGB &o) const;
+        ColorRGB operator* (const ColorRGB &o) const;
         ColorRGB operator* (F32 s) const;
-        friend ColorRGB operator* (F32 scalar, const ColorRGB& o);
+        friend ColorRGB operator* (F32 scalar, const ColorRGB &o);
 
         /* ********************
          * Arithmetic Updates *
          * *******************/
-        ColorRGB& operator+= (const ColorRGB& o);
-        ColorRGB& operator-= (const ColorRGB& o);
-        ColorRGB& operator*= (const ColorRGB& o);
-        ColorRGB& operator*= (F32 s);
-        
+        ColorRGB &operator+= (const ColorRGB &o);
+        ColorRGB &operator-= (const ColorRGB &o);
+        ColorRGB &operator*= (const ColorRGB &o);
+        ColorRGB &operator*= (F32 s);
+
         /**
          * Transforms the color channels to [0,1]. Sets negative values to
          * zero and values larger than one to one.
          */
         void Clamp ();
-        
+
         /**
         * Transforms the color channels to [0,1]. Assumes the color
         * channels are nonnegative, finds the maximum color channel, and divides
@@ -186,69 +186,61 @@ namespace bde {
          * @param o [in] Color to output.
          * @return The stream parameter, allowing to chain operations.
          */
-        friend std::ostream& operator<< (std::ostream& stream, const ColorRGB& o);
-        
+        friend std::ostream &operator<< (std::ostream &stream, const ColorRGB &o);
+
         ~ColorRGB();
-    private:
+      private:
         /**
          * Uses the memcmp function to compare colors.
          */
-        I32 compareColors (const ColorRGB& rkC) const;
+        I32 compareColors (const ColorRGB &rkC) const;
     };
-    
-    inline ColorRGB::operator const F32* () const{
+
+    inline ColorRGB::operator const F32 *() const {
         return mComponents;
     }
-    
-    inline ColorRGB::operator F32*(){
+
+    inline ColorRGB::operator F32 *() {
         return mComponents;
     }
-    
-    inline F32 ColorRGB::operator[] (U32 i) const
-    {
+
+    inline F32 ColorRGB::operator[] (U32 i) const {
         assert(0 <= i && i <= 2);
         return mComponents[i];
     }
-    
-    inline F32& ColorRGB::operator[] (U32 i)
-    {
+
+    inline F32 &ColorRGB::operator[] (U32 i) {
         assert(0 <= i && i <= 2);
         return mComponents[i];
     }
-    
-    inline F32 ColorRGB::R () const
-    {
+
+    inline F32 ColorRGB::R () const {
         return mComponents[0];
     }
-    
-    inline F32& ColorRGB::R ()
-    {
+
+    inline F32 &ColorRGB::R () {
         return mComponents[0];
     }
-    
-    inline F32 ColorRGB::G () const
-    {
+
+    inline F32 ColorRGB::G () const {
         return mComponents[1];
     }
-    
-    inline F32& ColorRGB::G ()
-    {
+
+    inline F32 &ColorRGB::G () {
         return mComponents[1];
     }
-    
-    inline F32 ColorRGB::B () const
-    {
+
+    inline F32 ColorRGB::B () const {
         return mComponents[2];
     }
-    
-    inline F32& ColorRGB::B ()
-    {
+
+    inline F32 &ColorRGB::B () {
         return mComponents[2];
     }
 }
 
 #else
-namespace bde{
+namespace bde {
     class ColorRGB;
 }
 

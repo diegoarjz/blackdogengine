@@ -18,42 +18,42 @@
 
 #include "Vector3.h"
 
-namespace bde{
-class Quaternion{
-private:
-    glm::quat mQuaternion;
-    
-public:
-    /* ****************************
-     * Construction & Destruction *
-     * ***************************/
-    Quaternion();
-    Quaternion(const REAL &x, const REAL &y, const REAL &z, const REAL &w);
-    Quaternion(const Quaternion &q);
-    ~Quaternion();
-    
+namespace bde {
+    class Quaternion {
+      private:
+        glm::quat mQuaternion;
+
+      public:
+        /* ****************************
+         * Construction & Destruction *
+         * ***************************/
+        Quaternion();
+        Quaternion(const REAL &x, const REAL &y, const REAL &z, const REAL &w);
+        Quaternion(const Quaternion &q);
+        ~Quaternion();
+
 #if GLM_COMPATIBLE == 1
-    Quaternion(const glm::quat &q);
-    operator glm::quat() const;
+        Quaternion(const glm::quat &q);
+        operator glm::quat() const;
 #endif
-    
-    /* *******************
-     * Getters & Setters *
-     * ******************/
-    REAL X() const;
-    REAL Y() const;
-    REAL Z() const;
-    REAL W() const;
-    
-    /* ****************
-     * Static Methods *
-     * ***************/
-    static Quaternion RotationBetweenVectors(const Vector3 &v1, const Vector3 &v2);
-};
+
+        /* *******************
+         * Getters & Setters *
+         * ******************/
+        REAL X() const;
+        REAL Y() const;
+        REAL Z() const;
+        REAL W() const;
+
+        /* ****************
+         * Static Methods *
+         * ***************/
+        static Quaternion RotationBetweenVectors(const Vector3 &v1, const Vector3 &v2);
+    };
 } // namespace bde
 
 #else
-namespace bde{
+namespace bde {
     class Quaternion;
 } // namespace bde
 #endif /* defined(__BDEMath__Quaternion__) */

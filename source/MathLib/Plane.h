@@ -17,10 +17,10 @@
 #include "Ray3.h"
 #include "Segment3.h"
 
-namespace bde{
+namespace bde {
     typedef CGAL::Cartesian<REAL>::Plane_3 Plane_3;
-    
-    struct PlaneIntersection{
+
+    struct PlaneIntersection {
         enum {
             NoIntersection,
             PointIntersection,
@@ -30,12 +30,12 @@ namespace bde{
         Vector3 intersectionPoint;
         Line3 intersectionLine;
     };
-    
-    class Plane{
-    private:
+
+    class Plane {
+      private:
         Plane_3 mPlane;
-        
-    public:
+
+      public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
@@ -44,7 +44,7 @@ namespace bde{
         Plane(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3);
         Plane(const Line3 &line, const Vector3 point);
         ~Plane();
-        
+
         /* *******************
          * Getters & Setters *
          * ******************/
@@ -57,17 +57,17 @@ namespace bde{
          * Returns a vector that is orthogonal to both the normal and Base1 vectors.
          */
         Vector3 Base2() const;
-        
+
         /* ************
          * Operations *
          * ***********/
         PlaneIntersection Intersection(const Plane &other);
         PlaneIntersection Intersection(const Line3 &line);
         PlaneIntersection Intersection(const Ray3 &ray);
-        
+
         Vector3 Project(const Vector3 &v);
         REAL DistanceToPoint(const Vector3 &v);
-        
+
         bool Contained(const Vector3 &v);
         bool Contained(const Segment3 &v);
     };
@@ -75,7 +75,7 @@ namespace bde{
 
 #else
 
-namespace bde{
+namespace bde {
     class Plane;
 } // namespace bde
 

@@ -15,13 +15,13 @@
 #include <CGAL/Cartesian.h>
 #include "Vector3.h"
 
-namespace bde{
+namespace bde {
     typedef CGAL::Cartesian<REAL>::Line_3 Line_3;
-    
-    class Line3{
-    private:
+
+    class Line3 {
+      private:
         Line_3 mLine;
-    public:
+      public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
@@ -29,19 +29,19 @@ namespace bde{
         Line3(const Vector3 &origin, const Vector3 &direction);
         Line3(const Line3 &line);
         ~Line3();
-        
+
 #if CGAL_COMPATIBLE == 1
         Line3(const Line_3 &line);
         operator Line_3() const;
 #endif
-        
+
         /* *******************
          * Getters & Setters *
          * ******************/
         Vector3 Point() const;
         Vector3 Vector() const;
-        
-        
+
+
         /* ************
          * Operations *
          * ***********/
@@ -49,9 +49,9 @@ namespace bde{
         REAL Distance(const Line3 &line) const;
         REAL SquaredDistance(const Vector3 &point) const;
         REAL Distance(const Vector3 &point) const;
-        
+
         Vector3 Projection(const Vector3 &point) const;
-        
+
         /**
          * Calculates the points on each line where the distance between the lines
          * is minimal
@@ -60,15 +60,16 @@ namespace bde{
          * @param pointOnOtherLine [out] Outputs the point on the other line.
          * @return The distance between both points;
          */
-        REAL NearestPoints(const Line3 &otherLine, Vector3 &pointOnThisLine, Vector3 &pointOnOtherLine);
-        
+        REAL NearestPoints(const Line3 &otherLine, Vector3 &pointOnThisLine,
+                           Vector3 &pointOnOtherLine);
+
         friend class Segment3;
     };
 } // namespace bde
 
 #else
 
-namespace bde{
+namespace bde {
     class Line3;
 } // namespace bde
 

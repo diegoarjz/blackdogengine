@@ -6,59 +6,97 @@
 #include "../DataTypes.h"
 #include "RenderTask.h"
 #include "../System/Mutex.h"
+#include "../System/AutoResetEvent.h"
+#include "../Debug/Logger.h"
 
-namespace bde{
-    template<int numFrames>
-    class CustomRenderPool{
-        private:
-            std::queue<RenderTaskPtr>   mFrames[numFrames];
-            U32                         mCurrentFrame;
-            Mutex                       mCurrentFrameMutex;
-        public:
-            /* ****************************
-             * Construction & Destruction *
-             * ***************************/
-            CustomRenderPool(){
-                mCurrentFrame = 0;
-            }
+namespace bde {
+    class RenderPool {
+      private:
+        std::queue<RenderTaskPtr>   mFrames[2];
+        U32                         mCurrentFrame;
+        AutoResetEvent              mRenderReadyEvent;
+        AutoResetEvent              mRenderDoneEvent;
+        AutoResetEvent              mUpdateReadyEvent;
+        AutoResetEvent              mSwapDoneEvent;
+      public:
+        /* ****************************
+         * Construction & Destruction *
+         * ***************************/
+        RenderPool() {
+            mCurrentFrame = 0;
+        }
 
-            ~CustomRenderPool(){
-            }
+        ~RenderPool() {
+        }
 
-            void Push(RenderTaskPtr task){
-                mFrames[NextFrame()].push(task);
-            }
+        void Push(RenderTaskPtr task) {
+            mFrames[NextFrame()].push(task);
+        }
 
-            void FinishFrame(){
-                mCurrentFrameMutex.Lock();
-                mCurrentFrame = (mCurrentFrame + 1) % numFrames; 
-                mCurrentFrameMutex.Unlock();
-            }
+        void NotifyUpdateReady(){
+            //LOG_INFO("Notifying update ready");
+            mUpdateReadyEvent.Notify();
+        }
 
-            U32 CurrentFrame(){
-                return mCurrentFrame;
-            }
+        void WaitForUpdateReady(){
+            //LOG_INFO("Waiting For Update ready");
+            mUpdateReadyEvent.Wait();
+        }
 
-            U32 NextFrame(){
-                return (CurrentFrame() + 1) % numFrames;
-            }
+        void WaitForRenderReady(){
+            //LOG_INFO("Wait for render ready");
+            mRenderReadyEvent.Wait();
+        }
 
-            std::queue<RenderTaskPtr> GetCurrentFrameQueue(){
-                mCurrentFrameMutex.Lock();
-                auto currentQueue = mFrames[CurrentFrame()];
-                mFrames[CurrentFrame()] = std::queue<RenderTaskPtr>();
-                mCurrentFrameMutex.Unlock();
+        void NotifyRenderReady(){
+            //LOG_INFO("Notifying render ready");
+            mRenderReadyEvent.Notify();
+        }
 
-                return currentQueue;
-            }
+        void NotifyRenderDone(){
+            //LOG_INFO("Notifying render done");
+            mRenderDoneEvent.Notify();
+        }
+
+        void WaitForRenderDone(){
+            //LOG_INFO("Waiting for render done");
+            mRenderDoneEvent.Wait();
+        }
+
+        void SwapRenderQueues(){
+            //LOG_INFO("Swapping render queues");
+            mFrames[mCurrentFrame] = std::queue<RenderTaskPtr>();
+            mCurrentFrame = (mCurrentFrame + 1) % 2;
+        }
+
+        void NotifySwapDone(){
+            //LOG_INFO("Notifying swap done");
+            mSwapDoneEvent.Notify();
+        }
+
+        void WaitForSwapDone(){
+            //LOG_INFO("Waiting for swap done");
+            mSwapDoneEvent.Wait();
+        }
+
+        U32 CurrentFrame() {
+            return mCurrentFrame;
+        }
+
+        U32 NextFrame() {
+            return (CurrentFrame() + 1) % 2;
+        }
+
+        std::queue<RenderTaskPtr> GetCurrentFrameQueue() {
+            return mFrames[CurrentFrame()];
+        }
     }; // class CustomRenderPool
 
-    typedef CustomRenderPool<2> RenderPool;                 ///< RenderPool with two frames
-    typedef std::shared_ptr<RenderPool> RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool with 2 frames
+    typedef std::shared_ptr<RenderPool> RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool.
 } // namespace bde
 
 #else
-namespace bde{
+namespace bde {
     class RenderPool;
 } // namespace bde
 #endif

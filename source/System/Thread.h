@@ -11,28 +11,28 @@
 
 #endif
 
-namespace bde{
+namespace bde {
     /**
      * Encapsulates a native thread.
      *
      * @author  Diego Jesus <diego.a.r.jz@gmail.com>
      * @date    18 May 2015
      */
-    class Thread{
-    private:
+    class Thread {
+      private:
 #if USE_PTHREAD == 1
         pthread_t mThread;
 #else
         std::thread mThread;
 #endif
 
-    protected:
+      protected:
         /**
          * Sub classes should implement this method
          * for custom behaviour.
          */
         virtual void run() = 0;
-    public:
+      public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
@@ -40,23 +40,23 @@ namespace bde{
         virtual ~Thread();
 
         /**
-         * Starts the thread 
+         * Starts the thread
          */
         void Start();
         /**
-         * Waits for the thread to finish and joins the 
+         * Waits for the thread to finish and joins the
          * execution.
          */
         void Join();
 
-    private: // Static Methods
+      private: // Static Methods
         static void *dispatch(void *);
     }; // class Thread
 
 } // namespace Thread
 
 #else
-namespace bde{
+namespace bde {
     class Thread;
 } // namespace Thread
 #endif

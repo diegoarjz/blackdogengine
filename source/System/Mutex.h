@@ -11,37 +11,37 @@
 
 #endif
 
-namespace bde{
+namespace bde {
     /**
      * Implements a mutex
      * @author  Diego Jesus <diego.a.r.jz@gmail.com>
      * @date    18 May 2015
      */
-    class Mutex{
-        private:
+    class Mutex {
+      private:
 #if USE_PTHREAD == 1
-            pthread_mutex_t mMutex;
+        pthread_mutex_t mMutex;
 #else
-            std::mutex mMutex;
+        std::mutex mMutex;
 #endif
 
-        public:
-            /* ****************************
-             * Construction & Destruction *
-             * ***************************/
-            Mutex();
-            ~Mutex();
+      public:
+        /* ****************************
+         * Construction & Destruction *
+         * ***************************/
+        Mutex();
+        ~Mutex();
 
-            void Lock();
-            void Unlock();
-            bool TryLock();
+        void Lock();
+        void Unlock();
+        bool TryLock();
 
-            friend class ConditionalVariable;
+        friend class ConditionalVariable;
     }; // class Mutex
 } // namespace bde
 
 #else
-namespace bde{
+namespace bde {
     class Mutex;
 } // namespace bde
 #endif

@@ -4,59 +4,57 @@
 
 namespace bde {
 
-  RTTI_DEF(BlackDogEngine, "bde.Object.BlackDogEngine", Object);
+    RTTI_DEF(BlackDogEngine, "bde.Object.BlackDogEngine", Object);
 
-  BlackDogEnginePtr BlackDogEngine::sInstance = nullptr;
+    BlackDogEnginePtr BlackDogEngine::sInstance = nullptr;
 
-  /* ****************************
-  * Construction & Destruction *
-  * ***************************/
+    /* ****************************
+    * Construction & Destruction *
+    * ***************************/
 
-  BlackDogEnginePtr BlackDogEngine::Create(){
-    if(sInstance != nullptr){
-      throw std::runtime_error("Black Dog Engine has already been created.");
+    BlackDogEnginePtr BlackDogEngine::Create() {
+        if(sInstance != nullptr) {
+            throw std::runtime_error("Black Dog Engine has already been created.");
+        }
+
+        sInstance = std::make_shared<BlackDogEngine>();
+        return sInstance;
     }
 
-    sInstance = std::make_shared<BlackDogEngine>();
+    BlackDogEnginePtr BlackDogEngine::GetInstance() {
+        return sInstance;
+    }
 
-    return sInstance;
-  }
+    void BlackDogEngine::Destroy() {
+        sInstance = nullptr;
+    }
 
-  BlackDogEnginePtr BlackDogEngine::GetInstance(){
-    return sInstance;
-  }
+    BlackDogEngine::BlackDogEngine() {
+    }
 
-  void BlackDogEngine::Destroy(){
-    sInstance = nullptr;
-  }
+    BlackDogEngine::~BlackDogEngine() {
+    }
 
-  BlackDogEngine::BlackDogEngine(){
+    void BlackDogEngine::Update(const F64 &dT) {
+    }
 
-  }
+    /* ******************************
+    * Initialization & Termination *
+    * *****************************/
+    void BlackDogEngine::Init() {
+        initLoggers();
+        LOG_INFO("Initializing Black Dog Engine");
+    }
 
-  BlackDogEngine::~BlackDogEngine(){
+    void BlackDogEngine::Terminate() {
+    }
 
-  }
-
-  void BlackDogEngine::Update(const F64 &dT){
-
-  }
-
-  /* ******************************
-  * Initialization & Termination *
-  * *****************************/
-  void BlackDogEngine::Init(){
-    initLoggers();
-    LOG_INFO("Initializing Black Dog Engine");
-  }
-
-  void BlackDogEngine::Terminate(){
-
-  }
-
-  void BlackDogEngine::initLoggers(){
-    Logger::SetLoggerForLevel(Logger::LoggerLevel::Debug, std::make_shared<Logger>(std::cout));
-    Logger::SetLoggerForLevel(Logger::LoggerLevel::Info, std::make_shared<Logger>(std::cout));
-    Logger::SetLoggerForLevel(Logger::LoggerLevel::Error, std::make_shared<Logger>(std::cout));
-  }
+    void BlackDogEngine::initLoggers() {
+        Logger::SetLoggerForLevel(Logger::LoggerLevel::Debug,
+                                  std::make_shared<Logger>(std::cout));
+        Logger::SetLoggerForLevel(Logger::LoggerLevel::Info,
+                                  std::make_shared<Logger>(std::cout));
+        Logger::SetLoggerForLevel(Logger::LoggerLevel::Error,
+                                  std::make_shared<Logger>(std::cout));
+    }
 }

@@ -4,53 +4,129 @@
 #include "../../source/Debug/Logger.h"
 #include "../../source/Rendering/GLFW/GLFWRenderingDevice.h"
 #include "../../source/Rendering/SetBackgroundColorRenderTask.h"
+#include "../../source/Rendering/LoadGeometryRenderTask.h"
 #include "../../source/System/Thread.h"
 #include "../../source/System/Time.h"
+#include "../../source/Geometry/Geometry.h"
+#include "../../source/Geometry/ElementDataSource.h"
+#include "../../source/Geometry/create_vertex_data_sources.h"
+#include "../../source/Rendering/ShaderProgram.h"
+#include "../../source/Rendering/LoadShaderRenderTask.h"
+#include "../../source/Rendering/SetShaderRenderTask.h"
+#include "../../source/Rendering/DrawGeometryRenderTask.h"
 
-#include <unistd.h>
+using namespace bde;
 
-class GameLoop : public bde::Thread{
+std::string vertShaderSource ="#version 150 \n \
+in vec3 position; \n \
+void main() \n \
+{ \n \
+    gl_Position = vec4(position, 1.0); \n \
+}";
+
+std::string fragShaderSource = "#version 150 \n \
+\n \
+out vec4 outColor; \n \
+void main() \n \
+{ \n \
+    outColor = vec4(1.0, 0.0, 0.0, 1.0); \n \
+}";
+
+class GameLoop : public Thread{
 
     protected:
 
         virtual void run() override{
+            mRenderPool->NotifyUpdateReady();
+            mRenderPool->WaitForRenderReady();
+
             float r = 0;
             float g = 0;
             float b = 0;
+            
+            // Load Shader
+            ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
+            vertShader->SetSource( vertShaderSource );
+            
+            ShaderPtr fragShader = std::make_shared<Shader>(Shader::ShaderType::Fragment);
+            fragShader->SetSource( fragShaderSource );
+            
+            ShaderProgramPtr shaderProgram = std::make_shared<ShaderProgram>();
+            shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);
+            shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
+            shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
+            
+            auto loadShader = std::make_shared<LoadShaderRenderTask>(shaderProgram);
+            auto setShader  = std::make_shared<SetShaderRenderTask>(shaderProgram);
+            
+            mRenderPool->Push(loadShader);
+            mRenderPool->Push(setShader);
+            
+            // Load Geometry
+            std::vector<Vertex> vertices;
+            Vertex v1; v1.mPosition = Vector3(-1,-1,0);
+            Vertex v2; v2.mPosition = Vector3( 1,-1,0);
+            Vertex v3; v3.mPosition = Vector3( 0, 1,0);
+            vertices.push_back(v1);
+            vertices.push_back(v2);
+            vertices.push_back(v3);
+            
+            U32 els[] = {0,1,2};
+            ElementDataSourcePtr elements = std::make_shared<ElementDataSource>(els, PrimitiveType::Triangles, 1, 3);
+            auto vertexDataSources = create_vertex_data_sources<Vertex>(vertices);
+            auto geometry = std::make_shared<Geometry>(&(vertices[0]), 3, vertexDataSources, elements);
+            
+            // Draw Geometry
+            auto draw = std::make_shared<DrawGeometryRenderTask>(geometry);
 
-            bde::Time last;
+            Time start;
+            Time last;
+            bool loaded = false;
             while(!mShouldStop){
-                bde::Time current;
-                bde::TimeDifference elapsed = current - last;
+                Time current;
+                TimeDifference elapsed = current - last;
                 last = current;
 
                 r = sin(current.GetTimestamp()/1000) * sin(current.GetTimestamp()/1000);
                 g = cos(current.GetTimestamp()/1000) * cos(current.GetTimestamp()/1000);
                 b = tan(current.GetTimestamp()/1000) * tan(current.GetTimestamp()/1000);
 
-                mRenderPool->Push( std::make_shared<bde::SetBackgroundColorRenderTask>( bde::ColorRGB(r,g,b) ) );
-                mRenderPool->FinishFrame();
-
-                usleep( 1/30 * 1000000 );
+                mRenderPool->Push( std::make_shared<SetBackgroundColorRenderTask>( ColorRGB(r,g,b) ) );
+                
+                if((current-start).mTimeDifference > 10000 && !loaded){
+                    auto loadGeometry = std::make_shared<LoadGeometryRenderTask>(geometry);
+                    mRenderPool->Push(loadGeometry);
+                    loaded = true;
+                }
+                if(loaded){
+                    mRenderPool->Push( draw );
+                }
+                
+                mRenderPool->WaitForRenderDone();
+                mRenderPool->SwapRenderQueues();
+                mRenderPool->NotifySwapDone();
+                
+                //usleep(100000);
             }
         }
 
     public:
 
-        bde::RenderPoolPtr mRenderPool;
-        bool               mShouldStop;
+        RenderPoolPtr mRenderPool;
+        bool          mShouldStop;
 };
 
 int main(int argc, char *argv[]){
 
-    bde::LoggerPtr logger = std::make_shared<bde::Logger>(std::cout);
-    bde::Logger::SetLoggerForLevel(bde::Logger::LoggerLevel::Info, logger);
-    bde::Logger::SetLoggingLevel(bde::Logger::LoggerLevel::Info);
+    LoggerPtr logger = std::make_shared<Logger>(std::cout);
+    Logger::SetLoggerForLevel(Logger::LoggerLevel::Info, logger);
+    Logger::SetLoggerForLevel(Logger::LoggerLevel::Error, logger);
+
     LOG_INFO("Program Start");
 
     try{
-        bde::RendererPtr r = std::make_shared<bde::Renderer>();
-        bde::GLFWRenderingDevicePtr renderingDevice = std::make_shared<bde::GLFWRenderingDevice>();
+        RendererPtr r = std::make_shared<Renderer>();
+        GLFWRenderingDevicePtr renderingDevice = std::make_shared<GLFWRenderingDevice>();
         r->SetRenderingDevice(renderingDevice);
 
         GameLoop g;

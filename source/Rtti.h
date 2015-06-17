@@ -4,7 +4,7 @@
 #include <string>
 #include <ostream>
 
-namespace bde{
+namespace bde {
 
 #define RTTI_DECL static const Rtti TYPE; \
                   virtual const Rtti& GetType() const {return TYPE;}
@@ -18,17 +18,17 @@ namespace bde{
      * @author Diego Jesus <diego.a.r.jz@gmail.com>
      */
     class Rtti {
-    private:
+      private:
         std::string mName;      ///< This type name.
-        const Rtti* mBaseType;  ///< The base type.
-    public:
+        const Rtti *mBaseType;  ///< The base type.
+      public:
         /**
          * Constructor. baseType must not be null for all classes derived
          * from Object, since Object is the root of the inheritance tree.
          * @param   name        [in] This type's name
          * @param   baseType    [in] The type from which this class is derived
          */
-        Rtti(const std::string  &name, const Rtti* baseType);
+        Rtti(const std::string  &name, const Rtti *baseType);
         ~Rtti();
 
         /* *********
@@ -38,7 +38,7 @@ namespace bde{
          * Returns this type's name.
          * @return This type's name.
          */
-        const std::string & GetName() const;
+        const std::string &GetName() const;
         /**
         * Returns this type's base type.
         * @return This type's base type.
@@ -50,19 +50,19 @@ namespace bde{
          * @param   type    [in] The type to be checked
          * @return  true if both types share the same inheritance tree, false otherwise.
          */
-        bool IsInstanceOf(const Rtti& type) const;
+        bool IsInstanceOf(const Rtti &type) const;
         /**
          * Indicates if both objects are exactly of the same type.
          * @param   type    [in] The type to be checked.
          * @return true if both types are the same, false otherwise
          */
-        bool IsType(const Rtti& type) const;
+        bool IsType(const Rtti &type) const;
 
         /* **********************
         * Comparison Operations *
         * **********************/
-        bool operator==(const Rtti& other) const;
-        bool operator!=(const Rtti& other) const;
+        bool operator==(const Rtti &other) const;
+        bool operator!=(const Rtti &other) const;
 
         /**
          * Output operation, mainly for debugging purposes.
@@ -70,11 +70,11 @@ namespace bde{
          * @param o [in] Rtti to output.
          * @return The stream parameter, allowing to chain operations.
          */
-        friend std::ostream& operator<< (std::ostream& stream, const Rtti& o);
+        friend std::ostream &operator<< (std::ostream &stream, const Rtti &o);
     }; // class Rtti
 } // namespace bde
 #else
-namespace bde{
+namespace bde {
     class Rtti;
 } // namespace bde
 #endif

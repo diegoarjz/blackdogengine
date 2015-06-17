@@ -13,7 +13,7 @@
 
 #include "Mutex.h"
 
-namespace bde{
+namespace bde {
     /**
      * Implements a conditional variable for thread
      * synchronisation
@@ -21,30 +21,30 @@ namespace bde{
      * @author  Diego Jesus <diego.a.r.jz@gmail.com>
      * @date    18 May 2015
      */
-    class ConditionalVariable{
-        private:
+    class ConditionalVariable {
+      private:
 #if USE_PTHREAD == 1
-            pthread_cond_t mConditional;
+        pthread_cond_t mConditional;
 #else
-            std::condition_variable mConditional;
+        std::condition_variable mConditional;
 #endif
-        public:
+      public:
 
-            /* ****************************
-             * Construction & Destruction *
-             * ***************************/
-            ConditionalVariable();
-            ~ConditionalVariable();
+        /* ****************************
+         * Construction & Destruction *
+         * ***************************/
+        ConditionalVariable();
+        ~ConditionalVariable();
 
-            void NotifyOne();
-            void NotifyAll();
+        void NotifyOne();
+        void NotifyAll();
 
-            void Wait(Mutex mutex);
+        void Wait(Mutex &mutex);
     }; // class ConditionalVariable
 } // namespace bde
 
 #else
-namespace bde{
+namespace bde {
     class ConditionalVariable;
 } // namespace bde
 #endif

@@ -15,21 +15,21 @@
 #include <CGAL/Cartesian.h>
 #include <glm/glm.hpp>
 
-namespace bde{
+namespace bde {
     typedef CGAL::Cartesian<REAL>::Point_3 Point_3;
     typedef CGAL::Cartesian<REAL>::Vector_3 Vector_3;
     typedef CGAL::Cartesian<REAL>::Direction_3 Direction_3;
-    
-    class Vector3{
-    private:
+
+    class Vector3 {
+      private:
         glm::vec3 mVector;
-    public:
+      public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
         Vector3();
         Vector3(const REAL &x, const REAL &y, const REAL &z);
-        Vector3(const Vector3& v);
+        Vector3(const Vector3 &v);
 #if GLM_COMPATIBLE == 1
         Vector3(const glm::vec3 &v);
         operator glm::vec3() const;
@@ -43,21 +43,21 @@ namespace bde{
         operator Direction_3() const;
 #endif
         ~Vector3();
-        
+
         /* *******************
          * Getters & Setters *
          * ******************/
         REAL X() const;
         REAL Y() const;
         REAL Z() const;
-        
-        REAL& X();
-        REAL& Y();
-        REAL& Z();
-        
+
+        REAL &X();
+        REAL &Y();
+        REAL &Z();
+
         REAL SquaredLength() const;
         REAL Length() const;
-        
+
         /* ************
          * Operations *
          * ***********/
@@ -72,25 +72,25 @@ namespace bde{
         Vector3 Cross(const Vector3 &v) const;
         REAL Dot(const Vector3 &v) const;
         REAL Normalize();
-        
+
         bool IsColinear(const Vector3 &v) const;
-        
+
         /* *************
          * Comparators *
          * ************/
         bool operator==(const Vector3 &v) const;
         bool operator!=(const Vector3 &v) const;
-        
-        friend std::ostream& operator<< (std::ostream &o, const Vector3 &v);
+
+        friend std::ostream &operator<< (std::ostream &o, const Vector3 &v);
     };
-    
-    std::ostream& operator<< (std::ostream &o, const Vector3 &v);
-    
+
+    std::ostream &operator<< (std::ostream &o, const Vector3 &v);
+
 } // namespace bde
 
 #else
 
-namespace bde{
+namespace bde {
     class Vector3;
 }
 #endif /* defined(__BDEMath__Vector3__) */
