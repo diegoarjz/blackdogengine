@@ -20,5 +20,4 @@ namespace bde{
     
     NUMERIC_DATA_TYPE_NAME(F32);
     NUMERIC_DATA_TYPE_NAME(F64);
-    
 }
