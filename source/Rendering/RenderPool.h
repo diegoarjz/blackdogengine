@@ -51,7 +51,8 @@ namespace bde {
         std::queue<RenderTaskPtr> GetCurrentFrameQueue();
     }; // class CustomRenderPool
 
-    typedef std::shared_ptr<RenderPool> RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool.
+    typedef std::shared_ptr<RenderPool>
+    RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool.
 } // namespace bde
 
 #else
