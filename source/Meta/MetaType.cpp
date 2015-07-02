@@ -23,7 +23,7 @@ namespace bde {
     struct BoolMetaType gBoolMetaType;
     
     const char* BoolMetaType::Name() const{
-        return "bool";
+        return "BOOLEAN";
     }
     size_t BoolMetaType::SizeOf()const{
         return sizeof(bool);
