@@ -6,27 +6,16 @@ namespace bde {
 
     RTTI_DEF(BlackDogEngine, "bde.Object.BlackDogEngine", Object);
 
-    BlackDogEnginePtr BlackDogEngine::sInstance = nullptr;
-
     /* ****************************
     * Construction & Destruction *
     * ***************************/
 
     BlackDogEnginePtr BlackDogEngine::Create() {
-        if(sInstance != nullptr) {
-            throw std::runtime_error("Black Dog Engine has already been created.");
-        }
-
-        sInstance = std::make_shared<BlackDogEngine>();
-        return sInstance;
+        return Instance();
     }
-
-    BlackDogEnginePtr BlackDogEngine::GetInstance() {
-        return sInstance;
-    }
-
+    
     void BlackDogEngine::Destroy() {
-        sInstance = nullptr;
+
     }
 
     BlackDogEngine::BlackDogEngine() {

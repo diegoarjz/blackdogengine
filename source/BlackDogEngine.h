@@ -6,6 +6,7 @@
 
 #include "DataTypes.h"
 #include "Object.h"
+#include "Singleton.h"
 
 namespace bde {
 
@@ -21,9 +22,7 @@ namespace bde {
     * There can only be one BlackDogEngine instance in an application, as such it is
     * a singleton.
     */
-    class BlackDogEngine : public Object {
-      private:
-        static BlackDogEnginePtr sInstance; ///< Singleton Instance
+    class BlackDogEngine : public Object, public Singleton<BlackDogEngine> {
       public:
         RTTI_DECL
 
@@ -31,14 +30,13 @@ namespace bde {
         * Construction & Destruction *
         * ***************************/
         static BlackDogEnginePtr Create();
-        static BlackDogEnginePtr GetInstance();
         static void              Destroy();
 
         BlackDogEngine();
         /**
         * The constructor deletes all subsystems.
         */
-        ~BlackDogEngine();
+        virtual ~BlackDogEngine();
 
         /**
         * Updates all subsystems in order.
