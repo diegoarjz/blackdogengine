@@ -33,48 +33,48 @@ namespace bde {
             mFrames[NextFrame()].push(task);
         }
 
-        void NotifyUpdateReady(){
+        void NotifyUpdateReady() {
             //LOG_INFO("Notifying update ready");
             mUpdateReadyEvent.Notify();
         }
 
-        void WaitForUpdateReady(){
+        void WaitForUpdateReady() {
             //LOG_INFO("Waiting For Update ready");
             mUpdateReadyEvent.Wait();
         }
 
-        void WaitForRenderReady(){
+        void WaitForRenderReady() {
             //LOG_INFO("Wait for render ready");
             mRenderReadyEvent.Wait();
         }
 
-        void NotifyRenderReady(){
+        void NotifyRenderReady() {
             //LOG_INFO("Notifying render ready");
             mRenderReadyEvent.Notify();
         }
 
-        void NotifyRenderDone(){
+        void NotifyRenderDone() {
             //LOG_INFO("Notifying render done");
             mRenderDoneEvent.Notify();
         }
 
-        void WaitForRenderDone(){
+        void WaitForRenderDone() {
             //LOG_INFO("Waiting for render done");
             mRenderDoneEvent.Wait();
         }
 
-        void SwapRenderQueues(){
+        void SwapRenderQueues() {
             //LOG_INFO("Swapping render queues");
             mFrames[mCurrentFrame] = std::queue<RenderTaskPtr>();
             mCurrentFrame = (mCurrentFrame + 1) % 2;
         }
 
-        void NotifySwapDone(){
+        void NotifySwapDone() {
             //LOG_INFO("Notifying swap done");
             mSwapDoneEvent.Notify();
         }
 
-        void WaitForSwapDone(){
+        void WaitForSwapDone() {
             //LOG_INFO("Waiting for swap done");
             mSwapDoneEvent.Wait();
         }
@@ -92,7 +92,8 @@ namespace bde {
         }
     }; // class CustomRenderPool
 
-    typedef std::shared_ptr<RenderPool> RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool.
+    typedef std::shared_ptr<RenderPool>
+    RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool.
 } // namespace bde
 
 #else

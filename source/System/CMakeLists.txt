@@ -6,4 +6,4 @@ file(GLOB srcs
     "*.cpp"
 )
 
-add_library(system ${srcs})
+add_library(bdeSystem ${srcs})
