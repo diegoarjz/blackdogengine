@@ -45,44 +45,35 @@ namespace bde {
         /* ****************
          * Buffer Methods *
          * ***************/
-        virtual void ClearColorBuffer()     = 0;
-        virtual void ClearDepthBuffer()     = 0;
-        virtual void ClearStencilBuffer()   = 0;
+        virtual void ClearColorBuffer() = 0;
+        virtual void ClearDepthBuffer() = 0;
+        virtual void ClearStencilBuffer() = 0;
         /**
          * Should clear all existing buffers.
          */
-        virtual void ClearBuffers()         = 0;
-        virtual void SwapBuffers()          = 0;
+        virtual void ClearBuffers() = 0;
+        virtual void SwapBuffers() = 0;
 
         /* ******************
          * Geometry Loading *
          * *****************/
-        virtual void            LoadGeometry(GeometryBasePtr geometry)
-            = 0;
-        virtual BindingInfoPtr  CreateVertexBuffer()
-            = 0;
-        virtual void            BindVertexBuffer(BindingInfoPtr bi)
-            = 0;
-        virtual void            LoadDataToVertexBuffer(BindingInfoPtr bi,
-                GeometryBasePtr geometry) = 0;
-        virtual void            UnbindVertexBuffer(BindingInfoPtr bi)
-            = 0;
-        virtual void            DeleteVertexBuffer(BindingInfoPtr bi)
-            = 0;
-        virtual void            LoadElementBuffer(ElementDataSourcePtr elements)
-            = 0;
-        virtual void            BindVertexArray(BindingInfoPtr bi)
-            = 0;
-        virtual void            DrawElements(ElementDataSourcePtr elements)
-            = 0;
+        virtual void LoadGeometry(GeometryBasePtr geometry) = 0;
+        virtual BindingInfoPtr CreateVertexBuffer() = 0;
+        virtual void BindVertexBuffer(BindingInfoPtr bi) = 0;
+        virtual void LoadDataToVertexBuffer(BindingInfoPtr bi, GeometryBasePtr geometry) = 0;
+        virtual void UnbindVertexBuffer(BindingInfoPtr bi) = 0;
+        virtual void DeleteVertexBuffer(BindingInfoPtr bi) = 0;
+        virtual void LoadElementBuffer(ElementDataSourcePtr elements) = 0;
+        virtual void BindVertexArray(BindingInfoPtr bi) = 0;
+        virtual void DrawElements(ElementDataSourcePtr elements) = 0;
 
         /* ****************
          * Shader Loading *
          * ***************/
-        virtual void    LoadShaderProgram(ShaderProgramPtr shaderProgram)   = 0;
-        virtual void    LoadShader(ShaderPtr shader)                        = 0;
-        virtual void    SetShaderProgram(ShaderProgramPtr shaderProgram)    = 0;
-        virtual void    UnloadShader(ShaderPtr shader)                      = 0;
+        virtual void LoadShaderProgram(ShaderProgramPtr shaderProgram) = 0;
+        virtual void LoadShader(ShaderPtr shader) = 0;
+        virtual void SetShaderProgram(ShaderProgramPtr shaderProgram) = 0;
+        virtual void UnloadShader(ShaderPtr shader) = 0;
 
     }; // class RenderingDevice
 

@@ -20,12 +20,9 @@ namespace bde {
             MAX_SHADEROUTPUT_TYPE
         };
       private:
-        ShaderPtr       mShaders[(int)
-                                 Shader::ShaderType::MAX_SHADER_TYPES];        ///< The program's shaders
-        BindingInfoPtr
-        mBindingInfo;                                               ///< Binding information
-        std::string     mOutputNames[(int)
-                                     ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
+        ShaderPtr mShaders[(int)Shader::ShaderType::MAX_SHADER_TYPES];          ///< The program's shaders
+        BindingInfoPtr mBindingInfo;                                            ///< Binding information
+        std::string mOutputNames[(int)ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
       public:
         RTTI_DECL
 
