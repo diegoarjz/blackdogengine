@@ -40,13 +40,15 @@ namespace bde {
             throw std::runtime_error("Couldn't start the renderer: No rendering device set.");
         }
 
+        // and a rendering pool
         if( mRenderPool == nullptr) {
             throw std::runtime_error("Couldn't start the renderer: No RenderPool set.");
         }
 
+        // notify that the renderer is ready
         mRenderPool->NotifyRenderReady();
+        // and wait for the update cycle to be ready
         mRenderPool->WaitForUpdateReady();
-
         // create a window (for now)
         mRenderingDevice->CreateWindow(500, 500);
 
@@ -63,7 +65,6 @@ namespace bde {
             }
 
             mRenderingDevice->SwapBuffers();
-
             mRenderPool->NotifyRenderDone();
             mRenderPool->WaitForSwapDone();
         }

@@ -3,6 +3,7 @@
 
 #include "RenderTask.h"
 #include "../Geometry/Geometry.h"
+#include "ShaderProgram.h"
 
 namespace bde {
 

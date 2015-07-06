@@ -1,17 +1,20 @@
 #ifndef SHADERPROGRAM_H_
 #define SHADERPROGRAM_H_
 
+#include <list>
+#include <vector>
+#include <string>
+
 #include "../Object.h"
 #include "BindingInfo.h"
 #include "Shader.h"
+#include "ShaderUniform.h"
+#include "ShaderAttribute.h"
 
 namespace bde {
 
     /**
      * Describes a ShaderProgram which is made of several shaders
-     *
-     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
-     * @date    28 May 2015
      */
     class ShaderProgram : public Object {
       public:
@@ -20,12 +23,11 @@ namespace bde {
             MAX_SHADEROUTPUT_TYPE
         };
       private:
-        ShaderPtr       mShaders[(int)
-                                 Shader::ShaderType::MAX_SHADER_TYPES];        ///< The program's shaders
-        BindingInfoPtr
-        mBindingInfo;                                               ///< Binding information
-        std::string     mOutputNames[(int)
-                                     ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
+        ShaderPtr mShaders[(int)Shader::ShaderType::MAX_SHADER_TYPES];          ///< The program's shaders
+        std::string mOutputNames[(int)ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
+        ShaderAttributePtr mAttributes[ShaderAttribute::Semantics::MAX_SEMANTICS];
+        std::vector<ShaderUniformPtr> mCustomUniforms;                          ///< The user defined uniforms.
+        BindingInfoPtr mBindingInfo;                                            ///< Binding information
       public:
         RTTI_DECL
 
@@ -43,8 +45,12 @@ namespace bde {
         ShaderPtr       GetShader(const Shader::ShaderType &type);
         void            SetShader(const Shader::ShaderType &type, ShaderPtr shader);
         std::string     GetOutputName(const ShaderOutputType &type);
-        void            SetOutputName(const ShaderOutputType &type,
-                                      const std::string &name);
+        void            SetOutputName(const ShaderOutputType &type, const std::string &name);
+        
+        ShaderAttributePtr BindSemanticsToName(const ShaderAttribute::Semantics &semantics, const std::string &nameInShader);
+        ShaderAttributePtr GetAttributeForSemantics(const ShaderAttribute::Semantics &semantics) const;
+
+        std::vector<ShaderUniformPtr>& CustomUniforms();
     }; // class ShaderProgram
 
     typedef std::shared_ptr<ShaderProgram>  ShaderProgramPtr;

@@ -15,7 +15,6 @@ namespace bde {
     }
 
     void SetBackgroundColorRenderTask::Execute(RenderingDevicePtr device) {
-        //        LOG_INFO( "Running SetBackgroundColo ");
         device->SetBackgroundColor(mBackgroundColor);
     }
 } // namespace bde

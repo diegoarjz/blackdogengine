@@ -3,10 +3,11 @@
 
 #include <GLFW/glfw3.h>
 #include "../RenderingDevice.h"
+#include "../Bindable.h"
 
 namespace bde {
 
-    class GLFWRenderingDevice : public RenderingDevice {
+    class GLFWRenderingDevice : public RenderingDevice, public std::enable_shared_from_this<GLFWRenderingDevice> {
       private:
         static const GLenum sShaderTypes[];
         static const GLenum sPrimitiveTypes[];
@@ -72,8 +73,27 @@ namespace bde {
         virtual void    LoadShaderProgram(ShaderProgramPtr shaderProgram) override;
         virtual void    LoadShader(ShaderPtr shader) override;
         virtual void    SetShaderProgram(ShaderProgramPtr shaderProgram) override;
-        virtual void    UnloadShader(ShaderPtr shader) override;
+        
+        /* ***********
+         * Materials *
+         * **********/
+        virtual void SetMaterial(MaterialPtr material) override;
 
+        /* *****************
+         * Uniform Setting *
+         * ****************/
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const float &f) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2 &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3 &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4 &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGB &c) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGBA &c) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) override;
+        
+    private:
+        void loadUniform(ShaderProgramPtr shader, std::shared_ptr<Bindable> uniform, const std::string &name);
     }; // class GLFWRenderingDevice
 
     typedef std::shared_ptr<GLFWRenderingDevice> GLFWRenderingDevicePtr;

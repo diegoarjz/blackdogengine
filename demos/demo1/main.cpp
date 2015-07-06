@@ -14,6 +14,8 @@
 #include "../../source/Rendering/LoadShaderRenderTask.h"
 #include "../../source/Rendering/SetShaderRenderTask.h"
 #include "../../source/Rendering/DrawGeometryRenderTask.h"
+#include "../../source/Rendering/SetMaterialRenderTask.h"
+#include "../../source/Rendering/ShaderUniform.h"
 
 using namespace bde;
 
@@ -27,9 +29,10 @@ void main() \n \
 std::string fragShaderSource = "#version 150 \n \
 \n \
 out vec4 outColor; \n \
+uniform vec3 color; \n \
 void main() \n \
 { \n \
-    outColor = vec4(1.0, 0.0, 0.0, 1.0); \n \
+    outColor = vec4(color, 1.0); \n \
 }";
 
 class GameLoop : public Thread{
@@ -55,6 +58,7 @@ class GameLoop : public Thread{
             shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);
             shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
             shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
+            shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform<ColorRGB>>("color") );
             
             auto loadShader = std::make_shared<LoadShaderRenderTask>(shaderProgram);
             auto setShader  = std::make_shared<SetShaderRenderTask>(shaderProgram);
@@ -78,6 +82,11 @@ class GameLoop : public Thread{
             
             // Draw Geometry
             auto draw = std::make_shared<DrawGeometryRenderTask>(geometry);
+            
+            // Material
+            MaterialPtr material = std::make_shared<Material>(shaderProgram);
+            auto colorUniform = material->GetUniform<ColorRGB>("color");
+            auto setMaterial = std::make_shared< SetMaterialRenderTask >(material);
 
             Time start;
             Time last;
@@ -90,16 +99,17 @@ class GameLoop : public Thread{
                 r = sin(current.GetTimestamp()/1000) * sin(current.GetTimestamp()/1000);
                 g = cos(current.GetTimestamp()/1000) * cos(current.GetTimestamp()/1000);
                 b = tan(current.GetTimestamp()/1000) * tan(current.GetTimestamp()/1000);
-
-                mRenderPool->Push( std::make_shared<SetBackgroundColorRenderTask>( ColorRGB(r,g,b) ) );
                 
-                if((current-start).mTimeDifference > 10000 && !loaded){
+                colorUniform->SetValue( ColorRGB(r,g,b) );
+                
+                if((current-start).mTimeDifference > 1000 && !loaded){
                     auto loadGeometry = std::make_shared<LoadGeometryRenderTask>(geometry);
                     mRenderPool->Push(loadGeometry);
                     loaded = true;
                 }
                 if(loaded){
                     mRenderPool->Push( draw );
+                    mRenderPool->Push( setMaterial );
                 }
                 
                 mRenderPool->WaitForRenderDone();
