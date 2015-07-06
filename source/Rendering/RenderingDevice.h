@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 #include "BindingInfo.h"
+#include "Material.h"
 
 namespace bde {
 
@@ -32,8 +33,10 @@ namespace bde {
         /* ******************
          * Context Creation *
          * *****************/
-        virtual void CreateWindow(const U32 &width, const U32 &height,
-                                  const U32 &poxX = 100, const U32 &posY = 100) = 0;
+        virtual void CreateWindow(const U32 &width, 
+                                  const U32 &height,
+                                  const U32 &poxX = 100,
+                                  const U32 &posY = 100) = 0;
         virtual void CreateFullScreen() = 0;
         virtual bool ShouldClose() = 0;
 
@@ -73,8 +76,25 @@ namespace bde {
         virtual void LoadShaderProgram(ShaderProgramPtr shaderProgram) = 0;
         virtual void LoadShader(ShaderPtr shader) = 0;
         virtual void SetShaderProgram(ShaderProgramPtr shaderProgram) = 0;
-        virtual void UnloadShader(ShaderPtr shader) = 0;
+        
+        /* ***********
+         * Materials *
+         * **********/
+        virtual void SetMaterial(MaterialPtr material) = 0;
 
+        /* *****************
+         * Uniform Setting *
+         * ****************/
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const float &f) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2 &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3 &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4 &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGB &c) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGBA &c) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) = 0;
+        
     }; // class RenderingDevice
 
     /// Smart pointer for a RenderingDevice

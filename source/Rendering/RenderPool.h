@@ -34,13 +34,13 @@ namespace bde {
          */
         void NotifyUpdateReady();
         void WaitForUpdateReady();
-        
+
         void NotifyRenderReady();
         void WaitForRenderReady();
-        
+
         void NotifyRenderDone();
         void WaitForRenderDone();
-        
+
         void NotifySwapDone();
         void WaitForSwapDone();
 

@@ -1,9 +1,14 @@
 #ifndef SHADERPROGRAM_H_
 #define SHADERPROGRAM_H_
 
+#include <list>
+#include <vector>
+#include <string>
+
 #include "../Object.h"
 #include "BindingInfo.h"
 #include "Shader.h"
+#include "ShaderUniform.h"
 
 namespace bde {
 
@@ -21,8 +26,10 @@ namespace bde {
         };
       private:
         ShaderPtr mShaders[(int)Shader::ShaderType::MAX_SHADER_TYPES];          ///< The program's shaders
-        BindingInfoPtr mBindingInfo;                                            ///< Binding information
         std::string mOutputNames[(int)ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
+        ShaderUniformPtr mUniforms[(int)ShaderUniformSemantics::MAX_UNIFORMS];  ///< The engine defined uniforms
+        std::vector<ShaderUniformPtr> mCustomUniforms;                          ///< The user defined uniforms.
+        BindingInfoPtr mBindingInfo;                                            ///< Binding information
       public:
         RTTI_DECL
 
@@ -40,8 +47,11 @@ namespace bde {
         ShaderPtr       GetShader(const Shader::ShaderType &type);
         void            SetShader(const Shader::ShaderType &type, ShaderPtr shader);
         std::string     GetOutputName(const ShaderOutputType &type);
-        void            SetOutputName(const ShaderOutputType &type,
-                                      const std::string &name);
+        void            SetOutputName(const ShaderOutputType &type, const std::string &name);
+        
+        ShaderUniformPtr BindSemanticsToName(const ShaderUniformSemantics &semantics, const std::string &nameInShader);
+        ShaderUniformPtr GetUniformForSemantics(const ShaderUniformSemantics &semantics) const;
+        std::vector<ShaderUniformPtr>& CustomUniforms();
     }; // class ShaderProgram
 
     typedef std::shared_ptr<ShaderProgram>  ShaderProgramPtr;

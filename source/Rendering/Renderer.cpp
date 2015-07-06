@@ -49,7 +49,6 @@ namespace bde {
         mRenderPool->NotifyRenderReady();
         // and wait for the update cycle to be ready
         mRenderPool->WaitForUpdateReady();
-
         // create a window (for now)
         mRenderingDevice->CreateWindow(500, 500);
 
@@ -66,7 +65,6 @@ namespace bde {
             }
 
             mRenderingDevice->SwapBuffers();
-
             mRenderPool->NotifyRenderDone();
             mRenderPool->WaitForSwapDone();
         }
