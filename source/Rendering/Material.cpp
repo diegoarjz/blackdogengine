@@ -1,6 +1,7 @@
 #include "Material.h"
 
 namespace bde{
+    
     Material::Material(ShaderProgramPtr shaderProgram){
         mShaderProgram = shaderProgram;
         
@@ -8,7 +9,7 @@ namespace bde{
         for(auto u : uniforms){
             auto uniformName = u->GetNameInShader();
             auto uniformValue = u->CreateShaderUniformValue();
-            
+
             mUniformValues[uniformName] = uniformValue;
         }
     }

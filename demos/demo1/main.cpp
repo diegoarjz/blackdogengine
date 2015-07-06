@@ -15,6 +15,7 @@
 #include "../../source/Rendering/SetShaderRenderTask.h"
 #include "../../source/Rendering/DrawGeometryRenderTask.h"
 #include "../../source/Rendering/SetMaterialRenderTask.h"
+#include "../../source/Rendering/ShaderUniform.h"
 
 using namespace bde;
 
@@ -57,7 +58,7 @@ class GameLoop : public Thread{
             shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);
             shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
             shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
-            shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform>(ShaderUniform::ShaderUniformType::ColorRGBUniform, "color") );
+            shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform<ColorRGB>>("color") );
             
             auto loadShader = std::make_shared<LoadShaderRenderTask>(shaderProgram);
             auto setShader  = std::make_shared<SetShaderRenderTask>(shaderProgram);

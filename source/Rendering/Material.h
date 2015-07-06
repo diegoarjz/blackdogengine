@@ -12,6 +12,18 @@ namespace bde {
     /**
      * Defines a material.
      *
+     * Contains a set of uniform values, that will be set on the shader program
+     * when rendering.
+     *
+     * Example usage:
+     *
+     * ShaderProgramPtr aShaderProgram = <fetch this somewhere>;
+     * MaterialPtr material = std::make_shared<Material>(aShaderProgra);
+     * auto colorUniform = material->GetUniform<ColorRGB>("color");
+     * colorUniform->SetValue(colorValue);
+     *
+     * Because fetching the uniform by name is an expensive task, keeping a
+     * pointer to it is recommended when performing successive alterations.
      */
     class Material{
     public:
@@ -34,7 +46,7 @@ namespace bde {
         std::shared_ptr<ShaderUniformValue<T>> GetUniform(const std::string &name){
             auto iter = mUniformValues.find( name );
             if(iter == std::end( mUniformValues )){
-                LOG_ERROR("Could not find unifor with name");
+                LOG_ERROR("Could not find uniform with name");
                 return nullptr;
             }
             

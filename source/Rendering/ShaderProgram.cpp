@@ -44,11 +44,12 @@ namespace bde {
     }
     
     ShaderUniformPtr ShaderProgram::BindSemanticsToName(const ShaderUniformSemantics &semantics, const std::string &nameInShader){
-        ShaderUniformPtr uniform = std::make_shared<ShaderUniform>(nameInShader, semantics);
-        
-        mUniforms[(int)semantics] = uniform;
-        
-        return uniform;
+//        ShaderUniformPtr uniform = std::make_shared<ShaderUniform>(nameInShader, semantics);
+//        
+//        mUniforms[(int)semantics] = uniform;
+//        
+//        return uniform;
+        return nullptr;
     }
     
     ShaderUniformPtr ShaderProgram::GetUniformForSemantics(const ShaderUniformSemantics &semantics) const{

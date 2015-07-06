@@ -14,9 +14,6 @@ namespace bde {
 
     /**
      * Describes a ShaderProgram which is made of several shaders
-     *
-     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
-     * @date    28 May 2015
      */
     class ShaderProgram : public Object {
       public:

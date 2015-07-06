@@ -5,12 +5,19 @@
 #include "../MathLib/ColorRGB.h"
 #include "../Geometry/Geometry.h"
 #include "Shader.h"
-#include "ShaderProgram.h"
 #include "BindingInfo.h"
-#include "Material.h"
 
 namespace bde {
 
+    class ShaderProgram;
+    typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
+    
+    class Material;
+    typedef std::shared_ptr<Material> MaterialPtr;
+    
+    class ShaderUniformBase;
+    typedef std::shared_ptr<ShaderUniformBase> ShaderUniformPtr;
+    
     /**
      * Interface for a rendering device.
      *

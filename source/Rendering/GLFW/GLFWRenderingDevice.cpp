@@ -1,8 +1,12 @@
 #include "GLFWRenderingDevice.h"
 
-#include "../../Debug/Logger.h"
-
 #include <OpenGL/GL3.h>
+
+#include "../../Debug/Logger.h"
+#include "../ShaderProgram.h"
+#include "../Material.h"
+#include "../ShaderUniform.h"
+#include "../ShaderUniformValue.h"
 
 namespace bde {
 

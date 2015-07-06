@@ -3,10 +3,16 @@
 
 #include <memory>
 
-#include "ShaderUniform.h"
+#include "RenderingDevice.h"
 
 namespace bde {
     
+    /**
+     * Base class for a shader uniform value.
+     *
+     * Sub classes will hold values of specific kinds and,
+     * while rendering, they should set their values to the renderer.
+     */
     class ShaderUniformValueBase{
     protected:
         std::string mName;
@@ -16,9 +22,11 @@ namespace bde {
         
         virtual void Set(RenderingDevicePtr r) = 0;
     }; // class ShaderUniformValueBase
-    
     typedef std::shared_ptr<ShaderUniformValueBase> ShaderUniformValuePtr;
     
+    /**
+     * Templated shader uniform value to hold different types of values.
+     */
     template<typename T>
     class ShaderUniformValue : public ShaderUniformValueBase{
     private:
@@ -28,7 +36,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         ShaderUniformValue(ShaderUniformPtr uniform, const std::string &name): ShaderUniformValueBase(uniform, name){
-            
+   
         }
         
         /* *******************
@@ -43,7 +51,7 @@ namespace bde {
         }
         
         virtual void Set(RenderingDevicePtr r) override{
-            mShaderUniform->SetValue(r, mValue);
+            r->SetUniformValue(mShaderUniform, mValue);
         }
     };
 } // namespace  bde
