@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include "../RenderingDevice.h"
+#include "../Bindable.h"
 
 namespace bde {
 
@@ -92,7 +93,7 @@ namespace bde {
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) override;
         
     private:
-        void loadUniform(ShaderProgramPtr shader, ShaderUniformPtr uniform);
+        void loadUniform(ShaderProgramPtr shader, std::shared_ptr<Bindable> uniform, const std::string &name);
     }; // class GLFWRenderingDevice
 
     typedef std::shared_ptr<GLFWRenderingDevice> GLFWRenderingDevicePtr;

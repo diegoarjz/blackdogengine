@@ -16,12 +16,4 @@ namespace bde {
     std::string ShaderUniformBase::GetNameInShader() const{
         return mNameInShader;
     }
-    
-    BindingInfoPtr ShaderUniformBase::GetBindingInfo() const{
-        return mBindingInfo;
-    }
-    
-    void ShaderUniformBase::SetBindingInfo(BindingInfoPtr bi){
-        mBindingInfo = bi;
-    }
 }

@@ -9,6 +9,7 @@
 #include "BindingInfo.h"
 #include "Shader.h"
 #include "ShaderUniform.h"
+#include "ShaderAttribute.h"
 
 namespace bde {
 
@@ -24,7 +25,7 @@ namespace bde {
       private:
         ShaderPtr mShaders[(int)Shader::ShaderType::MAX_SHADER_TYPES];          ///< The program's shaders
         std::string mOutputNames[(int)ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
-        ShaderUniformPtr mUniforms[(int)ShaderUniformSemantics::MAX_UNIFORMS];  ///< The engine defined uniforms
+        ShaderAttributePtr mAttributes[ShaderAttribute::Semantics::MAX_SEMANTICS];
         std::vector<ShaderUniformPtr> mCustomUniforms;                          ///< The user defined uniforms.
         BindingInfoPtr mBindingInfo;                                            ///< Binding information
       public:
@@ -46,8 +47,9 @@ namespace bde {
         std::string     GetOutputName(const ShaderOutputType &type);
         void            SetOutputName(const ShaderOutputType &type, const std::string &name);
         
-        ShaderUniformPtr BindSemanticsToName(const ShaderUniformSemantics &semantics, const std::string &nameInShader);
-        ShaderUniformPtr GetUniformForSemantics(const ShaderUniformSemantics &semantics) const;
+        ShaderAttributePtr BindSemanticsToName(const ShaderAttribute::Semantics &semantics, const std::string &nameInShader);
+        ShaderAttributePtr GetAttributeForSemantics(const ShaderAttribute::Semantics &semantics) const;
+
         std::vector<ShaderUniformPtr>& CustomUniforms();
     }; // class ShaderProgram
 

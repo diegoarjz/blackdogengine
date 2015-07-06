@@ -8,36 +8,21 @@
 #include "BindingInfo.h"
 #include "ShaderUniformValue.h"
 #include "../MathLib/MathLib.h"
+#include "Bindable.h"
 
 namespace bde {
     
     class ShaderUniformValueBase;
     typedef std::shared_ptr<ShaderUniformValueBase> ShaderUniformValuePtr;
     
-    enum class ShaderUniformSemantics{
-        // Transforms
-        ModelMatrix,
-        ViewMatrix,
-        ProjectionMatrix,
-        ModelViewMatrix,
-        ModelViewProjectionMatrix,
-        NormalMatrix,
-        MAX_UNIFORMS,
-        // User Defined
-        Custom
-    }; // enum class ShaderUniformSemantics
-    
-    class ShaderUniformBase{
+    class ShaderUniformBase : public Bindable{
     protected:
         std::string mNameInShader;
-        BindingInfoPtr mBindingInfo;
     public:
         ShaderUniformBase(const std::string &name);
         virtual ~ShaderUniformBase();
         
         std::string GetNameInShader() const;
-        BindingInfoPtr GetBindingInfo() const;
-        void SetBindingInfo(BindingInfoPtr bi);
         
         virtual ShaderUniformValuePtr CreateShaderUniformValue() = 0;
     }; // class ShaderUniformBase
@@ -48,31 +33,14 @@ namespace bde {
      */
     template<typename T>
     class ShaderUniform : public ShaderUniformBase, public std::enable_shared_from_this<ShaderUniform<T>>{
-    public:
-//        enum class ShaderUniformType{
-//            FloatUniform,
-//            Vector2Uniform,
-//            Vector3Uniform,
-//            Vector4Uniform,
-//            QuaternionUniform,
-//            ColorRGBUniform,
-//            ColorRGBAUniform,
-//            Matrix3Uniform,
-//            Matrix4Uniform,
-//        };
     private:
         std::string mNameInShader;
-        ShaderUniformSemantics mSemantics;
     public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
-        ShaderUniform(const std::string &name, const ShaderUniformSemantics &semantics):ShaderUniformBase(name){
-            mSemantics = semantics;
-        }
-        
         ShaderUniform(const std::string &name):ShaderUniformBase(name){
-            mSemantics = ShaderUniformSemantics::Custom;
+            
         }
         
         virtual ~ShaderUniform(){

@@ -221,18 +221,18 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         shaderProgram->SetBindingInfo( bi );
         
         // Load the uniforms
-        for(int i=0; i<(int)ShaderUniformSemantics::MAX_UNIFORMS; ++i){
-            auto uniform = shaderProgram->GetUniformForSemantics((ShaderUniformSemantics)i);
+        for(int i=0; i<ShaderAttribute::Semantics::MAX_SEMANTICS; ++i){
+            auto uniform = shaderProgram->GetAttributeForSemantics((ShaderAttribute::Semantics)i);
             
             if(!uniform) continue;
             
-            loadUniform(shaderProgram, uniform);
+            loadUniform(shaderProgram, uniform, uniform->GetNameInShader());
         }
         
         // Load the custom uniforms
         auto customUniforms = shaderProgram->CustomUniforms();
         for(auto uniform : customUniforms){
-            loadUniform(shaderProgram, uniform);
+            loadUniform(shaderProgram, uniform, uniform->GetNameInShader());
         }
 
         // detach and delete the shaders, so that they do not occupy driver memory
@@ -246,8 +246,7 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         }
     }
     
-    void GLFWRenderingDevice::loadUniform(ShaderProgramPtr shader, ShaderUniformPtr uniform){
-        auto name = uniform->GetNameInShader();
+    void GLFWRenderingDevice::loadUniform(ShaderProgramPtr shader, std::shared_ptr<Bindable> uniform, const std::string &name){
         GLint location = glGetUniformLocation(shader->GetBindingInfo()->GetBindingID(), name.c_str());
         
         if(location < 0){
