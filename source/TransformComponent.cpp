@@ -16,10 +16,6 @@ namespace bde{
         
     }
     
-    GOComponentTypes TransformComponent::GetComponentType() const{
-        return GOComponentTypes::TransformComponent;
-    }
-    
     /* *******************
      * Getters & Setters *
      * ******************/
@@ -32,8 +28,8 @@ namespace bde{
         }
         
         if(parent != nullptr){
-            auto this_ptr = shared_from_this();
-//            parent->mChildren.push_back(this_ptr);
+            TransformComponentWeakPtr this_ptr = std::dynamic_pointer_cast<TransformComponent>(shared_from_this());
+            parent->mChildren.push_back(this_ptr);
         }
         
         mParentTransform = parent;

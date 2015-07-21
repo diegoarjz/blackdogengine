@@ -53,7 +53,7 @@ namespace bde {
         TransformComponent();
         virtual ~TransformComponent();
         
-        virtual GOComponentTypes GetComponentType() const override;
+//        virtual GOComponentTypes GetComponentType() const override;
         
         /* *******************
          * Getters & Setters *

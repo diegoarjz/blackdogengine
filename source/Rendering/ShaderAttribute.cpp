@@ -7,7 +7,7 @@ namespace bde{
     ShaderAttribute::SetValueFunction setValueFunctions[] = {
         // ModelMatrix
         [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {
-            auto transformComponent = go->GetComponent<TransformationSubsystem, TransformComponent>();
+            auto transformComponent = go->GetComponent<TransformComponent>();
             auto matrix = transformComponent->GetLocalToWorldMatrix();
             r->SetAttributeValue(attr, matrix);
         },

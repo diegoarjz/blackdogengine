@@ -5,7 +5,6 @@
 #include "GOComponent.h"
 
 #include "GOComponentTypeList.h"
-#include "GOComponentHandle.h"
 
 namespace bde{
     /**
@@ -21,7 +20,7 @@ namespace bde{
      */
     class GameObject : public Object{
     private:
-        GOComponentHandlePtr mComponents[GOComponentTypeList::componentCount];
+        GOComponentPtr mComponents[GOComponentTypeList::componentCount];
         
         /// Indicates that the GO can be updated.
         bool mIsAlive;
@@ -35,18 +34,17 @@ namespace bde{
         void Kill();
         bool IsAlive() const;
         
-        template<typename Subsystem_t, typename ComponentType>
-        ComponentType* GetComponent(){
+        template<typename ComponentType>
+        std::shared_ptr<ComponentType> GetComponent(){
             auto compHandle = mComponents[ GOComponentTypeList::IndexOfType<ComponentType>() ];
             
-            auto conv = std::dynamic_pointer_cast<GOComponentHandle<Subsystem_t, ComponentType>>( compHandle );
-            auto comp = conv->GetComponent();
+            auto comp = std::dynamic_pointer_cast<ComponentType>( compHandle );
             
             return comp;
         }
         
         template<typename ComponentType>
-        void SetComponent(GOComponentHandlePtr component){
+        void SetComponent(std::shared_ptr<ComponentType> component){
             mComponents[ GOComponentTypeList::IndexOfType<ComponentType>() ] = component;
         }
         

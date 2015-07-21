@@ -14,10 +14,8 @@ namespace bde{
      */
     class TransformationSubsystem : public Subsystem{
     private:
-        std::vector<TransformComponent> mComponents;
+        std::vector<TransformComponentPtr> mComponents;
     public:
-        typedef GOComponentHandle<TransformationSubsystem, TransformComponent> transform_handle_t;
-        
         /* ****************************
          * Construction & Destruction *
          * ***************************/
@@ -33,9 +31,9 @@ namespace bde{
          */
         virtual void Update(const TIME_T &delta) override;
         
-        std::shared_ptr<transform_handle_t> CreateComponent();
+        TransformComponentPtr CreateComponent();
         
-        TransformComponent* GetComponentForID(const U32 &componentId);
+        TransformComponentPtr GetComponentForID(const U32 &componentId);
     }; // class TransformationSubsystem
 } // namespace bde
 

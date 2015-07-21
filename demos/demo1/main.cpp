@@ -52,10 +52,16 @@ class GameLoop : public Thread{
             TransformationSubsystem transformSS;
             
             // Create Game Object
+            GameObjectPtr root = std::make_shared<GameObject>();
+            root->SetComponent<TransformComponent>(transformSS.CreateComponent());
+            auto rootTransform = root->GetComponent<TransformComponent>();
+            rootTransform->Translate(1, 0, 0);
+            
             GameObjectPtr go = std::make_shared<GameObject>();
             go->SetComponent<TransformComponent>(transformSS.CreateComponent());
-            auto transformComponent = go->GetComponent<TransformationSubsystem, TransformComponent>();
-            transformComponent->Translate(0.4, 0, 0);
+            auto transformComponent = go->GetComponent<TransformComponent>();
+            transformComponent->SetParentTransform(rootTransform);
+            transformComponent->Translate(-1, -0.5, 0);
             
             // Load Shader
             ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
