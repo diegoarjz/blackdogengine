@@ -4,8 +4,10 @@
 #include "../DataTypes.h"
 #include "../MathLib/ColorRGB.h"
 #include "../Geometry/Geometry.h"
+#include "../GameObject.h"
 #include "Shader.h"
 #include "BindingInfo.h"
+#include "ShaderAttribute.h"
 
 namespace bde {
 
@@ -75,6 +77,10 @@ namespace bde {
         virtual void DeleteVertexBuffer(BindingInfoPtr bi) = 0;
         virtual void LoadElementBuffer(ElementDataSourcePtr elements) = 0;
         virtual void BindVertexArray(BindingInfoPtr bi) = 0;
+        
+        /* *********
+         * Drawing *
+         * ********/
         virtual void DrawElements(ElementDataSourcePtr elements) = 0;
 
         /* ****************
@@ -87,7 +93,7 @@ namespace bde {
         /* ***********
          * Materials *
          * **********/
-        virtual void SetMaterial(MaterialPtr material) = 0;
+        virtual void SetMaterial(MaterialPtr material, GameObjectPtr go) = 0;
 
         /* *****************
          * Uniform Setting *
@@ -101,6 +107,16 @@ namespace bde {
         virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGBA &c) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) = 0;
+        
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const float &f) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2 &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3 &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4 &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGB &c) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGBA &c) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m) = 0;
         
     }; // class RenderingDevice
 

@@ -14,7 +14,6 @@ namespace bde {
     }
 
     void DrawGeometryRenderTask::Execute(RenderingDevicePtr device) {
-        //        LOG_INFO( "Running DrawGeometry");
         device->BindVertexArray( mGeometry.lock()->GetVertexArrayBindingInfo() );
         device->DrawElements( mGeometry.lock()->GetElementDataSource() );
     }

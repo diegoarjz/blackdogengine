@@ -52,6 +52,7 @@ namespace bde {
         Vector4 operator-=(const Vector4 &v);
         friend Vector4 operator*(const REAL &s, const Vector4 &v);
         Vector4 operator*(const REAL &s);
+        Vector4 operator/(const REAL &s);
         Vector4 operator*(const Matrix4 &m);
         REAL Normalize();
 

@@ -57,17 +57,6 @@ namespace bde {
     const MetaType &GetMetaType(const char *);
     
     //
-    // std::string Meta Type
-    //
-    struct StringMetaType : public MetaType {
-        virtual const char *Name()const override;
-        virtual size_t SizeOf()const override;
-        virtual const void FromString(const std::string &str, void *outValue) const override;
-        virtual const std::string ToString(const void *v) const override;
-    };
-    const MetaType &GetMetaType(std::string);
-    
-    //
     // Void Meta Type
     //
     struct VoidMetaType : public MetaType {
@@ -77,24 +66,6 @@ namespace bde {
         virtual const std::string ToString(const void *v) const override;
     };
     const MetaType &GetMetaType(void);
-
-    template<typename T>
-    const MetaType &GetMetaTypeByType() {
-        T t;
-        return GetMetaType(t);
-    }
-    template<>
-    const MetaType &GetMetaTypeByType<void>();
-
-    //
-    // Cast function
-    //
-    template<typename To>
-    To Cast(const void *v, const MetaType &type) {
-        To t;
-        GetMetaType(t).Cast(&t, v, type);
-        return t;
-    }
     
     void PrintMetaType(const MetaType &type);
 } // namespace bde

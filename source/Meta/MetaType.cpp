@@ -68,28 +68,6 @@ namespace bde {
     }
     
     //
-    // String MetaType
-    //
-    struct StringMetaType gStringMetaType;
-    
-    const char* StringMetaType::Name()const{
-        return "string";
-    }
-    size_t StringMetaType::SizeOf()const{
-        return sizeof(char *);
-    }
-    const void StringMetaType::FromString(const std::string &str, void *outValue) const {
-        *(std::string *)outValue = str;
-    }
-    const std::string StringMetaType::ToString(const void *v) const {
-        return *(std::string *)v;
-    }
-    
-    const MetaType &GetMetaType(std::string) {
-        return gStringMetaType;
-    }
-    
-    //
     // integer Meta Types
     //
     struct NumericMetaType<U16> gUShortIntMetaType;
@@ -159,10 +137,5 @@ namespace bde {
     
     const MetaType &GetMetaType(void) {
         return gVoidMetaType;
-    }
-    
-    template<>
-    const MetaType &GetMetaTypeByType<void>() {
-        return GetMetaType();
     }
 }

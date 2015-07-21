@@ -57,6 +57,27 @@ namespace bde {
         return mQuaternion.w;
     }
 
+    /* ************
+     * Operations *
+     * ***********/
+    bool Quaternion::operator==(const Quaternion &q) const{
+        return mQuaternion == q.mQuaternion;
+    }
+    
+    bool Quaternion::operator!=(const Quaternion &q) const{
+        return !(*this == q);
+    }
+    
+    Quaternion Quaternion::operator*(const Quaternion &q) const{
+        Quaternion quat = mQuaternion * q.mQuaternion;
+        return quat;
+    }
+    
+    Vector3 Quaternion::operator*(const Vector3 &v) const{
+        auto vec = mQuaternion*glm::vec3(v.X(), v.Y(), v.Z());
+        return Vector3(vec.x, vec.y, vec.z);
+    }
+    
     /* ****************
      * Static Methods *
      * ***************/
@@ -94,5 +115,14 @@ namespace bde {
                           rotationAxis.z * invs,
                           s * 0.5f
                          );
+    }
+    
+    Quaternion Quaternion::FromEulerAngles(const Vector3 &eulerAngles){
+        Quaternion q;
+        q.mQuaternion = glm::quat(glm::vec3(eulerAngles.X(),
+                                            eulerAngles.Y(),
+                                            eulerAngles.Z()));
+        
+        return q;
     }
 } // namespace bde

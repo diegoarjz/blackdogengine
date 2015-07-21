@@ -9,15 +9,18 @@
 #include "RenderingDevice.h"
 
 namespace bde {
+    class ShaderAttribute;
+    typedef std::shared_ptr<ShaderAttribute> ShaderAttributePtr;
     
-    typedef std::function<void (RenderingDevicePtr)> SetValueFunction;
     /**
      * A shader attribute is an engine defined value for a shader uniform.
      *
      * Examples of this are the projection, model and view matrices.
      */
-    class ShaderAttribute : public Bindable{
+    class ShaderAttribute : public Bindable, public std::enable_shared_from_this<ShaderAttribute>{
     public:
+        typedef std::function<void (ShaderAttributePtr, RenderingDevicePtr, GameObjectPtr)> SetValueFunction;
+        
         enum Semantics{
             // Transforms
             ModelMatrix,
@@ -45,10 +48,13 @@ namespace bde {
         std::string GetNameInShader() const;
         Semantics GetSemantics() const;
         
-        void SetValue(RenderingDevicePtr r);
+        void SetValue(RenderingDevicePtr r, GameObjectPtr go);
     }; // class ShaderAttribute
-    
-    typedef std::shared_ptr<ShaderAttribute> ShaderAttributePtr;
 } // namespace ShaderAttribute
 
+#else
+namespace bde{
+    class ShaderAttribute;
+    typedef std::shared_ptr<ShaderAttribute> ShaderAttributePtr;
+}
 #endif /* defined(__BlackDogEngine__ShaderAttribute__) */

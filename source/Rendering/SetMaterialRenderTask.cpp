@@ -4,8 +4,9 @@ namespace bde{
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    SetMaterialRenderTask::SetMaterialRenderTask(MaterialPtr material){
+    SetMaterialRenderTask::SetMaterialRenderTask(MaterialPtr material, GameObjectPtr gameObject){
         mMaterial = material;
+        mGameObject = gameObject;
     }
     
     SetMaterialRenderTask::~SetMaterialRenderTask(){
@@ -13,6 +14,7 @@ namespace bde{
     }
     
     void SetMaterialRenderTask::Execute(RenderingDevicePtr device){
-        device->SetMaterial( mMaterial );
+        // the material also needs some information from the game object
+        device->SetMaterial( mMaterial, mGameObject );
     }
 }

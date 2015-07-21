@@ -4,24 +4,20 @@
 #include <string>
 
 #include "../Object.h"
-#include "BindingInfo.h"
+#include "Bindable.h"
 
 namespace bde {
 
     /**
-     * Holds shader information.
-     *
-     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
-     * @date    28 May 2015
+     * Holds shader source and type information.
      */
-    class Shader :public Object {
+    class Shader :public Object, public Bindable {
       public:
         enum class ShaderType {
             Vertex, Fragment, Geometry, MAX_SHADER_TYPES
         }; // enum class ShaderType
       private:
         std::string     mSource;        ///< Shader's source code.
-        BindingInfoPtr  mBindingInfo;   ///< Video memory binding information.
         ShaderType      mShaderType;    ///< The type of shader.
       public:
         RTTI_DECL
@@ -38,8 +34,6 @@ namespace bde {
         std::string     GetSource() const;
         void            SetSource(const std::string &source);
         ShaderType      GetShaderType() const;
-        BindingInfoPtr  GetBindingInfo();
-        void            SetBindingInfo(BindingInfoPtr bi);
     }; // class Shader
 
     typedef std::shared_ptr<Shader> ShaderPtr;

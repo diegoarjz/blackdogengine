@@ -27,12 +27,4 @@ namespace bde {
     Shader::ShaderType      Shader::GetShaderType() const {
         return mShaderType;
     }
-
-    BindingInfoPtr  Shader::GetBindingInfo() {
-        return mBindingInfo;
-    }
-
-    void            Shader::SetBindingInfo(BindingInfoPtr bi) {
-        mBindingInfo = bi;
-    }
 } // namespace bde

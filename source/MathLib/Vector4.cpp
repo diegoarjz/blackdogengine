@@ -92,6 +92,10 @@ namespace bde {
     Vector4 Vector4::operator*(const REAL &s) {
         return mVector*s;
     }
+    
+    Vector4 Vector4::operator/(const REAL &s) {
+        return mVector/s;
+    }
 
     Vector4 Vector4::operator*(const Matrix4 &m) {
         glm::mat4 mat = m;

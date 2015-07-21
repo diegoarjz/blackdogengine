@@ -3,6 +3,7 @@
 
 #include "RenderTask.h"
 #include "Material.h"
+#include "../GameObject.h"
 
 namespace bde {
     
@@ -13,11 +14,12 @@ namespace bde {
     class SetMaterialRenderTask : public RenderTask {
     private:
         MaterialPtr mMaterial;
+        GameObjectPtr mGameObject;
     public:
         /* ****************************
          * Construction & Destruction *
          * ***************************/
-        SetMaterialRenderTask(MaterialPtr material);
+        SetMaterialRenderTask(MaterialPtr material, GameObjectPtr gameObject);
         virtual ~SetMaterialRenderTask();
         
         virtual void Execute(RenderingDevicePtr device);

@@ -16,6 +16,7 @@
 #include "Matrix3.h"
 #include "Vector4.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 namespace bde {
     class Matrix4 {
@@ -46,6 +47,11 @@ namespace bde {
          * | 0  1 |
          */
         Matrix4(const Matrix3 &m3);
+        /**
+         * Constructs a rotation matrix equivalent to the 
+         * quaternion.
+         */
+        Matrix4(const Quaternion &q);
         ~Matrix4();
 
 #if GLM_COMPATIBLE == 1
@@ -87,6 +93,10 @@ namespace bde {
       public: // static methods
 
         /**
+         * Creates a scale matrix.
+         */
+        static Matrix4 ScaleMatrix(const Vector3 &scaleVector);
+        /**
          * Creates a Scale Matrix.
          * @param x The amount to scale along x.
          * @param y The amount to scale along y.
@@ -112,8 +122,7 @@ namespace bde {
          * @param z The amount to translate along z.
          * @returns A Translation Matrix
          */
-        static Matrix4 TranslationMatrix(const float &x, const float &y,
-                                         const float &z);
+        static Matrix4 TranslationMatrix(const float &x, const float &y,const float &z);
         /**
          * Creates a Translation Matrix.
          * @param translation The translation vector.

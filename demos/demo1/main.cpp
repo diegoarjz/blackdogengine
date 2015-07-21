@@ -16,18 +16,20 @@
 #include "../../source/Rendering/DrawGeometryRenderTask.h"
 #include "../../source/Rendering/SetMaterialRenderTask.h"
 #include "../../source/Rendering/ShaderUniform.h"
+#include "../../source/TransformationSubsystem.h"
+#include "../../source/GameObject.h"
 
 using namespace bde;
 
 std::string vertShaderSource ="#version 150 \n \
 in vec3 position; \n \
+uniform mat4 model; \n \
 void main() \n \
 { \n \
-    gl_Position = vec4(position, 1.0); \n \
+    gl_Position = model*vec4(position, 1.0); \n \
 }";
 
 std::string fragShaderSource = "#version 150 \n \
-\n \
 out vec4 outColor; \n \
 uniform vec3 color; \n \
 void main() \n \
@@ -47,6 +49,14 @@ class GameLoop : public Thread{
             float g = 0;
             float b = 0;
             
+            TransformationSubsystem transformSS;
+            
+            // Create Game Object
+            GameObjectPtr go = std::make_shared<GameObject>();
+            go->SetComponent<TransformComponent>(transformSS.CreateComponent());
+            auto transformComponent = go->GetComponent<TransformationSubsystem, TransformComponent>();
+            transformComponent->Translate(0.4, 0, 0);
+            
             // Load Shader
             ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
             vertShader->SetSource( vertShaderSource );
@@ -59,6 +69,8 @@ class GameLoop : public Thread{
             shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
             shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
             shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform<ColorRGB>>("color") );
+            
+            shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ModelMatrix, "model");
             
             auto loadShader = std::make_shared<LoadShaderRenderTask>(shaderProgram);
             auto setShader  = std::make_shared<SetShaderRenderTask>(shaderProgram);
@@ -86,7 +98,7 @@ class GameLoop : public Thread{
             // Material
             MaterialPtr material = std::make_shared<Material>(shaderProgram);
             auto colorUniform = material->GetUniform<ColorRGB>("color");
-            auto setMaterial = std::make_shared< SetMaterialRenderTask >(material);
+            auto setMaterial = std::make_shared< SetMaterialRenderTask >(material, go);
 
             Time start;
             Time last;

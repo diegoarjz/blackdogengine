@@ -3,6 +3,7 @@
 
 #include "Variable.h"
 #include "../DataTypes.h"
+#include "Cast.h"
 
 namespace bde {
     //
