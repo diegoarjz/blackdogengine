@@ -15,7 +15,7 @@ namespace bde {
     }
     
     void BlackDogEngine::Destroy() {
-
+        
     }
 
     BlackDogEngine::BlackDogEngine() {
@@ -25,6 +25,9 @@ namespace bde {
     }
 
     void BlackDogEngine::Update(const F64 &dT) {
+        for (auto subsystem : mSubsystems){
+            subsystem->Update(dT);
+        }
     }
 
     /* ******************************
@@ -33,9 +36,16 @@ namespace bde {
     void BlackDogEngine::Init() {
         initLoggers();
         LOG_INFO("Initializing Black Dog Engine");
+        
+        for(auto subsystem : mSubsystems){
+            subsystem->Init();
+        }
     }
 
     void BlackDogEngine::Terminate() {
+        for (auto subsystem : mSubsystems){
+            subsystem->Terminate();
+        }
     }
 
     void BlackDogEngine::initLoggers() {
@@ -45,5 +55,9 @@ namespace bde {
                                   std::make_shared<Logger>(std::cout));
         Logger::SetLoggerForLevel(Logger::LoggerLevel::Error,
                                   std::make_shared<Logger>(std::cout));
+    }
+    
+    void BlackDogEngine::AddSubsystem(SubsystemPtr subsystem){
+        mSubsystems.push_back(subsystem);
     }
 }

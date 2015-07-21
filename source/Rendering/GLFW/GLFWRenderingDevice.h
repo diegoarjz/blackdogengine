@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include "../RenderingDevice.h"
 #include "../Bindable.h"
+#include "../../GameObject.h"
 
 namespace bde {
 
@@ -48,36 +49,27 @@ namespace bde {
         /* ******************
          * Geometry Loading *
          * *****************/
-        virtual void            LoadGeometry(GeometryBasePtr geometry)
-        override;
-        virtual void            BindVertexArray(BindingInfoPtr bi)
-        override;
-        virtual BindingInfoPtr  CreateVertexBuffer()
-        override;
-        virtual void            BindVertexBuffer(BindingInfoPtr bi)
-        override;
-        virtual void            LoadDataToVertexBuffer(BindingInfoPtr bi,
-                GeometryBasePtr geometry) override;
-        virtual void            UnbindVertexBuffer(BindingInfoPtr bi)
-        override;
-        virtual void            DeleteVertexBuffer(BindingInfoPtr bi)
-        override;
-        virtual void            LoadElementBuffer(ElementDataSourcePtr elements)
-        override;
-        virtual void            DrawElements(ElementDataSourcePtr elements)
-        override;
+        virtual void LoadGeometry(GeometryBasePtr geometry)override;
+        virtual void BindVertexArray(BindingInfoPtr bi)override;
+        virtual BindingInfoPtr  CreateVertexBuffer()override;
+        virtual void BindVertexBuffer(BindingInfoPtr bi)override;
+        virtual void LoadDataToVertexBuffer(BindingInfoPtr bi, GeometryBasePtr geometry) override;
+        virtual void UnbindVertexBuffer(BindingInfoPtr bi)override;
+        virtual void DeleteVertexBuffer(BindingInfoPtr bi)override;
+        virtual void LoadElementBuffer(ElementDataSourcePtr elements)override;
+        virtual void DrawElements(ElementDataSourcePtr elements)override;
 
         /* *********
          * Shaders *
          * ********/
-        virtual void    LoadShaderProgram(ShaderProgramPtr shaderProgram) override;
-        virtual void    LoadShader(ShaderPtr shader) override;
-        virtual void    SetShaderProgram(ShaderProgramPtr shaderProgram) override;
+        virtual void LoadShaderProgram(ShaderProgramPtr shaderProgram) override;
+        virtual void LoadShader(ShaderPtr shader) override;
+        virtual void SetShaderProgram(ShaderProgramPtr shaderProgram) override;
         
         /* ***********
          * Materials *
          * **********/
-        virtual void SetMaterial(MaterialPtr material) override;
+        virtual void SetMaterial(MaterialPtr material, GameObjectPtr go) override;
 
         /* *****************
          * Uniform Setting *
@@ -92,6 +84,18 @@ namespace bde {
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m) override;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) override;
         
+        /* *******************
+         * Shader Attributes *
+         * ******************/
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const float &f) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2 &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3 &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4 &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGB &c) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGBA &c) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m) override;
     private:
         void loadUniform(ShaderProgramPtr shader, std::shared_ptr<Bindable> uniform, const std::string &name);
     }; // class GLFWRenderingDevice

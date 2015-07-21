@@ -51,6 +51,10 @@ namespace bde {
                             0,           0,           0, 1);
     }
 
+    Matrix4::Matrix4(const Quaternion &q){
+        mMatrix = glm::toMat4(glm::quat(q.W(), q.X(), q.Y(), q.Z()));
+    }
+    
     Matrix4::~Matrix4() {
     }
 
@@ -143,6 +147,12 @@ namespace bde {
 
     Matrix4 Matrix4::TranslationMatrix(const Vector3 &vector) {
         return Matrix4::TranslationMatrix(vector.X(), vector.Y(), vector.Z());
+    }
+    
+    Matrix4 Matrix4::ScaleMatrix(const Vector3 &scaleVector){
+        return ScaleMatrix(scaleVector.X(),
+                           scaleVector.Y(),
+                           scaleVector.Z());
     }
 
     std::ostream &operator<< (std::ostream &o, const Matrix4 &m) {

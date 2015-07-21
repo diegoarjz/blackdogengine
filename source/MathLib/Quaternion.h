@@ -44,11 +44,20 @@ namespace bde {
         REAL Y() const;
         REAL Z() const;
         REAL W() const;
+        
+        /* ************
+         * Operations *
+         * ***********/
+        bool operator==(const Quaternion &q) const;
+        bool operator!=(const Quaternion &q) const;
+        Quaternion operator*(const Quaternion &q) const;
+        Vector3 operator*(const Vector3 &v) const;
 
         /* ****************
          * Static Methods *
          * ***************/
         static Quaternion RotationBetweenVectors(const Vector3 &v1, const Vector3 &v2);
+        static Quaternion FromEulerAngles(const Vector3 &eulerAngles);
     };
 } // namespace bde
 

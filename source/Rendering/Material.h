@@ -6,6 +6,7 @@
 
 #include "ShaderProgram.h"
 #include "ShaderUniformValue.h"
+#include "ShaderAttribute.h"
 #include "../Debug/Logger.h"
 
 namespace bde {
@@ -29,7 +30,9 @@ namespace bde {
     public:
         typedef std::map<std::string, ShaderUniformValuePtr> UniformValueTable;
     private:
+        /// The shader responsible for rendering.
         ShaderProgramPtr mShaderProgram;
+        /// The user-defined uniforms.
         UniformValueTable mUniformValues;
     public:
         /* ****************************

@@ -3,6 +3,7 @@
 
 #include "../DataTypes.h"
 #include "MetaType.h"
+#include "GetMetaTypeByType.h"
 
 namespace bde {
     

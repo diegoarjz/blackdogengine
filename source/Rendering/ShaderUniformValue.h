@@ -15,6 +15,7 @@ namespace bde {
      */
     class ShaderUniformValueBase{
     protected:
+        /// Same as the name in shader.
         std::string mName;
         ShaderUniformPtr mShaderUniform;
     public:
@@ -26,6 +27,9 @@ namespace bde {
     
     /**
      * Templated shader uniform value to hold different types of values.
+     *
+     * While the ShaderUniformValueBase class holds the information about the shader uniform, 
+     * this templated class holds information about the value that uniform has.
      */
     template<typename T>
     class ShaderUniformValue : public ShaderUniformValueBase{
