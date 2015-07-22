@@ -46,6 +46,7 @@ namespace bde {
         //return (kDelta.tv_sec*1000000 + kDelta.tv_usec);
         return (1000*(double)(tv.tv_sec) + (double)(tv.tv_usec)/1000);
 #elif __linux
+        struct timeval tv;
 
         if( gettimeofday(&tv, NULL) < 0 ) {
             throw std::runtime_error("Could not get time of day.");

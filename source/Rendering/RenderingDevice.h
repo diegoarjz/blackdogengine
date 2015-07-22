@@ -1,6 +1,8 @@
 #ifndef RENDERING_DEVICE_H_
 #define RENDERING_DEVICE_H_
 
+#include <memory>
+
 #include "../DataTypes.h"
 #include "../MathLib/ColorRGB.h"
 #include "../Geometry/Geometry.h"

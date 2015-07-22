@@ -16,18 +16,18 @@ public:
   }
 private:
   void BlackDogEngine_TestCreation(){
-    TEST_ASSERT_MSG(bde::BlackDogEngine::GetInstance() == nullptr, "Engine Instance should be null before creation.");
+    TEST_ASSERT_MSG(bde::BlackDogEngine::Instance() == nullptr, "Engine Instance should be null before creation.");
 
     bde::BlackDogEnginePtr engine = bde::BlackDogEngine::Create();
     engine->Init();
 
     TEST_ASSERT_MSG(engine != nullptr, "Engine Instance should have been created.");
-    TEST_ASSERT_MSG(engine == bde::BlackDogEngine::GetInstance(), "The singleton instance should be the one created.");
+    TEST_ASSERT_MSG(engine == bde::BlackDogEngine::Instance(), "The singleton instance should be the one created.");
     TEST_THROWS_ANYTHING_MSG( bde::BlackDogEngine::Create(), "Should not be possible to create more instances.");
 
     bde::BlackDogEngine::Destroy();
 
-    TEST_ASSERT_MSG(bde::BlackDogEngine::GetInstance() == nullptr, "Should have destroyed the singleton instance.");
+    TEST_ASSERT_MSG(bde::BlackDogEngine::Instance() == nullptr, "Should have destroyed the singleton instance.");
   }
 
   void BlackDogEngine_MultipleCreations(){
@@ -38,7 +38,7 @@ private:
     engine = bde::BlackDogEngine::Create();
 
     TEST_ASSERT_MSG(engine != nullptr, "Engine should have been recreated.");
-    TEST_ASSERT_MSG(engine == bde::BlackDogEngine::GetInstance(), "Singleton instance should be equal to created instance.");
+    TEST_ASSERT_MSG(engine == bde::BlackDogEngine::Instance(), "Singleton instance should be equal to created instance.");
 
     bde::BlackDogEngine::Destroy();
   }

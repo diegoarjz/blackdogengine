@@ -2,6 +2,7 @@
 #define BINDINGINFO_H_
 
 #include <ostream>
+#include <memory>
 
 #include "../DataTypes.h"
 

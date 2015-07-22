@@ -2,7 +2,7 @@
 #define LOGGER_H_
 
 #include <ostream>
-
+#include <memory>
 
 namespace bde {
 

@@ -32,7 +32,7 @@ namespace bde {
         const MetaType *ReturnType() const;
         const MetaType *ArgumentType(U32 index) const;
         U32 ArgumentsCount() const;
-        const FunctionSignature& FunctionSignature() const;
+        const FunctionSignature& GetFunctionSignature() const;
         
         void Apply(Variable ret, Variable *args, U32 argsCount ) const;
     }; // class MetaFunction
@@ -53,6 +53,6 @@ bde::MetaFunction gMetaFunction_##f(#f, f)
 
 #else
 namespace bde{
-    class MetaFunction;;
+    class MetaFunction;
 } // namespace bde
 #endif

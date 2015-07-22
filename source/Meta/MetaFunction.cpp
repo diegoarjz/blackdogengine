@@ -25,7 +25,7 @@ namespace bde {
         return mSignature.ArgumentsCount();
     }
     
-    const FunctionSignature& MetaFunction::FunctionSignature() const{
+    const FunctionSignature& MetaFunction::GetFunctionSignature() const{
         return mSignature;
     }
     
@@ -34,7 +34,7 @@ namespace bde {
     }
 
     void PrintMetaFunction(MetaFunction mf) {
-        PrintFunctionSignature( mf.FunctionSignature(), mf.Name() );
+        PrintFunctionSignature( mf.GetFunctionSignature(), mf.Name() );
     }
     
     void PrintAllMetaFunctions(){

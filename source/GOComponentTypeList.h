@@ -1,7 +1,7 @@
 #ifndef BlackDogEngine_GOComponentTypeList_h
 #define BlackDogEngine_GOComponentTypeList_h
 
-#include "meta/TypeList.h"
+#include "Meta/TypeList.h"
 
 #include "TransformComponent.h"
 #include "Camera.h"
