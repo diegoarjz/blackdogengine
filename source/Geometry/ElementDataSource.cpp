@@ -1,5 +1,7 @@
 #include "ElementDataSource.h"
 
+#include <cstring>
+
 namespace bde {
     ElementDataSource::ElementDataSource(const U32 *elements,
                                          const PrimitiveType &primitiveType,

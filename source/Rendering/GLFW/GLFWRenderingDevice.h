@@ -1,7 +1,11 @@
 #ifndef GLFWRENDERINGDEVICE_H_
 #define GLFWRENDERINGDEVICE_H_
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GL/gl.h>
 #include <GLFW/glfw3.h>
+
 #include "../RenderingDevice.h"
 #include "../Bindable.h"
 #include "../../GameObject.h"

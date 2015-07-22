@@ -1,6 +1,5 @@
 #include "GLFWRenderingDevice.h"
 
-#include <OpenGL/GL3.h>
 
 #include "../../Debug/Logger.h"
 #include "../ShaderProgram.h"
@@ -60,6 +59,9 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         }
         
         glfwMakeContextCurrent(mWindow);
+        
+        glewExperimental = GL_TRUE;
+        glewInit();
     }
     
     void GLFWRenderingDevice::CreateFullScreen() {
