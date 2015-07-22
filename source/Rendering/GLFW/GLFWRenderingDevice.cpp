@@ -1,5 +1,10 @@
 #include "GLFWRenderingDevice.h"
 
+#ifdef __APPLE__
+
+#include <OpenGL/GL3.h>
+
+#endif
 
 #include "../../Debug/Logger.h"
 #include "../ShaderProgram.h"
@@ -60,8 +65,10 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         
         glfwMakeContextCurrent(mWindow);
         
+#ifdef __linux
         glewExperimental = GL_TRUE;
         glewInit();
+#endif
     }
     
     void GLFWRenderingDevice::CreateFullScreen() {

@@ -9,8 +9,11 @@ LINK_DIRECTORIES("/usr/local/lib/")
 
 IF(APPLE)
     INCLUDE_DIRECTORIES ( /System/Library/Frameworks )
-    #LINK_DIRECTORIES( /System/Library/Frameworks/OpenGL.framework/Libraries )
-    #LINK_DIRECTORIES( /System/Library/Frameworks/Cocoa.framework/Versions/Current )
+
+    FIND_PACKAGE(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+    include_directories(${GLFW_INCLUDE_DIRS})
+
     FIND_LIBRARY(COCOA_LIBRARY Cocoa)
     FIND_LIBRARY(OpenGL_LIBRARY OpenGL )
     FIND_LIBRARY(IOKit_LIBRARY IOKit)
@@ -20,14 +23,10 @@ IF(APPLE)
                       CoreVideo_LIBRARY
                       OpenGL_LIBRARY)
 
-    SET( EXTRA_LIBRARIES COCOA_LIBRARY OpenGL_LIBRARY IOKit_LIBRARY CoreVideo_LIBRARY )
+                  SET( EXTRA_LIBRARIES ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKit_LIBRARY} ${CoreVideo_LIBRARY}
+                      ${GLFW_STATIC_LIBRARIES})
 ELSEIF(UNIX)
     FIND_PACKAGE(PkgConfig REQUIRED)
-    #    FIND_LIBRARY(OpenGL_LIBRARY GL )
-    #FIND_LIBRARY(X11_LIBRARY X11)
-    #FIND_LIBRARY(XXF86VM_LIBRARY Xxf86vm)
-    #FIND_LIBRARY(XRANDR_LIBRARY xrandr)
-    #FIND_LIBRARY(XI_LIBRARY xi)
     pkg_search_module(GLFW REQUIRED glfw3)
     include_directories(${GLFW_INCLUDE_DIRS})
 

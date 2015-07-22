@@ -1,10 +1,19 @@
 #ifndef GLFWRENDERINGDEVICE_H_
 #define GLFWRENDERINGDEVICE_H_
 
+#ifdef __APPLE__
+
+#include <OpenGL/GL.h>
+#include <GLFW/glfw3.h>
+
+#elif __linux
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+
+#endif
 
 #include "../RenderingDevice.h"
 #include "../Bindable.h"
