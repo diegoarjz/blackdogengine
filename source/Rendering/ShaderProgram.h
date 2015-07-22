@@ -50,6 +50,7 @@ namespace bde {
         ShaderAttributePtr BindSemanticsToName(const ShaderAttribute::Semantics &semantics, const std::string &nameInShader);
         ShaderAttributePtr GetAttributeForSemantics(const ShaderAttribute::Semantics &semantics) const;
 
+        void AddShaderUniform(ShaderUniformPtr uniform);
         std::vector<ShaderUniformPtr>& CustomUniforms();
     }; // class ShaderProgram
 

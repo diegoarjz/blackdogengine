@@ -2,7 +2,6 @@
 #define __BlackDogEngine__GOComponent__
 
 #include "Object.h"
-#include "GOComponentTypes.h"
 
 namespace bde{
     class GameObject;
@@ -13,7 +12,7 @@ namespace bde{
      * Abstract class for a game object component
      */
     class GOComponent : public Object{
-    private:
+    protected:
         GameObjectWeakPtr mParentGameObject;
     public:
         RTTI_DECL
@@ -29,7 +28,7 @@ namespace bde{
          * ******************/
         void SetParentGameObject(GameObjectPtr go);
         GameObjectPtr GetParentGameObject() const;
-        virtual GOComponentTypes GetComponentType() const = 0;
+//        virtual GOComponentTypes GetComponentType() const = 0;
         
         friend class GameObject;
     }; // class GOComponent

@@ -13,8 +13,8 @@ namespace bde {
     SetShaderRenderTask::~SetShaderRenderTask() {
     }
 
-    void SetShaderRenderTask::Execute(RenderingDevicePtr device) {
+    void SetShaderRenderTask::Execute(RendererPtr renderer) {
         //        LOG_INFO("Running Set Shader");
-        device->SetShaderProgram( mShader.lock() );
+        renderer->GetRenderingDevice()->SetShaderProgram( mShader.lock() );
     }
 }

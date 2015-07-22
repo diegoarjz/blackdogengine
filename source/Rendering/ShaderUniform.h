@@ -45,6 +45,12 @@ namespace bde {
      * Because uniforms in shaders are typed, the templated class provides a way to
      * capture those types while, at the same type, providing a method to easily create
      * a typed shader uniform value which can be modified by the user.
+     *
+     * To populate a shader program with shader uniforms, one can do the following:
+     *
+     * ShaderProgramPtr program = ...
+     * ShaderUniformPtr uniform = std::make_shared<ShaderUniform>(uniformNameInShader);
+     * program->AddShaderUniform(uniform);
      */
     template<typename T>
     class ShaderUniform : public ShaderUniformBase, public std::enable_shared_from_this<ShaderUniform<T>>{

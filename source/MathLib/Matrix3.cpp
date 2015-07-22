@@ -27,6 +27,10 @@ namespace bde {
                             m10, m11, m12,
                             m20, m21, m22);
     }
+    
+    Matrix3::Matrix3(const Quaternion &q){
+        mMatrix = glm::toMat3((glm::quat)q);
+    }
 
     Matrix3::~Matrix3() {
     }

@@ -19,20 +19,20 @@ namespace bde{
     
     void TransformationSubsystem::Update(const TIME_T &delta){
         for(auto component : mComponents){
-            if (component.NeedsUpdate()) {
-                component.CalculateLocalToParentMatrix();
+            if (component->NeedsUpdate()) {
+                component->CalculateLocalToParentMatrix();
             }
         }
     }
     
-    std::shared_ptr<TransformationSubsystem::transform_handle_t> TransformationSubsystem::CreateComponent(){
-#warning TODO: the id calculation is not correct.
-        mComponents.push_back( TransformComponent() );
+    TransformComponentPtr TransformationSubsystem::CreateComponent(){
+        auto component = std::make_shared<TransformComponent>();
+        mComponents.push_back( component );
         
-        return std::make_shared<transform_handle_t>(this, mComponents.size()-1);
+        return component;
     }
     
-    TransformComponent* TransformationSubsystem::GetComponentForID(const U32 &componentId){
-        return &(mComponents[componentId]);
+    TransformComponentPtr TransformationSubsystem::GetComponentForID(const U32 &componentId){
+        return mComponents[componentId];
     }
 }

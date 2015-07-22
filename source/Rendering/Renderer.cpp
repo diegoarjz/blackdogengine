@@ -33,6 +33,14 @@ namespace bde {
     void                Renderer::SetRenderPool(RenderPoolPtr renderPool) {
         mRenderPool = renderPool;
     }
+    
+    CameraPtr Renderer::GetCurrentCamera() const{
+        return mCurrentCamera;
+    }
+    
+    void Renderer::SetCurrentCamera(CameraPtr cam){
+        mCurrentCamera = cam;
+    }
 
     void Renderer::Start() {
         // check that we have a rendering device
@@ -61,7 +69,7 @@ namespace bde {
             while(!pool.empty()) {
                 auto task = pool.front();
                 pool.pop();
-                task->Execute( mRenderingDevice );
+                task->Execute( shared_from_this() );
             }
 
             mRenderingDevice->SwapBuffers();

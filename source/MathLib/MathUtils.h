@@ -1,11 +1,3 @@
-//
-//  MathUtils.h
-//  BDEMath
-//
-//  Created by Diego Jesus on 10/09/14.
-//  Copyright (c) 2014 BlackDogEngine. All rights reserved.
-//
-
 #ifndef __BDEMath__MathUtils__
 #define __BDEMath__MathUtils__
 
@@ -37,6 +29,8 @@ namespace bde {
          * Calculates the 3D centroid of a list of points.
          */
         static Vector3 Centroid(std::list<Vector3> points);
+        
+        static REAL ToRadians(const REAL &degree);
     };
 } // namespace bde
 #else

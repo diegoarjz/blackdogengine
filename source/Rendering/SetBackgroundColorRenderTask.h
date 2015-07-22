@@ -18,7 +18,7 @@ namespace bde {
         SetBackgroundColorRenderTask(const ColorRGB &backgroundColor);
         virtual ~SetBackgroundColorRenderTask();
 
-        virtual void Execute(RenderingDevicePtr device) override;
+        virtual void Execute(RendererPtr renderer) override;
 
     }; // class SetBackgroundColorRenderTask
 } // namespace bde

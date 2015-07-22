@@ -4,10 +4,11 @@
 #include "meta/TypeList.h"
 
 #include "TransformComponent.h"
+#include "Camera.h"
 
 namespace bde {
     struct GOComponentTypeList{
-        typedef TYPE_LIST((TransformComponent)) gocTypeList;
+        typedef TYPE_LIST((TransformComponent, Camera)) gocTypeList;
         
         static const U32 componentCount = TypeListCount<gocTypeList>::value;
         

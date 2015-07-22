@@ -23,7 +23,7 @@ namespace bde {
         SetShaderRenderTask(ShaderProgramPtr shader);
         virtual ~SetShaderRenderTask();
 
-        virtual void Execute(RenderingDevicePtr device);
+        virtual void Execute(RendererPtr renderer) override;
     }; // class SetShaderRenderTask
 
 } // namespace bde

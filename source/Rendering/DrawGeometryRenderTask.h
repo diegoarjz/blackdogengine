@@ -22,7 +22,7 @@ namespace bde {
         DrawGeometryRenderTask(GeometryPtr mGeometry);
         virtual ~DrawGeometryRenderTask();
 
-        virtual void Execute(RenderingDevicePtr device);
+        virtual void Execute(RendererPtr renderer) override;
 
     }; // class DrawGeometryRenderTask
 
