@@ -20,11 +20,27 @@ IF(APPLE)
                       CoreVideo_LIBRARY
                       OpenGL_LIBRARY)
 
-    MESSAGE(STATUS "Extra Libs: " ${EXTRA_LIBS})
-    MESSAGE(STATUS "Cocoa: " ${COCOA_LIBRARY})
-    MESSAGE(STATUS "OpenGL: " ${OpenGL_LIBRARY})
-    MESSAGE(STATUS "IOKit: " ${IOKit_LIBRARY})
-    MESSAGE(STATUS "CoreVideo: " ${CoreVideo_LIBRARY})
+    SET( EXTRA_LIBRARIES COCOA_LIBRARY OpenGL_LIBRARY IOKit_LIBRARY CoreVideo_LIBRARY )
+ELSEIF(UNIX)
+    FIND_PACKAGE(PkgConfig REQUIRED)
+    #    FIND_LIBRARY(OpenGL_LIBRARY GL )
+    #FIND_LIBRARY(X11_LIBRARY X11)
+    #FIND_LIBRARY(XXF86VM_LIBRARY Xxf86vm)
+    #FIND_LIBRARY(XRANDR_LIBRARY xrandr)
+    #FIND_LIBRARY(XI_LIBRARY xi)
+    pkg_search_module(GLFW REQUIRED glfw3)
+    include_directories(${GLFW_INCLUDE_DIRS})
+
+    find_package(GLEW REQUIRED)
+    if (GLEW_FOUND)
+        include_directories(${GLEW_INCLUDE_DIRS})
+        link_libraries(${GLEW_LIBRARIES})
+    endif()
+
+    #SET( EXTRA_LIBRARIES GLFW_LIBRARIES OpenGL_LIBRARY X11_LIBRARY XXF86VM_LIBRARY XRANDR_LIBRARY XI_LIBRARY )
+    SET( EXTRA_LIBRARIES ${GLFW_STATIC_LIBRARIES} ${GLEW_LIBRARIES} )
+    MESSAGE( STATUS "HERE" )
+    MESSAGE( STATUS ${EXTRA_LIBRARIES} )
 ENDIF (APPLE)
 
 
@@ -38,9 +54,6 @@ enable_testing()
 add_subdirectory(source)
 add_subdirectory(tests)
 add_subdirectory(demos)
-
-set_property(TARGET blackdogengine PROPERTY CXX_STANDARD 11)
-set_property(TARGET bdemath PROPERTY CXX_STANDARD 11)
 
 add_test(NAME BlackDogEngine    COMMAND UnitTest BlackDogEngine)
 add_test(NAME Geometry          COMMAND UnitTest Geometry)

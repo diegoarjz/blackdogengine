@@ -4,7 +4,6 @@
 #include <ostream>
 #include <memory>
 
-
 namespace bde {
 
 #define LOG_DEBUG(MSG)  LOG(bde::Logger::LoggerLevel::Debug, MSG)
