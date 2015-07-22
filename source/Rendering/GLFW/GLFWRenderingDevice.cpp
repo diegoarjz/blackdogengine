@@ -113,8 +113,7 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         LoadDataToVertexBuffer(bi, geometry);
         geometry->SetBindingInfo( bi );
         
-        for(int i=0; i<(int)VertexDataSourceSemantics::MAX_VERTEX_DATA_SOURCE_SEMANTICS;
-            ++i) {
+        for(int i=0; i<(int)VertexDataSourceSemantics::MAX_VERTEX_DATA_SOURCE_SEMANTICS; ++i) {
             auto vds = geometry->GetVertexDataSourceForSemantics( (VertexDataSourceSemantics) i );
             glEnableVertexAttribArray(i);
             CHECK_GL_ERROR;
@@ -215,6 +214,29 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         // Link and Bind the program
         glLinkProgram( programID );
         CHECK_GL_ERROR;
+        
+        // check link
+        GLint isLinked = 0;
+        glGetProgramiv(programID, GL_LINK_STATUS, (int *)&isLinked);
+        if(isLinked == GL_FALSE)
+        {
+            GLint maxLength = 0;
+            glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &maxLength);
+            
+            //The maxLength includes the NULL character
+            std::vector<GLchar> infoLog(maxLength);
+            glGetProgramInfoLog(programID, maxLength, &maxLength, &infoLog[0]);
+            
+//            //We don't need the program anymore.
+//            glDeleteProgram(programID);
+//            //Don't leak shaders either.
+//            glDeleteShader(vertexShader);
+//            glDeleteShader(fragmentShader);
+            
+            //Use the infoLog as you see fit.
+            std::cout << &(infoLog[0]) << std::endl;
+        }
+        
         BindingInfoPtr bi = std::make_shared<BindingInfo>(programID);
         bi->Bind();
         shaderProgram->SetBindingInfo( bi );
@@ -233,6 +255,7 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
             
             loadUniform(shaderProgram, attribute, attribute->GetNameInShader());
         }
+        
         
         // detach and delete the shaders, so that they do not occupy driver memory
         for(int i=0; i<(int)Shader::ShaderType::MAX_SHADER_TYPES; ++i) {
@@ -262,6 +285,7 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
         GLuint shaderId = glCreateShader( sShaderTypes[ (int)
                                                        shader->GetShaderType() ] );
         const char *source = shader->GetSource().c_str();
+        
         glShaderSource(shaderId, 1, &source, NULL);
         CHECK_GL_ERROR;
         glCompileShader(shaderId);
@@ -276,44 +300,27 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
             char buffer[512];
             glGetShaderInfoLog(shaderId, 512, NULL, buffer);
             LOG_ERROR(buffer);
+            
+#warning TODO: can use the following to know buffer length
+            /*GLint logSize = 0;
+             glGetShaderiv(shader, GL_INFO_LOG_LENGTH​, &logSize);*/
         }
         
         BindingInfoPtr bi = std::make_shared<BindingInfo>(shaderId);
         shader->SetBindingInfo( bi );
+        
+#warning TODO: this does not belong here
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
+        glCullFace(GL_CW);
+        glDepthFunc(GL_LESS);
     }
     
     void GLFWRenderingDevice::SetShaderProgram(ShaderProgramPtr shaderProgram) {
         glUseProgram( shaderProgram->GetBindingInfo()->GetBindingID() );
         shaderProgram->GetBindingInfo()->Bind();
     }
-    
-    /* ***********
-     * Materials *
-     * **********/
-    void GLFWRenderingDevice::SetMaterial(MaterialPtr material, GameObjectPtr go){
-#warning TODO: only if it is not set yet
-        // First, set the shader program
-        SetShaderProgram(material->GetShaderProgram());
         
-        // then, set all custom uniforms
-        auto uniformsIter = material->UniformValuesBegin();
-        auto uniformsEndIter = material->UniformValuesEnd();
-        for(/**/; uniformsIter != uniformsEndIter; ++uniformsIter){
-            uniformsIter->second->Set( shared_from_this() );
-        }
-        
-        // and set the attributes
-        auto shaderProgram = material->GetShaderProgram();
-        // Load the attributes
-        for(int i=0; i<ShaderAttribute::Semantics::MAX_SEMANTICS; ++i){
-            auto attribute = shaderProgram->GetAttributeForSemantics((ShaderAttribute::Semantics)i);
-            
-            if(!attribute) continue;
-            
-            attribute->SetValue(shared_from_this(), go);
-        }
-    }
-    
     /* *****************
      * Uniform Setting *
      * ****************/
@@ -358,7 +365,7 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
     }
     
     void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m){
-        if(uniform->GetBindingInfo()->IsBound())
+        if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
             glUniformMatrix4fv(uniform->GetBindingInfo()->GetBindingID(), 1, GL_FALSE, (const GLfloat*)&m);
     }
     
@@ -406,7 +413,7 @@ std::cout << "Line: " << __LINE__ << " error #: " << error << std::endl;\
     }
     
     void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m){
-        if(attribute->GetBindingInfo()->IsBound())
+        if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
             glUniformMatrix4fv(attribute->GetBindingInfo()->GetBindingID(), 1, GL_FALSE, (const GLfloat*)&m);
     }
 } // GLFWRenderingDevice::namespace bde

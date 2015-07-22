@@ -6,21 +6,41 @@
 namespace bde{
     ShaderAttribute::SetValueFunction setValueFunctions[] = {
         // ModelMatrix
-        [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {
+        [](ShaderAttributePtr attr, RendererPtr r, GameObjectPtr go) {
             auto transformComponent = go->GetComponent<TransformComponent>();
             auto matrix = transformComponent->GetLocalToWorldMatrix();
-            r->SetAttributeValue(attr, matrix);
+            r->GetRenderingDevice()->SetAttributeValue(attr, matrix);
         },
         // ViewMatrix
-        [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {},
+        [](ShaderAttributePtr attr, RendererPtr r, GameObjectPtr go) {
+            auto cam = r->GetCurrentCamera();
+            auto matrix = cam->GetViewMatrix();
+            r->GetRenderingDevice()->SetAttributeValue(attr, matrix);
+        },
         // ProjectionMatrix
-        [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {},
+        [](ShaderAttributePtr attr, RendererPtr r, GameObjectPtr go) {
+            auto cam = r->GetCurrentCamera();
+            auto matrix = cam->GetProjectionMatrix();
+            r->GetRenderingDevice()->SetAttributeValue(attr, matrix);},
         // ModelViewMatrix
-        [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {},
+        [](ShaderAttributePtr attr, RendererPtr r, GameObjectPtr go) {
+            auto cam = r->GetCurrentCamera();
+            auto transformComponent = go->GetComponent<TransformComponent>();
+            auto model = transformComponent->GetLocalToWorldMatrix();
+            auto view = cam->GetViewMatrix();
+            r->GetRenderingDevice()->SetAttributeValue(attr, model*view);
+        },
         // ModelViewProjectionMatrix
-        [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {},
+        [](ShaderAttributePtr attr, RendererPtr r, GameObjectPtr go) {
+            auto cam = r->GetCurrentCamera();
+            auto transformComponent = go->GetComponent<TransformComponent>();
+            auto model = transformComponent->GetLocalToWorldMatrix();
+            auto view = cam->GetViewMatrix();
+            auto projection = cam->GetProjectionMatrix();
+            r->GetRenderingDevice()->SetAttributeValue(attr, model*view*projection);
+        },
         // NormalMatrix
-        [](ShaderAttributePtr attr, RenderingDevicePtr r, GameObjectPtr go) {},
+        [](ShaderAttributePtr attr, RendererPtr r, GameObjectPtr go) {},
     };
     
     ShaderAttribute::ShaderAttribute(const std::string &name,
@@ -42,7 +62,7 @@ namespace bde{
         return mSemantics;
     }
     
-    void ShaderAttribute::SetValue(RenderingDevicePtr r, GameObjectPtr go){
+    void ShaderAttribute::SetValue(RendererPtr r, GameObjectPtr go){
         mFunction(shared_from_this(), r, go);
     }
 } // namespace bde

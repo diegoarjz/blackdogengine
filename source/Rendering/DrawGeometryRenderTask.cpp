@@ -13,7 +13,9 @@ namespace bde {
     DrawGeometryRenderTask::~DrawGeometryRenderTask() {
     }
 
-    void DrawGeometryRenderTask::Execute(RenderingDevicePtr device) {
+    void DrawGeometryRenderTask::Execute(RendererPtr renderer) {
+        auto device = renderer->GetRenderingDevice();
+        
         device->BindVertexArray( mGeometry.lock()->GetVertexArrayBindingInfo() );
         device->DrawElements( mGeometry.lock()->GetElementDataSource() );
     }

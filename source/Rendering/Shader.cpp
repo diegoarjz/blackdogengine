@@ -16,7 +16,7 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    std::string Shader::GetSource() const {
+    const std::string& Shader::GetSource() const {
         return mSource;
     }
 

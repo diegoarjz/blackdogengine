@@ -22,7 +22,7 @@ namespace bde {
         SetMaterialRenderTask(MaterialPtr material, GameObjectPtr gameObject);
         virtual ~SetMaterialRenderTask();
         
-        virtual void Execute(RenderingDevicePtr device);
+        virtual void Execute(RendererPtr renderer) override;
     }; // class SetMaterialRenderTask
     
 } // namespace bde

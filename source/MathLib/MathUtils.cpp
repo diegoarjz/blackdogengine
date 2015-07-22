@@ -1,11 +1,3 @@
-//
-//  MathUtils.cpp
-//  BDEMath
-//
-//  Created by Diego Jesus on 10/09/14.
-//  Copyright (c) 2014 BlackDogEngine. All rights reserved.
-//
-
 #include "MathUtils.h"
 #include <cmath>
 #include <cassert>
@@ -40,5 +32,10 @@ namespace bde {
 
         centroid = centroid/points.size();
         return centroid;
+    }
+    
+    REAL MathUtils::ToRadians(const REAL &degree){
+#warning TODO: create a constant for Pi somewhere
+        return degree * 3.14159265358979323846 / 180;
     }
 } // namespace bde

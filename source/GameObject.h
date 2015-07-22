@@ -34,18 +34,24 @@ namespace bde{
         void Kill();
         bool IsAlive() const;
         
+        /**
+         * Based on the type of the component (in template parameters), 
+         * this function calculates the component index on the component array,
+         * casts it into the correct type and returns it.
+         *
+         * @see GOComponentTypeList
+         */
         template<typename ComponentType>
         std::shared_ptr<ComponentType> GetComponent(){
             auto compHandle = mComponents[ GOComponentTypeList::IndexOfType<ComponentType>() ];
-            
             auto comp = std::dynamic_pointer_cast<ComponentType>( compHandle );
-            
             return comp;
         }
         
         template<typename ComponentType>
         void SetComponent(std::shared_ptr<ComponentType> component){
             mComponents[ GOComponentTypeList::IndexOfType<ComponentType>() ] = component;
+            component->SetParentGameObject( std::dynamic_pointer_cast<GameObject>( shared_from_this() ) );
         }
         
     }; // class GameObject

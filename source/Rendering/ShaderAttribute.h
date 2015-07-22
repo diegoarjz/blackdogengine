@@ -6,7 +6,7 @@
 #include <functional>
 
 #include "Bindable.h"
-#include "RenderingDevice.h"
+#include "Renderer.h"
 
 namespace bde {
     class ShaderAttribute;
@@ -16,10 +16,18 @@ namespace bde {
      * A shader attribute is an engine defined value for a shader uniform.
      *
      * Examples of this are the projection, model and view matrices.
+     * During rendering, the Black Dog Engine automatically retrieves these values
+     * and passes them onto the shader.
+     *
+     * To define a ShaderAttribute, one binds a name to an attribute sementics in
+     * a shader program using the following:
+     *
+     * ShaderProgramPtr program = ...
+     * program->BindSemanticsToName( semantics, nameInShader );
      */
     class ShaderAttribute : public Bindable, public std::enable_shared_from_this<ShaderAttribute>{
     public:
-        typedef std::function<void (ShaderAttributePtr, RenderingDevicePtr, GameObjectPtr)> SetValueFunction;
+        typedef std::function<void (ShaderAttributePtr, RendererPtr, GameObjectPtr)> SetValueFunction;
         
         enum Semantics{
             // Transforms
@@ -48,7 +56,7 @@ namespace bde {
         std::string GetNameInShader() const;
         Semantics GetSemantics() const;
         
-        void SetValue(RenderingDevicePtr r, GameObjectPtr go);
+        void SetValue(RendererPtr r, GameObjectPtr go);
     }; // class ShaderAttribute
 } // namespace ShaderAttribute
 

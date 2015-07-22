@@ -14,7 +14,7 @@ namespace bde {
     SetBackgroundColorRenderTask::~SetBackgroundColorRenderTask() {
     }
 
-    void SetBackgroundColorRenderTask::Execute(RenderingDevicePtr device) {
-        device->SetBackgroundColor(mBackgroundColor);
+    void SetBackgroundColorRenderTask::Execute(RendererPtr renderer) {
+        renderer->GetRenderingDevice()->SetBackgroundColor(mBackgroundColor);
     }
 } // namespace bde

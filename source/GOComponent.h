@@ -12,7 +12,7 @@ namespace bde{
      * Abstract class for a game object component
      */
     class GOComponent : public Object{
-    private:
+    protected:
         GameObjectWeakPtr mParentGameObject;
     public:
         RTTI_DECL

@@ -43,6 +43,10 @@ namespace bde {
         mOutputNames[ (int) type ] = name;
     }
     
+    void ShaderProgram::AddShaderUniform(ShaderUniformPtr uniform){
+        mCustomUniforms.push_back(uniform);
+    }
+
     std::vector<ShaderUniformPtr>& ShaderProgram::CustomUniforms(){
         return mCustomUniforms;
     }

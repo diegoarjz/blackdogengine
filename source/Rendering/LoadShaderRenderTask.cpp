@@ -13,9 +13,9 @@ namespace bde {
     LoadShaderRenderTask::~LoadShaderRenderTask() {
     }
 
-    void LoadShaderRenderTask::Execute(RenderingDevicePtr device) {
+    void LoadShaderRenderTask::Execute(RendererPtr renderer) {
         //        LOG_INFO( "Running LoadShader ");
-        device->LoadShaderProgram( mShader.lock() );
+        renderer->GetRenderingDevice()->LoadShaderProgram( mShader.lock() );
     }
 
 } // namespace bde

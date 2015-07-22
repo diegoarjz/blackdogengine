@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "../../source/Rendering/Renderer.h"
 #include "../../source/Debug/Logger.h"
@@ -15,27 +16,27 @@
 #include "../../source/Rendering/SetShaderRenderTask.h"
 #include "../../source/Rendering/DrawGeometryRenderTask.h"
 #include "../../source/Rendering/SetMaterialRenderTask.h"
+#include "../../source/Rendering/SetCameraRenderTask.h"
 #include "../../source/Rendering/ShaderUniform.h"
 #include "../../source/TransformationSubsystem.h"
+#include "../../source/CameraSubsystem.h"
 #include "../../source/GameObject.h"
 
 using namespace bde;
 
-std::string vertShaderSource ="#version 150 \n \
-in vec3 position; \n \
-uniform mat4 model; \n \
-void main() \n \
-{ \n \
-    gl_Position = model*vec4(position, 1.0); \n \
-}";
-
-std::string fragShaderSource = "#version 150 \n \
-out vec4 outColor; \n \
-uniform vec3 color; \n \
-void main() \n \
-{ \n \
-    outColor = vec4(color, 1.0); \n \
-}";
+std::string read_file(const std::string &path){
+    std::ifstream t(path);
+    std::string str;
+    
+    t.seekg(0, std::ios::end);
+    str.reserve(t.tellg());
+    t.seekg(0, std::ios::beg);
+    
+    str.assign(std::istreambuf_iterator<char>(t),
+               std::istreambuf_iterator<char>());
+    
+    return str;
+}
 
 class GameLoop : public Thread{
 
@@ -50,33 +51,41 @@ class GameLoop : public Thread{
             float b = 0;
             
             TransformationSubsystem transformSS;
+            CameraSubsystem cameraSS;
             
             // Create Game Object
             GameObjectPtr root = std::make_shared<GameObject>();
             root->SetComponent<TransformComponent>(transformSS.CreateComponent());
             auto rootTransform = root->GetComponent<TransformComponent>();
-            rootTransform->Translate(1, 0, 0);
             
             GameObjectPtr go = std::make_shared<GameObject>();
             go->SetComponent<TransformComponent>(transformSS.CreateComponent());
             auto transformComponent = go->GetComponent<TransformComponent>();
             transformComponent->SetParentTransform(rootTransform);
-            transformComponent->Translate(-1, -0.5, 0);
+            
+            GameObjectPtr camGO = std::make_shared<GameObject>();
+            camGO->SetComponent<TransformComponent>(transformSS.CreateComponent());
+            CameraPtr camera = cameraSS.CreateComponent();
+            camGO->SetComponent<Camera>(camera);
+            
+            camera->SetFrustum(30, 1, 0.001, 1000);
             
             // Load Shader
             ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
-            vertShader->SetSource( vertShaderSource );
+            vertShader->SetSource( read_file("../../../../demos/demo1/shaders/vertex.vert") );
             
             ShaderPtr fragShader = std::make_shared<Shader>(Shader::ShaderType::Fragment);
-            fragShader->SetSource( fragShaderSource );
+            fragShader->SetSource( read_file("../../../../demos/demo1/shaders/fragment.frag") );
             
             ShaderProgramPtr shaderProgram = std::make_shared<ShaderProgram>();
             shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);
             shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
             shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
-            shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform<ColorRGB>>("color") );
+//            shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform<ColorRGB>>("color") );
             
             shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ModelMatrix, "model");
+            shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ViewMatrix, "view");
+            shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ProjectionMatrix, "projection");
             
             auto loadShader = std::make_shared<LoadShaderRenderTask>(shaderProgram);
             auto setShader  = std::make_shared<SetShaderRenderTask>(shaderProgram);
@@ -85,26 +94,48 @@ class GameLoop : public Thread{
             mRenderPool->Push(setShader);
             
             // Load Geometry
-            std::vector<Vertex> vertices;
-            Vertex v1; v1.mPosition = Vector3(-1,-1,0);
-            Vertex v2; v2.mPosition = Vector3( 1,-1,0);
-            Vertex v3; v3.mPosition = Vector3( 0, 1,0);
-            vertices.push_back(v1);
-            vertices.push_back(v2);
-            vertices.push_back(v3);
-            
-            U32 els[] = {0,1,2};
-            ElementDataSourcePtr elements = std::make_shared<ElementDataSource>(els, PrimitiveType::Triangles, 1, 3);
+            std::vector<Vertex> vertices = {
+                {Vector3(-1,-1,0), Vector3(1,0,0)},
+                {Vector3( 1,-1,0), Vector3(1,0,0)},
+                {Vector3( 0, 1,0), Vector3(1,0,0)},
+                
+                {Vector3(-1,-1,0), Vector3(0,1,0)},
+                {Vector3( 0, 1,0), Vector3(0,1,0)},
+                {Vector3( 0,-1,1), Vector3(0,1,0)},
+                
+                {Vector3( 0,-1,1), Vector3(0,0,1)},
+                {Vector3( 0, 1,0), Vector3(0,0,1)},
+                {Vector3( 1,-1,0), Vector3(0,0,1)},
+                
+                {Vector3(-1,-1,0), Vector3(1,1,0)},
+                {Vector3( 0,-1,1), Vector3(1,1,0)},
+                {Vector3( 1,-1,0), Vector3(1,1,0)},
+            };
+
+            U32 els[] = {
+                0,  1,  2,
+                3,  4,  5,
+                6,  7,  8,
+                9, 10, 11
+            };
+            ElementDataSourcePtr elements = std::make_shared<ElementDataSource>(els, PrimitiveType::Triangles, 4, 12);
             auto vertexDataSources = create_vertex_data_sources<Vertex>(vertices);
-            auto geometry = std::make_shared<Geometry>(&(vertices[0]), 3, vertexDataSources, elements);
+            auto geometry = std::make_shared<Geometry>(&(vertices[0]), 12, vertexDataSources, elements);
             
             // Draw Geometry
             auto draw = std::make_shared<DrawGeometryRenderTask>(geometry);
             
+            // Set camera
+            auto setCamera = std::make_shared<SetCameraRenderTask>(camera);
+            mRenderPool->Push(setCamera);
+            
             // Material
             MaterialPtr material = std::make_shared<Material>(shaderProgram);
-            auto colorUniform = material->GetUniform<ColorRGB>("color");
+//            auto colorUniform = material->GetUniform<ColorRGB>("color");
             auto setMaterial = std::make_shared< SetMaterialRenderTask >(material, go);
+
+            auto loadGeometry = std::make_shared<LoadGeometryRenderTask>(geometry);
+            mRenderPool->Push(loadGeometry);
 
             Time start;
             Time last;
@@ -114,21 +145,23 @@ class GameLoop : public Thread{
                 TimeDifference elapsed = current - last;
                 last = current;
 
+                transformComponent->SetPosition(cos(current.GetTimestamp()/1000),
+                                                sin(current.GetTimestamp()/1000),
+                                                cos(current.GetTimestamp()/1000)-10);
+                transformComponent->Roll(0.0003*elapsed.mTimeDifference);
+
+                
+                transformSS.Update( elapsed.mTimeDifference );
+                cameraSS.Update( elapsed.mTimeDifference );
+                
                 r = sin(current.GetTimestamp()/1000) * sin(current.GetTimestamp()/1000);
                 g = cos(current.GetTimestamp()/1000) * cos(current.GetTimestamp()/1000);
                 b = tan(current.GetTimestamp()/1000) * tan(current.GetTimestamp()/1000);
                 
-                colorUniform->SetValue( ColorRGB(r,g,b) );
+//                colorUniform->SetValue( ColorRGB(r,g,b) );
                 
-                if((current-start).mTimeDifference > 1000 && !loaded){
-                    auto loadGeometry = std::make_shared<LoadGeometryRenderTask>(geometry);
-                    mRenderPool->Push(loadGeometry);
-                    loaded = true;
-                }
-                if(loaded){
-                    mRenderPool->Push( draw );
-                    mRenderPool->Push( setMaterial );
-                }
+                mRenderPool->Push( setMaterial );
+                mRenderPool->Push( draw );
                 
                 mRenderPool->WaitForRenderDone();
                 mRenderPool->SwapRenderQueues();

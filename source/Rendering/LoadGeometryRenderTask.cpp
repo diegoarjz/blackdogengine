@@ -13,8 +13,9 @@ namespace bde {
     LoadGeometryRenderTask::~LoadGeometryRenderTask() {
     }
 
-    void LoadGeometryRenderTask::Execute(RenderingDevicePtr device) {
+    void LoadGeometryRenderTask::Execute(RendererPtr renderer) {
         //        LOG_INFO( "Running LoadGeometryTask ");
-        device->LoadGeometry( mGeometry.lock() );
+        
+        renderer->GetRenderingDevice()->LoadGeometry( mGeometry.lock() );
     }
 } // namespace bde

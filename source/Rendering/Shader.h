@@ -31,9 +31,9 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        std::string     GetSource() const;
-        void            SetSource(const std::string &source);
-        ShaderType      GetShaderType() const;
+        const std::string& GetSource() const;
+        void SetSource(const std::string &source);
+        ShaderType GetShaderType() const;
     }; // class Shader
 
     typedef std::shared_ptr<Shader> ShaderPtr;

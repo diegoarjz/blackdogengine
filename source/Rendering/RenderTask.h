@@ -1,9 +1,10 @@
 #ifndef RENDERTASK_H_
 #define RENDERTASK_H_
 
-#include "RenderingDevice.h"
+#include "Renderer.h"
 
 namespace bde {
+    
     /**
      * Performs a given task on the Rendering Device.
      * Objects of this type are queued in a RenderPool and are fetched
@@ -20,7 +21,7 @@ namespace bde {
         RenderTask();
         virtual ~RenderTask();
 
-        virtual void Execute(RenderingDevicePtr device) = 0;
+        virtual void Execute(RendererPtr renderer) = 0;
     }; // class RenderTask
 
     typedef std::shared_ptr<RenderTask> RenderTaskPtr;
@@ -29,5 +30,6 @@ namespace bde {
 #else
 namespace bde {
     class RenderTask;
+    typedef std::shared_ptr<RenderTask> RenderTaskPtr;
 } // namespace bde
 #endif

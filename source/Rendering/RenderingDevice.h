@@ -89,11 +89,6 @@ namespace bde {
         virtual void LoadShaderProgram(ShaderProgramPtr shaderProgram) = 0;
         virtual void LoadShader(ShaderPtr shader) = 0;
         virtual void SetShaderProgram(ShaderProgramPtr shaderProgram) = 0;
-        
-        /* ***********
-         * Materials *
-         * **********/
-        virtual void SetMaterial(MaterialPtr material, GameObjectPtr go) = 0;
 
         /* *****************
          * Uniform Setting *

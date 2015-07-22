@@ -32,7 +32,6 @@ namespace bde{
         virtual void Update(const TIME_T &delta) override;
         
         TransformComponentPtr CreateComponent();
-        
         TransformComponentPtr GetComponentForID(const U32 &componentId);
     }; // class TransformationSubsystem
 } // namespace bde

@@ -13,6 +13,7 @@
 #include <glm/glm.hpp>
 #include "MathLibConfigurations.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 namespace bde {
     class Matrix3 {
@@ -35,6 +36,7 @@ namespace bde {
         Matrix3(const REAL &m00,const REAL &m10,const REAL &m20,
                 const REAL &m01,const REAL &m11,const REAL &m21,
                 const REAL &m02,const REAL &m12,const REAL &m22);
+        Matrix3(const Quaternion &q);
         ~Matrix3();
 
 #if GLM_COMPATIBLE == 1
