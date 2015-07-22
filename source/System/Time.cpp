@@ -49,6 +49,7 @@ namespace bde{
 
     #elif __linux
 
+    struct timeval tv;
     if( gettimeofday(&tv, NULL) < 0 ){
       throw std::runtime_error("Could not get time of day.");
     }

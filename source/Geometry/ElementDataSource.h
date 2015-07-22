@@ -1,6 +1,8 @@
 #ifndef ELEMENT_DATA_SOURCE_H_
 #define ELEMENT_DATA_SOURCE_H_
 
+#include <string.h>
+
 #include "../DataTypes.h"
 
 #include "PrimitiveType.h"
