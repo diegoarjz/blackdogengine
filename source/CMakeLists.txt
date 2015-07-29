@@ -17,3 +17,5 @@ target_link_libraries(blackdogengine meta)
 target_link_libraries(blackdogengine geometry)
 target_link_libraries(blackdogengine bdedebug)
 target_link_libraries(blackdogengine rendering)
+
+INSTALL(TARGETS blackdogengine ARCHIVE DESTINATION lib/blackdogengine)

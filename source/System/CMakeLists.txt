@@ -7,3 +7,5 @@ file(GLOB srcs
 )
 
 add_library(bdeSystem ${srcs})
+
+INSTALL(TARGETS bdeSystem ARCHIVE DESTINATION lib/blackdogengine/System)

@@ -4,3 +4,5 @@ file(GLOB srcs
 )
 
 add_library(meta ${srcs})
+
+INSTALL(TARGETS meta ARCHIVE DESTINATION lib/blackdogengine/meta/)
