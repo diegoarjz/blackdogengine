@@ -7,3 +7,5 @@ file(GLOB srcs
 
 add_library(rendering ${srcs})
 target_link_libraries(rendering bdeSystem)
+
+INSTALL(TARGETS rendering ARCHIVE DESTINATION lib/blackdogengine/rendering)
