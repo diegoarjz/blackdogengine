@@ -8,4 +8,9 @@ file(GLOB srcs
 
 add_library(bdeSystem ${srcs})
 
+file(GLOB headers
+    "*.h"
+)
+INSTALL(FILES ${headers} DESTINATION include/blackdogengine/System)
+
 INSTALL(TARGETS bdeSystem ARCHIVE DESTINATION lib/blackdogengine/System)
