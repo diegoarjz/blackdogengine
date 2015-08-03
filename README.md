@@ -47,3 +47,34 @@ When complete, they should commit that new functionality, switch to the developm
 and, finally, push it to the remote repository. 
 For more information, read [this](http://nvie.com/posts/a-successful-git-branching-model/) tutorial.
 
+## Building Black Dog Engine
+
+To build Black Dog Engine you need the following dependencies:
+
+* [CGAL](http://www.cgal.org)
+* [glm](http://glm.g-truc.net/0.9.6/index.html)
+* [GLFW](http://www.glfw.org)
+* [GLEW](http://glew.sourceforge.net)
+
+You'll also need cmake installed to configure and build BDE. It's advised to do an out-of-source build, so we will create a build directory and run cmake there. 
+
+To do this, open a command line and cd to the Black Dog Engine's root directory (${BDE_HOME}), then create the 'build' directory.
+
+```
+$ cd ${BDE_HOME}
+$ mkdir build
+$ cd build
+```
+
+Now, you should run cmake on to configure the project and make to compile the sources:
+
+```
+$ cmake ..
+$ make
+```
+
+Finally, to install the BDE libraries to the install location, run:
+
+```
+$ make install
+```

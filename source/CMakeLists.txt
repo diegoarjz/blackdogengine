@@ -17,3 +17,10 @@ target_link_libraries(blackdogengine meta)
 target_link_libraries(blackdogengine geometry)
 target_link_libraries(blackdogengine bdedebug)
 target_link_libraries(blackdogengine rendering)
+
+file(GLOB headers
+    "*.h"
+)
+INSTALL(FILES ${headers} DESTINATION include/blackdogengine)
+
+INSTALL(TARGETS blackdogengine ARCHIVE DESTINATION lib/blackdogengine)

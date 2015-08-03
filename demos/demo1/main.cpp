@@ -72,10 +72,10 @@ class GameLoop : public Thread{
             
             // Load Shader
             ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
-            vertShader->SetSource( read_file("../../../../demos/demo1/shaders/vertex.vert") );
+            vertShader->SetSource( read_file("shaders/vertex.vert") );
             
             ShaderPtr fragShader = std::make_shared<Shader>(Shader::ShaderType::Fragment);
-            fragShader->SetSource( read_file("../../../../demos/demo1/shaders/fragment.frag") );
+            fragShader->SetSource( read_file("shaders/fragment.frag") );
             
             ShaderProgramPtr shaderProgram = std::make_shared<ShaderProgram>();
             shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);

@@ -1,18 +1,9 @@
+project("BlackDogEngine")
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 
-project("BlackDogEngine")
-
-set(BDE_INCLUDES "/usr/local/include/")
-include_directories(AFTER SYSTEM ${BDE_INCLUDES})
-
-LINK_DIRECTORIES("/usr/local/lib/")
-
 IF(APPLE)
+    # OS X specific libraries
     INCLUDE_DIRECTORIES ( /System/Library/Frameworks )
-
-    FIND_PACKAGE(PkgConfig REQUIRED)
-    pkg_search_module(GLFW REQUIRED glfw3)
-    include_directories(${GLFW_INCLUDE_DIRS})
 
     FIND_LIBRARY(COCOA_LIBRARY Cocoa)
     FIND_LIBRARY(OpenGL_LIBRARY OpenGL )
@@ -23,28 +14,24 @@ IF(APPLE)
                       CoreVideo_LIBRARY
                       OpenGL_LIBRARY)
 
-                  SET( EXTRA_LIBRARIES ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKit_LIBRARY} ${CoreVideo_LIBRARY}
-                      ${GLFW_STATIC_LIBRARIES})
+    SET( EXTRA_LIBRARIES ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKit_LIBRARY} ${CoreVideo_LIBRARY}) 
 ELSEIF(UNIX)
     FIND_PACKAGE(PkgConfig REQUIRED)
     pkg_search_module(GLFW REQUIRED glfw3)
     include_directories(${GLFW_INCLUDE_DIRS})
 
+    # Linux needs GLEW
     find_package(GLEW REQUIRED)
     if (GLEW_FOUND)
         include_directories(${GLEW_INCLUDE_DIRS})
         link_libraries(${GLEW_LIBRARIES})
     endif()
 
-    #SET( EXTRA_LIBRARIES GLFW_LIBRARIES OpenGL_LIBRARY X11_LIBRARY XXF86VM_LIBRARY XRANDR_LIBRARY XI_LIBRARY )
     SET( EXTRA_LIBRARIES ${GLFW_STATIC_LIBRARIES} ${GLEW_LIBRARIES} )
-    MESSAGE( STATUS "HERE" )
-    MESSAGE( STATUS ${EXTRA_LIBRARIES} )
 ENDIF (APPLE)
 
 
-# Set c++11
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+# Set C++11
 set(CMAKE_CXX_STANDARD 11)
 
 # Enable testing for the Black Dog Engine Project
