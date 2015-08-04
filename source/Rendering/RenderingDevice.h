@@ -11,6 +11,12 @@
 #include "BindingInfo.h"
 #include "ShaderAttribute.h"
 
+#include "RenderStatesTypeList.h"
+#include "StencilState.h"
+#include "AlphaBlend.h"
+#include "CullState.h"
+#include "DepthBuffer.h"
+
 namespace bde {
 
     class ShaderProgram;
@@ -115,6 +121,13 @@ namespace bde {
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m) = 0;
         
+		/* **********************
+		 * Render State Setting *
+		 * *********************/
+		virtual void SetStencilState(std::shared_ptr<StencilState> stencil) = 0;
+		virtual void SetAlphaBlend(std::shared_ptr<AlphaBlend> alpha) = 0;
+		virtual void SetCullState(std::shared_ptr<CullState> cullState) = 0;
+		virtual void SetDepthBuffer(std::shared_ptr<DepthBuffer> depth) = 0;
     }; // class RenderingDevice
 
     /// Smart pointer for a RenderingDevice

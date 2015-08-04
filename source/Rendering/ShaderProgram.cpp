@@ -16,15 +16,6 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    BindingInfoPtr  ShaderProgram::GetBindingInfo() {
-        return mBindingInfo;
-    }
-
-    void            ShaderProgram::SetBindingInfo(BindingInfoPtr bi) {
-        assert( mBindingInfo == nullptr );
-        mBindingInfo = bi;
-    }
-
     ShaderPtr       ShaderProgram::GetShader(const Shader::ShaderType &type) {
         return mShaders[ (int) type ];
     }
@@ -60,4 +51,8 @@ namespace bde {
     ShaderAttributePtr ShaderProgram::GetAttributeForSemantics(const ShaderAttribute::Semantics &semantics) const{
         return mAttributes[semantics];
     }
+	
+	RenderStatePtr ShaderProgram::GetRenderState(const RenderState::RenderStateNames &state){
+		return mRenderStates[state];
+	}
 }

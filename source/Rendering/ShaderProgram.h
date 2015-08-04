@@ -6,28 +6,32 @@
 #include <string>
 
 #include "../Object.h"
-#include "BindingInfo.h"
+#include "Bindable.h"
 #include "Shader.h"
 #include "ShaderUniform.h"
 #include "ShaderAttribute.h"
+
+#include "../Meta/AutoLister.h"
+
+#include "RenderStatesTypeList.h"
 
 namespace bde {
 
     /**
      * Describes a ShaderProgram which is made of several shaders
      */
-    class ShaderProgram : public Object {
+    class ShaderProgram : public Object, public Bindable {
       public:
         enum class ShaderOutputType {
             ScreenBuffer,
             MAX_SHADEROUTPUT_TYPE
         };
       private:
-        ShaderPtr mShaders[(int)Shader::ShaderType::MAX_SHADER_TYPES];          ///< The program's shaders
-        std::string mOutputNames[(int)ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; ///< The output names
-        ShaderAttributePtr mAttributes[ShaderAttribute::Semantics::MAX_SEMANTICS];
-        std::vector<ShaderUniformPtr> mCustomUniforms;                          ///< The user defined uniforms.
-        BindingInfoPtr mBindingInfo;                                            ///< Binding information
+        ShaderPtr mShaders[(int)Shader::ShaderType::MAX_SHADER_TYPES];          		///< The program's shaders.
+        std::string mOutputNames[(int)ShaderOutputType::MAX_SHADEROUTPUT_TYPE]; 		///< The output names.
+        ShaderAttributePtr mAttributes[ShaderAttribute::Semantics::MAX_SEMANTICS];		///< The engine defined uniform.
+        std::vector<ShaderUniformPtr> mCustomUniforms;                          		///< The user defined uniforms.
+		RenderStatePtr mRenderStates[RenderStatesTypeList::renderStatesCount];			///< The render states.
       public:
         RTTI_DECL
 
@@ -40,8 +44,6 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        BindingInfoPtr  GetBindingInfo();
-        void            SetBindingInfo(BindingInfoPtr bi);
         ShaderPtr       GetShader(const Shader::ShaderType &type);
         void            SetShader(const Shader::ShaderType &type, ShaderPtr shader);
         std::string     GetOutputName(const ShaderOutputType &type);
@@ -52,6 +54,18 @@ namespace bde {
 
         void AddShaderUniform(ShaderUniformPtr uniform);
         std::vector<ShaderUniformPtr>& CustomUniforms();
+		
+		RenderStatePtr GetRenderState(const RenderState::RenderStateNames &state);
+		
+		template<typename RS>
+		std::shared_ptr<RS> GetRenderState(){
+			return std::dynamic_pointer_cast<RS>( mRenderStates[RenderStatesTypeList::IndexOfType<RS>()] );
+		}
+		
+		template<typename RS>
+		void SetRenderState(std::shared_ptr<RS> state){
+			mRenderStates[RenderStatesTypeList::IndexOfType<RS>()] = state;
+		}
     }; // class ShaderProgram
 
     typedef std::shared_ptr<ShaderProgram>  ShaderProgramPtr;

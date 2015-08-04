@@ -38,6 +38,41 @@ std::string read_file(const std::string &path){
     return str;
 }
 
+ShaderProgramPtr createShaderProgram(){
+	// Load Shader
+	ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
+	vertShader->SetSource( read_file("shaders/vertex.vert") );
+            
+	ShaderPtr fragShader = std::make_shared<Shader>(Shader::ShaderType::Fragment);
+	fragShader->SetSource( read_file("shaders/fragment.frag") );
+            
+	ShaderProgramPtr shaderProgram = std::make_shared<ShaderProgram>();
+	shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);
+	shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
+	shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
+            
+	shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ModelMatrix, "model");
+	shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ViewMatrix, "view");
+	shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ProjectionMatrix, "projection");
+	
+	std::shared_ptr<DepthBuffer> db = std::make_shared<DepthBuffer>();
+	db->SetEnabled(true);
+	db->SetDepthFunction( DepthBuffer::LESS );
+	shaderProgram->SetRenderState(db);
+	
+	std::shared_ptr<CullState> cull = std::make_shared<CullState>();
+	cull->SetEnabled(true);
+	cull->SetCullFace(CullState::CULL_BACK);
+	cull->SetFrontFace(CullState::CCW);
+	shaderProgram->SetRenderState(cull);
+	
+	std::shared_ptr<AlphaBlend> alpha = std::make_shared<AlphaBlend>();
+	alpha->SetEnabled(true);
+	shaderProgram->SetRenderState(alpha);
+	
+	return shaderProgram;
+}
+
 class GameLoop : public Thread{
 
     protected:
@@ -62,6 +97,7 @@ class GameLoop : public Thread{
             go->SetComponent<TransformComponent>(transformSS.CreateComponent());
             auto transformComponent = go->GetComponent<TransformComponent>();
             transformComponent->SetParentTransform(rootTransform);
+			transformComponent->SetPosition(0,-1,-10);
             
             GameObjectPtr camGO = std::make_shared<GameObject>();
             camGO->SetComponent<TransformComponent>(transformSS.CreateComponent());
@@ -70,23 +106,7 @@ class GameLoop : public Thread{
             
             camera->SetFrustum(30, 1, 0.001, 1000);
             
-            // Load Shader
-            ShaderPtr vertShader = std::make_shared<Shader>(Shader::ShaderType::Vertex);
-            vertShader->SetSource( read_file("shaders/vertex.vert") );
-            
-            ShaderPtr fragShader = std::make_shared<Shader>(Shader::ShaderType::Fragment);
-            fragShader->SetSource( read_file("shaders/fragment.frag") );
-            
-            ShaderProgramPtr shaderProgram = std::make_shared<ShaderProgram>();
-            shaderProgram->SetShader(Shader::ShaderType::Vertex, vertShader);
-            shaderProgram->SetShader(Shader::ShaderType::Fragment, fragShader);
-            shaderProgram->SetOutputName(ShaderProgram::ShaderOutputType::ScreenBuffer, "outColor");
-//            shaderProgram->CustomUniforms().push_back( std::make_shared<ShaderUniform<ColorRGB>>("color") );
-            
-            shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ModelMatrix, "model");
-            shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ViewMatrix, "view");
-            shaderProgram->BindSemanticsToName(ShaderAttribute::Semantics::ProjectionMatrix, "projection");
-            
+            auto shaderProgram = createShaderProgram();
             auto loadShader = std::make_shared<LoadShaderRenderTask>(shaderProgram);
             auto setShader  = std::make_shared<SetShaderRenderTask>(shaderProgram);
             
@@ -145,10 +165,10 @@ class GameLoop : public Thread{
                 TimeDifference elapsed = current - last;
                 last = current;
 
-                transformComponent->SetPosition(cos(current.GetTimestamp()/1000),
-                                                sin(current.GetTimestamp()/1000),
-                                                cos(current.GetTimestamp()/1000)-10);
-                transformComponent->Roll(0.0003*elapsed.mTimeDifference);
+                // transformComponent->SetPosition(cos(current.GetTimestamp()/1000),
+//                                                 sin(current.GetTimestamp()/1000),
+//                                cos(current.GetTimestamp()/1000)-10);
+                transformComponent->Roll(0.001*elapsed.mTimeDifference);
 
                 
                 transformSS.Update( elapsed.mTimeDifference );
@@ -166,7 +186,6 @@ class GameLoop : public Thread{
                 mRenderPool->WaitForRenderDone();
                 mRenderPool->SwapRenderQueues();
                 mRenderPool->NotifySwapDone();
-                
                 //usleep(100000);
             }
         }

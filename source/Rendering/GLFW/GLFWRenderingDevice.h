@@ -25,6 +25,9 @@ namespace bde {
       private:
         static const GLenum sShaderTypes[];
         static const GLenum sPrimitiveTypes[];
+		static const GLenum sBlendFunctions[];
+		static const GLenum sStencilFunctions[];
+		static const GLenum sStencilOperations[];
       private:
         GLFWwindow *mWindow;
       public:
@@ -104,8 +107,17 @@ namespace bde {
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGBA &c) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m) override;
+		
+		/* **********************
+		* Render State Setting *
+		* *********************/
+		virtual void SetStencilState(std::shared_ptr<StencilState> stencil) override;
+		virtual void SetAlphaBlend(std::shared_ptr<AlphaBlend> alpha) override;
+		virtual void SetCullState(std::shared_ptr<CullState> cullState) override;
+		virtual void SetDepthBuffer(std::shared_ptr<DepthBuffer> depth) override;
     private:
         void loadUniform(ShaderProgramPtr shader, std::shared_ptr<Bindable> uniform, const std::string &name);
+		void setRenderStates(ShaderProgramPtr shader);
     }; // class GLFWRenderingDevice
 
     typedef std::shared_ptr<GLFWRenderingDevice> GLFWRenderingDevicePtr;
