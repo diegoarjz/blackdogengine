@@ -9,6 +9,11 @@ namespace bde {
     Shader::Shader(const ShaderType &type) {
         mShaderType = type;
     }
+	
+	Shader::Shader(const ShaderType &type, const std::string &source){
+		mShaderType = type;
+		mSource = source;
+	}
 
     Shader::~Shader() {
     }

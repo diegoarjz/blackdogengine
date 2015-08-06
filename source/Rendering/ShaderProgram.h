@@ -39,6 +39,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         ShaderProgram();
+		ShaderProgram(ShaderPtr vertexShader, ShaderPtr fragmentShader, ShaderPtr geomShader=nullptr);
         virtual ~ShaderProgram();
 
         /* *******************

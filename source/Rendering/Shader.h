@@ -26,6 +26,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Shader(const ShaderType &type);
+		Shader(const ShaderType &type, const std::string &source);
         virtual ~Shader();
 
         /* *******************

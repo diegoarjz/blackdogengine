@@ -9,6 +9,12 @@ namespace bde {
      * ***************************/
     ShaderProgram::ShaderProgram() {
     }
+	
+	ShaderProgram::ShaderProgram(ShaderPtr vertexShader, ShaderPtr fragmentShader, ShaderPtr geomShader){
+		mShaders[(int)Shader::ShaderType::Vertex] = vertexShader;
+		mShaders[(int)Shader::ShaderType::Fragment] = fragmentShader;
+		mShaders[(int)Shader::ShaderType::Geometry] = geomShader;
+	}
 
     ShaderProgram::~ShaderProgram() {
     }
