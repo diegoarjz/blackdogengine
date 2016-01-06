@@ -7,6 +7,7 @@ IF(APPLE)
     # OS X specific libraries
     INCLUDE_DIRECTORIES( /System/Library/Frameworks )
     INCLUDE_DIRECTORIES( /usr/local/include/ ) 
+    INCLUDE_DIRECTORIES( /opt/local/include/ )
 
     FIND_LIBRARY(COCOA_LIBRARY Cocoa)
     FIND_LIBRARY(OpenGL_LIBRARY OpenGL )

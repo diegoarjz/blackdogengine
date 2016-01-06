@@ -16,9 +16,22 @@ namespace bde {
     typedef std::shared_ptr<Logger> LoggerPtr;
 
     /**
-    * Implements a logging system.
-    *
-    * @author Diego Jesus <diego.a.r.jz@gmail.com>
+    * Logging system.
+	* 
+	* The logging system has a static logging level, which can be set at runtime,
+	* and affects which messages are logged.
+	*
+	* Statically holds different loggers for different log levels. Messages can be
+	* logged globally throughout the rest of the code by the following:
+	* 
+	* Logger::Log(<log_level>, <log_message>);
+	* 
+	* where log_level is one of the defined in LoggerLevel:
+	* 	* Debug
+	*	* Info
+	*	* Error
+	*
+	* Messages are only logged if they are of a higher priority than the logging level.
     */
     class Logger {
       public:
@@ -33,6 +46,7 @@ namespace bde {
         };
 
       private:
+		/// The different loggers globally available in the application.
         static LoggerPtr    sLoggers[(int)LoggerLevel::MAX_LOG_LEVELS];
         static LoggerLevel  sLoggingLevel;
 
@@ -51,6 +65,10 @@ namespace bde {
         * Log Methods *
         * ************/
         void Log(const std::string &msg);
+		
+		/* *******************
+		* Static log methods *
+		* *******************/
         static void Log(const LoggerLevel &level, const std::string &msg);
         static void SetLoggingLevel(const LoggerLevel &level);
         static LoggerLevel GetLoggingLevel();
