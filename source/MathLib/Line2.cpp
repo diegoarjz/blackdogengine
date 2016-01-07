@@ -12,10 +12,10 @@ namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Line2::Line2():Line2(Vector2(0,0), Vector2(1,0)) {
+    Line2::Line2():Line2(Vector2<>(0,0), Vector2<>(1,0)) {
     }
 
-    Line2::Line2(const Vector2 &origin, const Vector2 &direction) {
+    Line2::Line2(const Vector2<> &origin, const Vector2<> &direction) {
         Direction_2 dir = direction ;
         mLine = Line_2(Point_2(origin),
                        dir);
@@ -41,12 +41,12 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector2 Line2::Point() const {
-        return Vector2(mLine.point());
+    Vector2<> Line2::Point() const {
+        return Vector2<>(mLine.point());
     }
 
-    Vector2 Line2::Vector() const {
-        return Vector2(mLine.to_vector());
+    Vector2<> Line2::Vector() const {
+        return Vector2<>(mLine.to_vector());
     }
 
     /* ************
@@ -60,15 +60,15 @@ namespace bde {
         return sqrtf( SquaredDistance(line) );
     }
 
-    REAL Line2::SquaredDistance(const Vector2 &p) const {
+    REAL Line2::SquaredDistance(const Vector2<> &p) const {
         return CGAL::squared_distance(mLine, Point_2(p));
     }
 
-    REAL Line2::Distance(const Vector2 &p) const {
+    REAL Line2::Distance(const Vector2<> &p) const {
         return sqrtf( SquaredDistance(p) );
     }
 
-    Vector2 Line2::Projection(const Vector2 &point) const {
-        return Vector2( mLine.projection(Point_2(point)));
+    Vector2<> Line2::Projection(const Vector2<> &point) const {
+        return Vector2<>( mLine.projection(Point_2(point)));
     }
 } // namespace bde

@@ -86,7 +86,7 @@ namespace bde {
          * Uniform Setting *
          * ****************/
         virtual void SetUniformValue(ShaderUniformPtr uniform, const float &f) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2 &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2<> &v) override;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3 &v) override;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4 &v) override;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q) override;
@@ -99,7 +99,7 @@ namespace bde {
          * Shader Attributes *
          * ******************/
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const float &f) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2 &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2<> &v) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3 &v) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4 &v) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q) override;

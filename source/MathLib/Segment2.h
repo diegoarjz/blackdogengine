@@ -28,7 +28,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Segment2();
-        Segment2(const Vector2 &source, const Vector2 &target);
+        Segment2(const Vector2<> &source, const Vector2<> &target);
         Segment2(const Segment2 &segment);
         ~Segment2();
 
@@ -40,14 +40,14 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector2 Source() const;
-        Vector2 Target() const;
+        Vector2<> Source() const;
+        Vector2<> Target() const;
 
         /* ************
          * Operations *
          * ***********/
-        REAL SquaredDistance(const Vector2 &point) const;
-        REAL Distance(const Vector2 &point) const;
+        REAL SquaredDistance(const Vector2<> &point) const;
+        REAL Distance(const Vector2<> &point) const;
 
         bool Intersects(const Segment2 &segment) const;
     };
