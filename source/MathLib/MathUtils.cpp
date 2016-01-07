@@ -12,25 +12,29 @@ namespace bde {
         return exp( - (a*a)/(b*b) );
     }
 
-    Vector2 MathUtils::Centroid(std::list<Vector2> points) {
-        Vector2 centroid(0,0);
+    Vector2<> MathUtils::Centroid(std::list<Vector2<>> points) {
+        Vector2<> centroid(0,0);
 
+        /*
         for(auto p : points) {
             centroid = centroid + p;
         }
 
         centroid = centroid/points.size();
+         */
         return centroid;
     }
 
     Vector3 MathUtils::Centroid(std::list<Vector3> points) {
         Vector3 centroid(0,0,0);
 
+        /*
         for(auto p : points) {
             centroid = centroid + p;
         }
 
         centroid = centroid/points.size();
+         */
         return centroid;
     }
     

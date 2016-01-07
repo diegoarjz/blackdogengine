@@ -24,7 +24,7 @@ namespace bde {
         /**
          * Calculates the 2D centroid of a list of points.
          */
-        static Vector2 Centroid(std::list<Vector2> points);
+        static Vector2<> Centroid(std::list<Vector2<>> points);
         /**
          * Calculates the 3D centroid of a list of points.
          */

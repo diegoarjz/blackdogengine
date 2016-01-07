@@ -26,7 +26,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Line2();
-        Line2(const Vector2 &origin, const Vector2 &direction);
+        Line2(const Vector2<> &origin, const Vector2<> &direction);
         Line2(const Line2 &line);
         ~Line2();
 
@@ -38,17 +38,17 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector2 Point() const;
-        Vector2 Vector() const;
+        Vector2<> Point() const;
+        Vector2<> Vector() const;
 
         /* ************
          * Operations *
          * ***********/
         REAL SquaredDistance(const Line2 &line) const;
         REAL Distance(const Line2 &line) const;
-        REAL SquaredDistance(const Vector2 &p) const;
-        REAL Distance(const Vector2 &p) const;
-        Vector2 Projection(const Vector2 &point) const;
+        REAL SquaredDistance(const Vector2<> &p) const;
+        REAL Distance(const Vector2<> &p) const;
+        Vector2<> Projection(const Vector2<> &point) const;
     };
 } // namespace bde
 

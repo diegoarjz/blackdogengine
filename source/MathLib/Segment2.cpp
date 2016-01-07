@@ -13,10 +13,10 @@ namespace bde {
      * Construction & Destruction *
      * ***************************/
 
-    Segment2::Segment2():Segment2(Vector2(0,0), Vector2(1,0)) {
+    Segment2::Segment2():Segment2(Vector2<>(0,0), Vector2<>(1,0)) {
     }
 
-    Segment2::Segment2(const Vector2 &source, const Vector2 &target) {
+    Segment2::Segment2(const Vector2<> &source, const Vector2<> &target) {
         mSegment = Segment_2(Point_2(source.X(), source.Y()),
                              Point_2(target.X(), target.Y()));
     }
@@ -41,23 +41,23 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector2 Segment2::Source() const {
-        return Vector2(mSegment.source().x(), mSegment.source().y());
+    Vector2<> Segment2::Source() const {
+        return Vector2<>(mSegment.source().x(), mSegment.source().y());
     }
 
-    Vector2 Segment2::Target()const {
-        return Vector2(mSegment.target().x(), mSegment.target().y());
+    Vector2<> Segment2::Target()const {
+        return Vector2<>(mSegment.target().x(), mSegment.target().y());
     }
 
     /* ************
      * Operations *
      * ***********/
-    REAL Segment2::SquaredDistance(const Vector2 &point) const {
+    REAL Segment2::SquaredDistance(const Vector2<> &point) const {
         Point_2 p(point.X(), point.Y());
         return CGAL::squared_distance(mSegment, p);
     }
 
-    REAL Segment2::Distance(const Vector2 &point) const {
+    REAL Segment2::Distance(const Vector2<> &point) const {
         return sqrtf(SquaredDistance(point));
     }
 
