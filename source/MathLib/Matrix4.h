@@ -95,7 +95,7 @@ namespace bde {
         /**
          * Creates a scale matrix.
          */
-        static Matrix4 ScaleMatrix(const Vector3 &scaleVector);
+        static Matrix4 ScaleMatrix(const Vector3f &scaleVector);
         /**
          * Creates a Scale Matrix.
          * @param x The amount to scale along x.
@@ -128,7 +128,7 @@ namespace bde {
          * @param translation The translation vector.
          * @returns A Translation Matrix
          */
-        static Matrix4 TranslationMatrix(const Vector3 &vector);
+        static Matrix4 TranslationMatrix(const Vector3f &vector);
     };
 } // namespace bde
 

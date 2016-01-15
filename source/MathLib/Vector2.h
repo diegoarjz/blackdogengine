@@ -97,25 +97,26 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        const REAL &X() const{
+        const R &X() const{
             return (*this)[0];
         }
-        REAL &X(){
+        R &X(){
             return (*this)[0];
         }
-        const REAL &Y() const{
+        const R &Y() const{
             return (*this)[1];
         }
-        REAL &Y(){
+        R &Y(){
             return (*this)[1];
         }
     };
     
     using Vector2f = Vector2<float>;
+    using Vector2d = Vector2<double>;
     
-    /* ************
-     * Operations *
-     * ***********/
+    /* ************************
+     * Arithmentic Operations *
+     * ***********************/
     template<typename R>
     Vector2<R> operator+(const Vector2<R> &v1, const Vector2<R> &v2){
         R comp[2];

@@ -47,11 +47,11 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector3 GetColumn(const int &c) const;
-        void SetColumn(const int &index, const Vector3 &c);
+        Vector3f GetColumn(const int &c) const;
+        void SetColumn(const int &index, const Vector3f &c);
 
-        Vector3 GetRow(const int &r) const;
-        void SetRow(const int &index, const Vector3 &r);
+        Vector3f GetRow(const int &r) const;
+        void SetRow(const int &index, const Vector3f &r);
 
         REAL Get(const int &column, const int &row) const;
         void Set(const int &column, const int &row, const REAL &value);
@@ -59,7 +59,7 @@ namespace bde {
         /* ************
          * Operations *
          * ***********/
-        Vector3 operator*(const Vector3 &v)const;
+        Vector3f operator*(const Vector3f &v)const;
         Matrix3 operator*(const Matrix3 &m)const;
         bool operator==(const Matrix3 &m);
         bool operator!=(const Matrix3 &m);

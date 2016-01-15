@@ -27,7 +27,7 @@ namespace bde {
             LineIntersection,
             Coplanar
         } intersectionType;
-        Vector3 intersectionPoint;
+        Vector3<> intersectionPoint;
         Line3 intersectionLine;
     };
 
@@ -40,23 +40,23 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Plane();
-        Plane(const Vector3 &point, const Vector3 &normal);
-        Plane(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3);
-        Plane(const Line3 &line, const Vector3 point);
+        Plane(const Vector3<> &point, const Vector3<> &normal);
+        Plane(const Vector3<> &p1, const Vector3<> &p2, const Vector3<> &p3);
+        Plane(const Line3 &line, const Vector3<> point);
         ~Plane();
 
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector3 Normal() const;
+        Vector3<> Normal() const;
         /**
          * Returns a vector orthogonal to the normal vector.
          */
-        Vector3 Base() const;
+        Vector3<> Base() const;
         /**
          * Returns a vector that is orthogonal to both the normal and Base1 vectors.
          */
-        Vector3 Base2() const;
+        Vector3<> Base2() const;
 
         /* ************
          * Operations *
@@ -65,10 +65,10 @@ namespace bde {
         PlaneIntersection Intersection(const Line3 &line);
         PlaneIntersection Intersection(const Ray3 &ray);
 
-        Vector3 Project(const Vector3 &v);
-        REAL DistanceToPoint(const Vector3 &v);
+        Vector3<> Project(const Vector3<> &v);
+        REAL DistanceToPoint(const Vector3<> &v);
 
-        bool Contained(const Vector3 &v);
+        bool Contained(const Vector3<> &v);
         bool Contained(const Segment3 &v);
     };
 } // namespace bde

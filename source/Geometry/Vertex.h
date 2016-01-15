@@ -21,8 +21,8 @@ namespace bde {
       public:
         static const VertexDescription description; ///< Describes the vertex semantics
 
-        Vector3 mPosition;  ///< The vertex position
-        Vector3 mNormal;    ///< The vertex normal
+        Vector3<> mPosition;  ///< The vertex position
+        Vector3<> mNormal;    ///< The vertex normal
     };
 
     bool operator==(const Vertex &v1, const Vertex &v2);

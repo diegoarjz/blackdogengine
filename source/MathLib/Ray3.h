@@ -29,7 +29,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Ray3();
-        Ray3(const Vector3 &origin, const Vector3 direction);
+        Ray3(const Vector3<> &origin, const Vector3<> direction);
         Ray3(const Ray3 &r);
 
 #if CGAL_COMPATIBLE == 1
@@ -47,8 +47,8 @@ namespace bde {
          * ***********/
         REAL SquaredDistance(const Ray3 &ray);
         REAL Distance(const Ray3 &ray);
-        REAL SquaredDistance(const Vector3 &v) const;
-        REAL Distance(const Vector3 &v) const;
+        REAL SquaredDistance(const Vector3<> &v) const;
+        REAL Distance(const Vector3<> &v) const;
 
 
         friend class Segment3;

@@ -52,7 +52,7 @@ namespace bde {
              * Edition *
              * ********/
             void AddPiece(BezierCurvePiece *p);
-            void SetControlPoint(const unsigned int &n, const Vector3 &pos);
+            void SetControlPoint(const unsigned int &n, const Vector3<> &pos);
 
             Vector4 GetPositionForT(const float &t);
             friend class BezierCurve;

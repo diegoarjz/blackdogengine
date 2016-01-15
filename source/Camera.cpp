@@ -27,24 +27,24 @@ namespace bde{
         return mParentGameObject.lock()->GetComponent<TransformComponent>()->GetRotation();
     }
     
-    Vector3 Camera::GetPosition(){
+    Vector3<> Camera::GetPosition(){
         return mParentGameObject.lock()->GetComponent<TransformComponent>()->GetPosition();
     }
     
-    Vector3 Camera::GetDirection(){
+    Vector3<> Camera::GetDirection(){
         return -1*Matrix3(GetOrientation()).GetColumn(2);
     }
     
-    Vector3 Camera::GetUp(){
+    Vector3<> Camera::GetUp(){
         return Matrix3(GetOrientation()).GetColumn(1);
     }
     
-    Vector3 Camera::GetRight(){
+    Vector3<> Camera::GetRight(){
         return Matrix3(GetOrientation()).GetColumn(0);
     }
     
     void Camera::OnFrameChanged(){
-        Vector3 pos = -1*GetPosition();
+        Vector3<> pos = -1*GetPosition();
         Matrix4 R = Matrix4(GetOrientation()).Inverse();
         Matrix4 T = Matrix4(1,0,0,pos.X(),
                             0,1,0,pos.Y(),

@@ -11,7 +11,7 @@ namespace bde{
         
     }
     
-    Transformation::Transformation(const Vector3 &eulerAngles, const Vector3 &pos, const Vector3 &scale){
+    Transformation::Transformation(const Vector3<> &eulerAngles, const Vector3<> &pos, const Vector3<> &scale){
         mPosition = pos;
         mScale = scale;
         mRotation = Quaternion::FromEulerAngles(eulerAngles);
@@ -33,36 +33,36 @@ namespace bde{
      * Getters & Setters *
      * ******************/
     void Transformation::SetPosition(const float& x, const float& y, const float& z){
-        SetPosition(Vector3(x,y,z));
+        SetPosition(Vector3<>(x,y,z));
     }
     
-    void Transformation::SetPosition(const Vector3 &pos){
+    void Transformation::SetPosition(const Vector3<> &pos){
         mPosition = pos;
         mHomogeneousMatrixCurrent = false;
     }
     
     void Transformation::Translate(const float& x, const float& y, const float& z){
-        Translate(Vector3(x,y,z));
+        Translate(Vector3<>(x,y,z));
         mHomogeneousMatrixCurrent = false;
     }
     
-    void Transformation::Translate(const Vector3 &translation){
-        mPosition += translation;
+    void Transformation::Translate(const Vector3<> &translation){
+        mPosition = mPosition + translation;
         mHomogeneousMatrixCurrent = false;
     }
     
     void Transformation::Yaw(const float& angle){
-        mRotation = Quaternion::FromEulerAngles(Vector3(0,0,angle)) * mRotation;
+        mRotation = Quaternion::FromEulerAngles(Vector3<>(0,0,angle)) * mRotation;
         mHomogeneousMatrixCurrent = false;
     }
     
     void Transformation::Pitch(const float& angle){
-        mRotation = Quaternion::FromEulerAngles(Vector3(angle,0,0)) * mRotation;
+        mRotation = Quaternion::FromEulerAngles(Vector3<>(angle,0,0)) * mRotation;
         mHomogeneousMatrixCurrent = false;
     }
     
     void Transformation::Roll(const float& angle){
-        mRotation = Quaternion::FromEulerAngles(Vector3(0,angle,0)) * mRotation;
+        mRotation = Quaternion::FromEulerAngles(Vector3<>(0,angle,0)) * mRotation;
         mHomogeneousMatrixCurrent = false;
     }
     
@@ -74,21 +74,21 @@ namespace bde{
     }
     
     void Transformation::SetScale(const float& x, const float& y, const float& z){
-        SetScale(Vector3(x,y,z));
+        SetScale(Vector3<>(x,y,z));
         mHomogeneousMatrixCurrent = false;
     }
     
-    void Transformation::SetScale(const Vector3 &s){
+    void Transformation::SetScale(const Vector3<> &s){
         mScale = s;
         mHomogeneousMatrixCurrent = false;
     }
     
     
-    Vector3 Transformation::GetPosition()const{
+    Vector3<> Transformation::GetPosition()const{
         return mPosition;
     }
     
-    Vector3 Transformation::GetScale()const{
+    Vector3<> Transformation::GetScale()const{
         return mScale;
     }
     
@@ -132,7 +132,7 @@ namespace bde{
                             0.0, 0.0, t2.mScale.Z()     // Third Row
                             );
         t.mPosition = t2.mRotation*(scaleMatrix*mPosition) + t2.mPosition;
-        t.mScale = Vector3(mScale.X()*t.mScale.X(),
+        t.mScale = Vector3<>(mScale.X()*t.mScale.X(),
                            mScale.Y()*t.mScale.Y(),
                            mScale.Z()*t.mScale.Z());
         t.mRotation = t2.mRotation * mRotation;

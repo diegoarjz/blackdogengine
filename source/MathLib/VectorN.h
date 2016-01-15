@@ -38,6 +38,10 @@ namespace bde {
             return mComp;
         }
         
+        operator const R*() const{
+            return mComp;
+        }
+        
         const R& operator[](const U32 &n) const{
             return mComp[n];
         }

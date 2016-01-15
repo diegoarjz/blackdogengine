@@ -398,7 +398,7 @@ namespace bde {
 			glUniform2f(uniform->GetBindingInfo()->GetBindingID(), v.X(), v.Y());
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector3 &v){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector3<> &v){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
 			glUniform3f(uniform->GetBindingInfo()->GetBindingID(), v.X(), v.Y(), v.Z());
 	}
@@ -446,7 +446,7 @@ namespace bde {
 			glUniform2f(attribute->GetBindingInfo()->GetBindingID(), v.X(), v.Y());
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector3 &v){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector3<> &v){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
 			glUniform3f(attribute->GetBindingInfo()->GetBindingID(), v.X(), v.Y(), v.Z());
 	}

@@ -30,7 +30,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Segment3();
-        Segment3(const Vector3 &source, const Vector3 &target);
+        Segment3(const Vector3<> &source, const Vector3<> &target);
         Segment3(const Segment3 &segment);
 
 #if CGAL_COMPATIBLE == 1
@@ -43,12 +43,12 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector3 Source() const;
-        Vector3 Target() const;
+        Vector3<> Source() const;
+        Vector3<> Target() const;
 
         REAL Length() const;
 
-        Vector3 Direction() const;
+        Vector3<> Direction() const;
 
         /* ************
          * Operations *

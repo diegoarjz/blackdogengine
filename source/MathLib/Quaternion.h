@@ -51,13 +51,13 @@ namespace bde {
         bool operator==(const Quaternion &q) const;
         bool operator!=(const Quaternion &q) const;
         Quaternion operator*(const Quaternion &q) const;
-        Vector3 operator*(const Vector3 &v) const;
+        Vector3f operator*(const Vector3f &v) const;
 
         /* ****************
          * Static Methods *
          * ***************/
-        static Quaternion RotationBetweenVectors(const Vector3 &v1, const Vector3 &v2);
-        static Quaternion FromEulerAngles(const Vector3 &eulerAngles);
+        static Quaternion RotationBetweenVectors(const Vector3f &v1, const Vector3f &v2);
+        static Quaternion FromEulerAngles(const Vector3f &eulerAngles);
     };
 } // namespace bde
 

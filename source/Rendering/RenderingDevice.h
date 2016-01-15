@@ -103,7 +103,7 @@ namespace bde {
          * ****************/
         virtual void SetUniformValue(ShaderUniformPtr uniform, const float &f) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2<> &v) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3 &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3<> &v) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4 &v) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGB &c) = 0;
@@ -113,7 +113,7 @@ namespace bde {
         
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const float &f) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2<> &v) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3 &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3<> &v) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4 &v) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGB &c) = 0;

@@ -72,10 +72,10 @@ namespace bde{
          * Frame *
          * ******/
         Quaternion GetOrientation();
-        Vector3 GetDirection();
-        Vector3 GetUp();
-        Vector3 GetRight();
-        Vector3 GetPosition();
+        Vector3<> GetDirection();
+        Vector3<> GetUp();
+        Vector3<> GetRight();
+        Vector3<> GetPosition();
         
         void OnFrameChanged();
         

@@ -39,25 +39,25 @@ namespace bde{
         return mParentTransform.lock();
     }
     
-    void TransformComponent::SetPosition(const Vector3 &position){
+    void TransformComponent::SetPosition(const Vector3<> &position){
         mLocalPosition = position;
         setDirty();
     }
     
     void TransformComponent::SetPosition(const float& x, const float& y, const float& z){
-        SetPosition(Vector3(x,y,z));
+        SetPosition(Vector3<>(x,y,z));
     }
     
     void TransformComponent::Translate(const float& x, const float& y, const float& z){
-        Translate(Vector3(x,y,z));
+        Translate(Vector3<>(x,y,z));
     }
     
-    void TransformComponent::Translate(const Vector3 &translation){
-        mLocalPosition += translation;
+    void TransformComponent::Translate(const Vector3<> &translation){
+        mLocalPosition = mLocalPosition + translation;
         setDirty();
     }
     
-    Vector3 TransformComponent::GetPosition() const{
+    Vector3<> TransformComponent::GetPosition() const{
         return mLocalPosition;
     }
     
@@ -67,17 +67,17 @@ namespace bde{
     }
     
     void TransformComponent::Yaw(const float& angle){
-        mLocalRotation = Quaternion::FromEulerAngles(Vector3(0,0,angle)) * mLocalRotation;
+        mLocalRotation = Quaternion::FromEulerAngles(Vector3<>(0,0,angle)) * mLocalRotation;
         setDirty();
     }
     
     void TransformComponent::Pitch(const float& angle){
-        mLocalRotation = Quaternion::FromEulerAngles(Vector3(angle,0,0)) * mLocalRotation;
+        mLocalRotation = Quaternion::FromEulerAngles(Vector3<>(angle,0,0)) * mLocalRotation;
         setDirty();
     }
     
     void TransformComponent::Roll(const float& angle){
-        mLocalRotation = Quaternion::FromEulerAngles(Vector3(0,angle,0)) * mLocalRotation;
+        mLocalRotation = Quaternion::FromEulerAngles(Vector3<>(0,angle,0)) * mLocalRotation;
         setDirty();
     }
     
@@ -85,20 +85,20 @@ namespace bde{
         return mLocalRotation;
     }
     
-    void TransformComponent::SetScale(const Vector3 &scale){
+    void TransformComponent::SetScale(const Vector3<> &scale){
         mLocalScale = scale;
         setDirty();
     }
     
     void TransformComponent::SetScale(const float& scale){
-        SetScale(Vector3(scale,scale,scale));
+        SetScale(Vector3<>(scale,scale,scale));
     }
     
     void TransformComponent::SetScale(const float& x, const float& y, const float& z){
-        SetScale(Vector3(x,y,z));
+        SetScale(Vector3<>(x,y,z));
     }
     
-    Vector3 TransformComponent::GetScale(){
+    Vector3<> TransformComponent::GetScale(){
         return mLocalScale;
     }
     
@@ -133,7 +133,7 @@ namespace bde{
         return mWorldToLocal;
     }
     
-    Vector3 TransformComponent::TransformPointToWorldCoordinates(const Vector3 &localPoint){
+    Vector3<> TransformComponent::TransformPointToWorldCoordinates(const Vector3<> &localPoint){
         Vector4 homogeneousTransformedPoint = GetLocalToWorldMatrix() *
                                               Vector4(localPoint.X(),
                                                       localPoint.Y(),
@@ -141,12 +141,12 @@ namespace bde{
         
         homogeneousTransformedPoint = homogeneousTransformedPoint / homogeneousTransformedPoint.W();
         
-        return Vector3(homogeneousTransformedPoint.X(),
+        return Vector3<>(homogeneousTransformedPoint.X(),
                        homogeneousTransformedPoint.Y(),
                        homogeneousTransformedPoint.Z());
     }
     
-    Vector3 TransformComponent::TransformPointToLocalCoordinates(const Vector3 &worldPoint){
+    Vector3<> TransformComponent::TransformPointToLocalCoordinates(const Vector3<> &worldPoint){
         Vector4 homogeneousTransformedPoint = GetWorldToLocalMatrix() *
                                               glm::vec4(worldPoint.X(),
                                                         worldPoint.Y(),
@@ -154,12 +154,12 @@ namespace bde{
                                                         1.0f);
         homogeneousTransformedPoint = homogeneousTransformedPoint / homogeneousTransformedPoint.W();
 
-        return Vector3(homogeneousTransformedPoint.X(),
+        return Vector3<>(homogeneousTransformedPoint.X(),
                        homogeneousTransformedPoint.Y(),
                        homogeneousTransformedPoint.Z());
     }
     
-    Vector3 TransformComponent::TransformDirectionToWorldCoordinates(const Vector3 &localDirection){
+    Vector3<> TransformComponent::TransformDirectionToWorldCoordinates(const Vector3<> &localDirection){
         // matrix multiply padding the extra element with a 0
         // notice that the worldToLocalMatrix is used here
         // and the point is multiplied as a row matrix before the
@@ -169,18 +169,18 @@ namespace bde{
                                                           localDirection.Z(),
                                                           0.0f) * GetWorldToLocalMatrix();
         homogeneousTransformedDirection = homogeneousTransformedDirection / homogeneousTransformedDirection.W();
-        return Vector3(homogeneousTransformedDirection.X(),
+        return Vector3<>(homogeneousTransformedDirection.X(),
                          homogeneousTransformedDirection.Y(),
                          homogeneousTransformedDirection.Z());
     }
     
-    Vector3 TransformComponent::TransformDirectionToLocalCoordinates(const Vector3 &worldDirection){
+    Vector3<> TransformComponent::TransformDirectionToLocalCoordinates(const Vector3<> &worldDirection){
         Vector4 homogeneousTransformedDirection = Vector4(worldDirection.X(),
                                                           worldDirection.Y(),
                                                           worldDirection.Z(),
                                                           0.0f) * GetLocalToWorldMatrix();
         homogeneousTransformedDirection = homogeneousTransformedDirection / homogeneousTransformedDirection.W();
-        return Vector3(homogeneousTransformedDirection.X(),
+        return Vector3<>(homogeneousTransformedDirection.X(),
                          homogeneousTransformedDirection.Y(),
                          homogeneousTransformedDirection.Z());
     }

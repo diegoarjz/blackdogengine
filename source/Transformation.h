@@ -10,8 +10,8 @@ namespace bde {
     class Transformation{
     private:
         Quaternion mRotation;
-        Vector3 mPosition;
-        Vector3 mScale;
+        Vector3<> mPosition;
+        Vector3<> mScale;
         Matrix4 mHomogeneousMatrix;
         bool mHomogeneousMatrixCurrent;
     public:
@@ -22,7 +22,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Transformation();
-        Transformation(const Vector3 &eulerAngles, const Vector3 &pos, const Vector3 &scale);
+        Transformation(const Vector3<> &eulerAngles, const Vector3<> &pos, const Vector3<> &scale);
         Transformation(const Transformation& other);
         ~Transformation();
         
@@ -30,9 +30,9 @@ namespace bde {
          * Getters & Setters *
          * ******************/
         void SetPosition(const float& x, const float& y, const float& z);
-        void SetPosition(const Vector3 &pos);
+        void SetPosition(const Vector3<> &pos);
         void Translate(const float& x, const float& y, const float& z);
-        void Translate(const Vector3 &translation);
+        void Translate(const Vector3<> &translation);
         
         // Rotation around Z axis
         void Yaw(const float& angle);
@@ -43,10 +43,10 @@ namespace bde {
         
         void SetScale(const float& scale);
         void SetScale(const float& x, const float& y, const float& z);
-        void SetScale(const Vector3 &s);
+        void SetScale(const Vector3<> &s);
         
-        Vector3 GetPosition()const;
-        Vector3 GetScale()const;
+        Vector3<> GetPosition()const;
+        Vector3<> GetScale()const;
         Quaternion GetRotation()const;
         void SetRotation(const Quaternion& rot);
         
