@@ -13,10 +13,10 @@ namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Line3::Line3():Line3(Vector3(0,0,0), Vector3(1,0,0)) {
+    Line3::Line3():Line3(Vector3<>(0,0,0), Vector3<>(1,0,0)) {
     }
 
-    Line3::Line3(const Vector3 &origin, const Vector3 &direction) {
+    Line3::Line3(const Vector3<> &origin, const Vector3<> &direction) {
         mLine = Line_3(Point_3(origin.X(), origin.Y(), origin.Z()),
                        Direction_3(direction.X(), direction.Y(), direction.Z()));
     }
@@ -41,11 +41,11 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector3 Line3::Point() const {
+    Vector3<> Line3::Point() const {
         return mLine.point();
     }
 
-    Vector3 Line3::Vector() const {
+    Vector3<> Line3::Vector() const {
         return mLine.to_vector();
     }
 
@@ -60,26 +60,26 @@ namespace bde {
         return sqrtf(SquaredDistance(line));
     }
 
-    REAL Line3::SquaredDistance(const Vector3 &point) const {
+    REAL Line3::SquaredDistance(const Vector3<> &point) const {
         return CGAL::squared_distance(mLine, Point_3(point) );
     }
 
-    REAL Line3::Distance(const Vector3 &point) const {
+    REAL Line3::Distance(const Vector3<> &point) const {
         return sqrtf(SquaredDistance(point));
     }
 
-    Vector3 Line3::Projection(const Vector3 &point) const {
-        return Vector3(mLine.projection(Point_3(point)));
+    Vector3<> Line3::Projection(const Vector3<> &point) const {
+        return Vector3<>(mLine.projection(Point_3(point)));
     }
 
-    REAL Line3::NearestPoints(const Line3 &otherLine, Vector3 &pointOnThisLine,
-                              Vector3 &pointOnOtherLine) {
+    REAL Line3::NearestPoints(const Line3 &otherLine, Vector3<> &pointOnThisLine,
+                              Vector3<> &pointOnOtherLine) {
         Plane p1(*this, Point() + otherLine.Vector());
         Plane p2(*this, Point() + p1.Normal());
         PlaneIntersection intersection = p2.Intersection(otherLine);
 
         if(intersection.intersectionType == PlaneIntersection::PointIntersection) {
-            Vector3 i2 = Projection(intersection.intersectionPoint);
+            Vector3<> i2 = Projection(intersection.intersectionPoint);
             pointOnOtherLine = intersection.intersectionPoint;
             pointOnThisLine = i2;
             return (pointOnOtherLine-pointOnThisLine).Length();

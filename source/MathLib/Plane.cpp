@@ -12,21 +12,21 @@ namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Plane::Plane():Plane(Vector3(0,0,0), Vector3(0,1,0)) {
+    Plane::Plane():Plane(Vector3<>(0,0,0), Vector3<>(0,1,0)) {
     }
 
-    Plane::Plane(const Vector3 &point, const Vector3 &normal) {
+    Plane::Plane(const Vector3<> &point, const Vector3<> &normal) {
         mPlane = Plane_3(Point_3(point.X(), point.Y(), point.Z()),
                          Vector_3(normal.X(), normal.Y(), normal.Z()));
     }
 
-    Plane::Plane(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3) {
+    Plane::Plane(const Vector3<> &p1, const Vector3<> &p2, const Vector3<> &p3) {
         mPlane = Plane_3(Point_3(p1.X(), p1.Y(), p1.Z()),
                          Point_3(p2.X(), p2.Y(), p2.Z()),
                          Point_3(p3.X(), p3.Y(), p3.Z()));
     }
 
-    Plane::Plane(const Line3 &line, const Vector3 point) {
+    Plane::Plane(const Line3 &line, const Vector3<> point) {
         mPlane = Plane_3(line, Point_3(point.X(), point.Y(), point.Z()));
     }
 
@@ -36,16 +36,16 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector3 Plane::Normal() const {
-        return Vector3(mPlane.orthogonal_vector());
+    Vector3<> Plane::Normal() const {
+        return Vector3<>(mPlane.orthogonal_vector());
     }
 
-    Vector3 Plane::Base() const {
-        return Vector3(mPlane.base1());
+    Vector3<> Plane::Base() const {
+        return Vector3<>(mPlane.base1());
     }
 
-    Vector3 Plane::Base2() const {
-        return Vector3(mPlane.base2());
+    Vector3<> Plane::Base2() const {
+        return Vector3<>(mPlane.base2());
     }
 
     /* ************
@@ -127,15 +127,15 @@ namespace bde {
     }
 
 
-    Vector3 Plane::Project(const Vector3 &v) {
-        return Vector3(mPlane.projection(v));
+    Vector3<> Plane::Project(const Vector3<> &v) {
+        return Vector3<>(mPlane.projection(v));
     }
 
-    REAL Plane::DistanceToPoint(const Vector3 &v) {
+    REAL Plane::DistanceToPoint(const Vector3<> &v) {
         return (v-Project(v)).Length();
     }
 
-    bool Plane::Contained(const Vector3 &v) {
+    bool Plane::Contained(const Vector3<> &v) {
         return mPlane.has_on(v);
     }
 

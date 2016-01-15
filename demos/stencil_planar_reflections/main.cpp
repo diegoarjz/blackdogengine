@@ -118,40 +118,40 @@ GeometryPtr createCube(){
 	
 	std::vector<Vertex> vertices({
 		// Bottom Face (Red)
-		{Vector3(-1,-1, 1), Vector3(1,0,0)}, // index: 0
-		{Vector3(-1,-1,-1), Vector3(1,0,0)}, // index: 1
-		{Vector3( 1,-1,-1), Vector3(1,0,0)}, // index: 2
-		{Vector3( 1,-1, 1), Vector3(1,0,0)}, // index: 3
+		{Vector3<>(-1,-1, 1), Vector3<>(1,0,0)}, // index: 0
+		{Vector3<>(-1,-1,-1), Vector3<>(1,0,0)}, // index: 1
+		{Vector3<>( 1,-1,-1), Vector3<>(1,0,0)}, // index: 2
+		{Vector3<>( 1,-1, 1), Vector3<>(1,0,0)}, // index: 3
 		
 		// Front Face (Blue)
-		{Vector3(-1,-1, 1), Vector3(0,0,1)}, // index: 4
-		{Vector3( 1,-1, 1), Vector3(0,0,1)}, // index: 5
-		{Vector3( 1, 1, 1), Vector3(0,0,1)}, // index: 6
-		{Vector3(-1, 1, 1), Vector3(0,0,1)}, // index: 7
+		{Vector3<>(-1,-1, 1), Vector3<>(0,0,1)}, // index: 4
+		{Vector3<>( 1,-1, 1), Vector3<>(0,0,1)}, // index: 5
+		{Vector3<>( 1, 1, 1), Vector3<>(0,0,1)}, // index: 6
+		{Vector3<>(-1, 1, 1), Vector3<>(0,0,1)}, // index: 7
 		
 		// Right Face (Green)
-		{Vector3( 1,-1, 1), Vector3(0,1,0)}, // index: 8
-		{Vector3( 1,-1,-1), Vector3(0,1,0)}, // index: 9
-		{Vector3( 1, 1,-1), Vector3(0,1,0)}, // index: 10
-		{Vector3( 1, 1, 1), Vector3(0,1,0)}, // index: 11
+		{Vector3<>( 1,-1, 1), Vector3<>(0,1,0)}, // index: 8
+		{Vector3<>( 1,-1,-1), Vector3<>(0,1,0)}, // index: 9
+		{Vector3<>( 1, 1,-1), Vector3<>(0,1,0)}, // index: 10
+		{Vector3<>( 1, 1, 1), Vector3<>(0,1,0)}, // index: 11
 		
 		// Back Face (Yellow)
-		{Vector3( 1,-1,-1), Vector3(1,1,0)}, // index: 12
-		{Vector3(-1,-1,-1), Vector3(1,1,0)}, // index: 13
-		{Vector3(-1, 1,-1), Vector3(1,1,0)}, // index: 14
-		{Vector3( 1, 1,-1), Vector3(1,1,0)}, // index: 15
+		{Vector3<>( 1,-1,-1), Vector3<>(1,1,0)}, // index: 12
+		{Vector3<>(-1,-1,-1), Vector3<>(1,1,0)}, // index: 13
+		{Vector3<>(-1, 1,-1), Vector3<>(1,1,0)}, // index: 14
+		{Vector3<>( 1, 1,-1), Vector3<>(1,1,0)}, // index: 15
 		
 		// Left Face (Purple)
-		{Vector3(-1,-1, 1), Vector3(1,0,1)}, // index: 16
-		{Vector3(-1, 1, 1), Vector3(1,0,1)}, // index: 17
-		{Vector3(-1, 1,-1), Vector3(1,0,1)}, // index: 18
-		{Vector3(-1,-1,-1), Vector3(1,0,1)}, // index: 19
+		{Vector3<>(-1,-1, 1), Vector3<>(1,0,1)}, // index: 16
+		{Vector3<>(-1, 1, 1), Vector3<>(1,0,1)}, // index: 17
+		{Vector3<>(-1, 1,-1), Vector3<>(1,0,1)}, // index: 18
+		{Vector3<>(-1,-1,-1), Vector3<>(1,0,1)}, // index: 19
 		
 		// Top Face (Blueish green)
-		{Vector3(-1, 1, 1), Vector3(0,1,1)}, // index: 20
-		{Vector3( 1, 1, 1), Vector3(0,1,1)}, // index: 21
-		{Vector3( 1, 1,-1), Vector3(0,1,1)}, // index: 22
-		{Vector3(-1, 1,-1), Vector3(0,1,1)}, // index: 23
+		{Vector3<>(-1, 1, 1), Vector3<>(0,1,1)}, // index: 20
+		{Vector3<>( 1, 1, 1), Vector3<>(0,1,1)}, // index: 21
+		{Vector3<>( 1, 1,-1), Vector3<>(0,1,1)}, // index: 22
+		{Vector3<>(-1, 1,-1), Vector3<>(0,1,1)}, // index: 23
 	});
 	
 	U32 els[] = {
@@ -178,10 +178,10 @@ GeometryPtr createCube(){
 
 GeometryPtr createFloor(const float &size){
 	std::vector<Vertex> vertices({
-		{Vector3( size, 0, size), Vector3(0.1,0.1,0.1)},
-		{Vector3( size, 0,-size), Vector3(0.1,0.1,0.1)},
-		{Vector3(-size, 0,-size), Vector3(0.1,0.1,0.1)},
-		{Vector3(-size, 0, size), Vector3(0.1,0.1,0.1)}
+		{Vector3<>( size, 0, size), Vector3<>(0.1,0.1,0.1)},
+		{Vector3<>( size, 0,-size), Vector3<>(0.1,0.1,0.1)},
+		{Vector3<>(-size, 0,-size), Vector3<>(0.1,0.1,0.1)},
+		{Vector3<>(-size, 0, size), Vector3<>(0.1,0.1,0.1)}
 	});
 	
 	U32 els[]={0,1,3, 1,2,3};

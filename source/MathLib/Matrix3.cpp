@@ -48,19 +48,19 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector3 Matrix3::GetColumn(const int &c) const {
-        return Vector3(glm::column(mMatrix, c));
+    Vector3f Matrix3::GetColumn(const int &c) const {
+        return Vector3f(glm::column(mMatrix, c));
     }
 
-    void Matrix3::SetColumn(const int &index, const Vector3 &c) {
+    void Matrix3::SetColumn(const int &index, const Vector3f &c) {
         mMatrix = glm::column(mMatrix, index, c);
     }
 
-    Vector3 Matrix3::GetRow(const int &r) const {
-        return Vector3(glm::row(mMatrix, r));
+    Vector3f Matrix3::GetRow(const int &r) const {
+        return Vector3f(glm::row(mMatrix, r));
     }
 
-    void Matrix3::SetRow(const int &index, const Vector3 &r) {
+    void Matrix3::SetRow(const int &index, const Vector3f &r) {
         mMatrix = glm::row(mMatrix, index, r);
     }
 
@@ -75,8 +75,8 @@ namespace bde {
     /* ************
      * Operations *
      * ***********/
-    Vector3 Matrix3::operator*(const Vector3 &v)const {
-        return mMatrix*v;
+    Vector3f Matrix3::operator*(const Vector3f &v)const {
+        return mMatrix*glm::vec3(v);
     }
 
     Matrix3 Matrix3::operator*(const Matrix3 &m)const {
@@ -94,7 +94,7 @@ namespace bde {
     bool Matrix3::IsOrthogonal() const {
         // Check each row against the others.
         for(int i=0; i<3; ++i) {
-            Vector3 row1 = GetRow(i);
+            Vector3f row1 = GetRow(i);
 
             // If the row is not normalized
             if(row1.Length() != 1) {
@@ -107,7 +107,7 @@ namespace bde {
                     continue;
                 }
 
-                Vector3 row2 = GetRow(j);
+                Vector3f row2 = GetRow(j);
 
                 if(row1.Dot(row2) != 0) {
                     return false;
@@ -117,7 +117,7 @@ namespace bde {
 
         // Check each column against the others.
         for(int i=0; i<3; ++i) {
-            Vector3 col1 = GetColumn(i);
+            Vector3f col1 = GetColumn(i);
 
             // If the row is not normalized
             if(col1.Length() != 1) {
@@ -130,7 +130,7 @@ namespace bde {
                     continue;
                 }
 
-                Vector3 col2 = GetColumn(j);
+                Vector3f col2 = GetColumn(j);
 
                 if(col1.Dot(col2) != 0) {
                     return false;

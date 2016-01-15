@@ -13,10 +13,10 @@ namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Ray3::Ray3():Ray3(Vector3(0,0,0), Vector3(1,0,0)) {
+    Ray3::Ray3():Ray3(Vector3<>(0,0,0), Vector3<>(1,0,0)) {
     }
 
-    Ray3::Ray3(const Vector3 &origin, const Vector3 direction) {
+    Ray3::Ray3(const Vector3<> &origin, const Vector3<> direction) {
         mRay = Ray_3(Point_3(origin.X(), origin.Y(), origin.Z()),
                      Direction_3(direction.X(), direction.Y(), direction.Z()));
     }
@@ -54,11 +54,11 @@ namespace bde {
         return sqrtf(SquaredDistance(ray));
     }
 
-    REAL Ray3::SquaredDistance(const Vector3 &v) const {
+    REAL Ray3::SquaredDistance(const Vector3<> &v) const {
         return CGAL::squared_distance(mRay, Point_3(v));
     }
 
-    REAL Ray3::Distance(const Vector3 &v) const {
+    REAL Ray3::Distance(const Vector3<> &v) const {
         return sqrtf(SquaredDistance(v));
     }
 

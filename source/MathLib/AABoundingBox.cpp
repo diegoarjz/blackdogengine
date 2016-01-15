@@ -13,12 +13,12 @@ namespace bde {
      * Construction & Destruction *
      * ***************************/
     AABoundingBox::AABoundingBox() {
-        mBounds[0] = Vector3(0,0,0);
-        mBounds[1] = Vector3(0,0,0);
+        mBounds[0] = Vector3<>(0,0,0);
+        mBounds[1] = Vector3<>(0,0,0);
         mIsNull = true;
     }
 
-    AABoundingBox::AABoundingBox(const Vector3 &min, const Vector3 &max) {
+    AABoundingBox::AABoundingBox(const Vector3<> &min, const Vector3<> &max) {
         mBounds[0] = min;
         mBounds[1] = max;
         mIsNull = false;
@@ -30,8 +30,8 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector3 AABoundingBox::GetPoint(const PointName &pointName) const {
-        Vector3 point = mBounds[0];
+    Vector3<> AABoundingBox::GetPoint(const PointName &pointName) const {
+        Vector3<> point = mBounds[0];
         int p = (int)pointName;
 
         if(p & 0x1) {
@@ -49,7 +49,7 @@ namespace bde {
         return point;
     }
 
-    void AABoundingBox::GetPoints(Vector3 *points) {
+    void AABoundingBox::GetPoints(Vector3<> *points) {
         for(int i=0; i<8; ++i) {
             points[i] = GetPoint((PointName)i);
         }
@@ -75,7 +75,7 @@ namespace bde {
         mIsNull = null;
     }
 
-    void AABoundingBox::GrowToContain(const Vector3 &point) {
+    void AABoundingBox::GrowToContain(const Vector3<> &point) {
         if(point.X() < mBounds[0].X()) {
             mBounds[0].X() = point.X();
         }

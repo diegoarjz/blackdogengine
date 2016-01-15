@@ -25,8 +25,8 @@ namespace bde {
         return centroid;
     }
 
-    Vector3 MathUtils::Centroid(std::list<Vector3> points) {
-        Vector3 centroid(0,0,0);
+    Vector3<> MathUtils::Centroid(std::list<Vector3<>> points) {
+        Vector3<> centroid(0,0,0);
 
         /*
         for(auto p : points) {

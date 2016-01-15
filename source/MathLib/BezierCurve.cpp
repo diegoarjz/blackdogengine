@@ -52,11 +52,11 @@ namespace bde {
         }
 
         Vector4 pos3 = mControlPoints.GetRow(2);
-        SetControlPoint(2, Vector3(pos3.X(), pos3.Y(), pos3.Z()));
+        SetControlPoint(2, Vector3<>(pos3.X(), pos3.Y(), pos3.Z()));
     }
 
     void BezierCurve::BezierCurvePiece::SetControlPoint(const unsigned int &n,
-            const Vector3 &pos) {
+            const Vector3<> &pos) {
         if(n > 3) {
             return;
         }

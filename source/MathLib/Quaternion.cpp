@@ -73,16 +73,16 @@ namespace bde {
         return quat;
     }
     
-    Vector3 Quaternion::operator*(const Vector3 &v) const{
+    Vector3<> Quaternion::operator*(const Vector3<> &v) const{
         auto vec = mQuaternion*glm::vec3(v.X(), v.Y(), v.Z());
-        return Vector3(vec.x, vec.y, vec.z);
+        return Vector3<>(vec.x, vec.y, vec.z);
     }
     
     /* ****************
      * Static Methods *
      * ***************/
-    Quaternion Quaternion::RotationBetweenVectors(const Vector3 &v1,
-            const Vector3 &v2) {
+    Quaternion Quaternion::RotationBetweenVectors(const Vector3<> &v1,
+            const Vector3<> &v2) {
         glm::vec3 start = glm::normalize(glm::vec3(v1.X(), v1.Y(), v1.Z()));
         glm::vec3 dest = glm::normalize(glm::vec3(v2.X(), v2.Y(), v2.Z()));
         REAL cosTheta = glm::dot(start, dest);
@@ -117,7 +117,7 @@ namespace bde {
                          );
     }
     
-    Quaternion Quaternion::FromEulerAngles(const Vector3 &eulerAngles){
+    Quaternion Quaternion::FromEulerAngles(const Vector3<> &eulerAngles){
         Quaternion q;
         q.mQuaternion = glm::quat(glm::vec3(eulerAngles.X(),
                                             eulerAngles.Y(),

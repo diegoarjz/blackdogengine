@@ -26,7 +26,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Line3();
-        Line3(const Vector3 &origin, const Vector3 &direction);
+        Line3(const Vector3<> &origin, const Vector3<> &direction);
         Line3(const Line3 &line);
         ~Line3();
 
@@ -38,8 +38,8 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector3 Point() const;
-        Vector3 Vector() const;
+        Vector3<> Point() const;
+        Vector3<> Vector() const;
 
 
         /* ************
@@ -47,10 +47,10 @@ namespace bde {
          * ***********/
         REAL SquaredDistance(const Line3 &line) const;
         REAL Distance(const Line3 &line) const;
-        REAL SquaredDistance(const Vector3 &point) const;
-        REAL Distance(const Vector3 &point) const;
+        REAL SquaredDistance(const Vector3<> &point) const;
+        REAL Distance(const Vector3<> &point) const;
 
-        Vector3 Projection(const Vector3 &point) const;
+        Vector3<> Projection(const Vector3<> &point) const;
 
         /**
          * Calculates the points on each line where the distance between the lines
@@ -60,8 +60,8 @@ namespace bde {
          * @param pointOnOtherLine [out] Outputs the point on the other line.
          * @return The distance between both points;
          */
-        REAL NearestPoints(const Line3 &otherLine, Vector3 &pointOnThisLine,
-                           Vector3 &pointOnOtherLine);
+        REAL NearestPoints(const Line3 &otherLine, Vector3<> &pointOnThisLine,
+                           Vector3<> &pointOnOtherLine);
 
         friend class Segment3;
     };

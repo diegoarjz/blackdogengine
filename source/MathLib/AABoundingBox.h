@@ -41,7 +41,7 @@ namespace bde {
         };
       private:
         /// The minimum coordinates for all 3 axis.
-        Vector3 mBounds[2];
+        Vector3<> mBounds[2];
         /// Indicates that this bounding volume is null
         bool mIsNull;
       public:
@@ -49,19 +49,19 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         AABoundingBox();
-        AABoundingBox(const Vector3 &min, const Vector3 &max);
+        AABoundingBox(const Vector3<> &min, const Vector3<> &max);
         ~AABoundingBox();
 
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector3 GetPoint(const PointName &pointName) const;
+        Vector3<> GetPoint(const PointName &pointName) const;
         /**
          * Calculates and returns all 8 points defined in the AABB.
          * The output will be ordered by PointName enum.
-         * @param points [out] An array of 8 Vector3.
+         * @param points [out] An array of 8 Vector3<>.
          */
-        void    GetPoints(Vector3 *points);
+        void    GetPoints(Vector3<> *points);
         REAL    SizeX() const;
         REAL    SizeY() const;
         REAL    SizeZ() const;
@@ -72,7 +72,7 @@ namespace bde {
          * Grows the AABB if the point is outside the box,
          * so that it contains the point.
          */
-        void GrowToContain(const Vector3 &point);
+        void GrowToContain(const Vector3<> &point);
 
     }; // class AABoundingBox
 }

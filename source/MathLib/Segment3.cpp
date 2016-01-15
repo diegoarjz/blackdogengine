@@ -12,10 +12,10 @@ namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    Segment3::Segment3():Segment3(Vector3(0,0,0), Vector3(1,0,0)) {
+    Segment3::Segment3():Segment3(Vector3<>(0,0,0), Vector3<>(1,0,0)) {
     }
 
-    Segment3::Segment3(const Vector3 &source, const Vector3 &target) {
+    Segment3::Segment3(const Vector3<> &source, const Vector3<> &target) {
         mSegment = Segment_3(Point_3(source.X(), source.Y(), source.Z()),
                              Point_3(target.X(), target.Y(), target.Z()));
     }
@@ -40,14 +40,14 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector3 Segment3::Source() const {
-        return Vector3(mSegment.source().x(),
+    Vector3<> Segment3::Source() const {
+        return Vector3<>(mSegment.source().x(),
                        mSegment.source().y(),
                        mSegment.source().z());
     }
 
-    Vector3 Segment3::Target() const {
-        return Vector3(mSegment.target().x(),
+    Vector3<> Segment3::Target() const {
+        return Vector3<>(mSegment.target().x(),
                        mSegment.target().y(),
                        mSegment.target().z());
     }
@@ -56,8 +56,8 @@ namespace bde {
         return (Target()-Source()).Length();
     }
 
-    Vector3 Segment3::Direction() const {
-        return Vector3(mSegment.direction());
+    Vector3<> Segment3::Direction() const {
+        return Vector3<>(mSegment.direction());
     }
 
     /* ************

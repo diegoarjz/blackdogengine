@@ -27,11 +27,11 @@ namespace bde {
         std::list<TransformComponentWeakPtr> mChildren;
         
         /// Position relative to the parent transform.
-        Vector3 mLocalPosition;
+        Vector3<> mLocalPosition;
         /// Rotation relative to the parent transform.
         Quaternion mLocalRotation;
         /// Scale relative to the parent transform.
-        Vector3 mLocalScale;
+        Vector3<> mLocalScale;
         
         /// The matrix that converts from local to world coordinates
         Matrix4 mLocalToWorld;
@@ -74,7 +74,7 @@ namespace bde {
          * Sets the local position. Sets dirty.
          * @param position [in] The new position.
          */
-        void SetPosition(const Vector3 &position);
+        void SetPosition(const Vector3<> &position);
         /**
          * Sets the local position. Sets dirty.
          * @param x [in] New x coordinate.
@@ -93,12 +93,12 @@ namespace bde {
          * Sets the local position by translation. Sets dirty.
          * @param translation [in] Translation vector.
          */
-        void Translate(const Vector3 &translation);
+        void Translate(const Vector3<> &translation);
         /**
          * Returns the local position.
          * @return The local position.
          */
-        Vector3 GetPosition() const;
+        Vector3<> GetPosition() const;
         
         /**
          * Sets the local rotation. Sets dirty.
@@ -132,7 +132,7 @@ namespace bde {
          * Sets the local scale. Sets dirty.
          * @param scale [in] The new scale.
          */
-        void SetScale(const Vector3 &scale);
+        void SetScale(const Vector3<> &scale);
         /**
          * Set uniform scale. All of the scale components
          * are equal. Sets dirty.
@@ -150,7 +150,7 @@ namespace bde {
          * Returns the local scale.
          * @return The local scale.
          */
-        Vector3 GetScale();
+        Vector3<> GetScale();
         
         /**
          * Calculates and returns the matrix that transforms this
@@ -180,28 +180,28 @@ namespace bde {
          * @param localPoint [in] A point in local coordinates
          * @return A point in world coordinates
          */
-        Vector3 TransformPointToWorldCoordinates(const Vector3 &localPoint);
+        Vector3<> TransformPointToWorldCoordinates(const Vector3<> &localPoint);
         
         /**
          * Transforms a point from world coordinates into local coordinates.
          * @param worldPoint [in] A point in world cooridnates.
          * @return A point in local coordinates.
          */
-        Vector3 TransformPointToLocalCoordinates(const Vector3 &worldPoint);
+        Vector3<> TransformPointToLocalCoordinates(const Vector3<> &worldPoint);
         
         /**
          * Transforms a direction from local coordinates into world coordinates.
          * @param localDirection [in] A direction in local coordinates.
          * @return A direction in world coordinates.
          */
-        Vector3 TransformDirectionToWorldCoordinates(const Vector3 &localDirection);
+        Vector3<> TransformDirectionToWorldCoordinates(const Vector3<> &localDirection);
         
         /**
          * Transforms a direction from world coordinates into local coordinates.
          * @param worldDirection [in] A direction in world coordinates.
          * @return A direction in local coordinates.
          */
-        Vector3 TransformDirectionToLocalCoordinates(const Vector3 &worldDirection);
+        Vector3<> TransformDirectionToLocalCoordinates(const Vector3<> &worldDirection);
         
         bool NeedsUpdate() const;
     private:
