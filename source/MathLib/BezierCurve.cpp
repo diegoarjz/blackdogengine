@@ -20,10 +20,10 @@ namespace bde {
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    BezierCurve::BezierCurvePiece::BezierCurvePiece(const Vector4 &p1,
-            const Vector4 &p2,
-            const Vector4 &p3,
-            const Vector4 &p4,
+    BezierCurve::BezierCurvePiece::BezierCurvePiece(const Vector4<> &p1,
+            const Vector4<> &p2,
+            const Vector4<> &p3,
+            const Vector4<> &p4,
             BezierCurve::BezierCurvePiece *previous) {
         mPreviousInChain = previous;
         mNextInChain = NULL;
@@ -51,7 +51,7 @@ namespace bde {
             p->mPreviousInChain = this;
         }
 
-        Vector4 pos3 = mControlPoints.GetRow(2);
+        Vector4<> pos3 = mControlPoints.GetRow(2);
         SetControlPoint(2, Vector3<>(pos3.X(), pos3.Y(), pos3.Z()));
     }
 
@@ -61,7 +61,7 @@ namespace bde {
             return;
         }
 
-        Vector4 newControlPoint(pos.X(), pos.Y(), pos.Z(), 1);
+        Vector4<> newControlPoint(pos.X(), pos.Y(), pos.Z(), 1);
 
         switch (mConstraint) {
         case G0:
@@ -79,18 +79,18 @@ namespace bde {
     }
 
     void BezierCurve::BezierCurvePiece::setControlPointG0(const unsigned int &n,
-            const Vector4 &pos) {
+            const Vector4<> &pos) {
         mControlPoints.SetRow(n, pos);
     }
 
     void BezierCurve::BezierCurvePiece::setControlPointG1(const unsigned int &n,
-            const Vector4 &pos) {
+            const Vector4<> &pos) {
         if(n == 0) {
-            Vector4 currentControlPoint = mControlPoints.GetRow(0);
-            Vector4 translation = pos-currentControlPoint;
+            Vector4<> currentControlPoint = mControlPoints.GetRow(0);
+            Vector4<> translation = pos-currentControlPoint;
 
             if(mPreviousInChain != NULL) {
-                Vector4 previousNewPosition = mPreviousInChain->mControlPoints.GetRow(
+                Vector4<> previousNewPosition = mPreviousInChain->mControlPoints.GetRow(
                                                   2) + translation;
                 mPreviousInChain->mControlPoints.SetRow(2, translation);
                 mPreviousInChain->mControlPoints.SetRow(3, pos);
@@ -103,11 +103,11 @@ namespace bde {
             mControlPoints.SetRow(1, pos);
 
             if(mPreviousInChain != NULL) {
-                Vector4 previousPieceControlPoint2 = mPreviousInChain->mControlPoints.GetRow(2);
+                Vector4<> previousPieceControlPoint2 = mPreviousInChain->mControlPoints.GetRow(2);
                 float previousControlPointLength = (pos-previousPieceControlPoint2).Length();
-                Vector4 tangent = mControlPoints.GetRow(0) - pos;
+                Vector4<> tangent = mControlPoints.GetRow(0) - pos;
                 tangent.Normalize();
-                Vector4 previousNewControlPoint = mControlPoints.GetRow(
+                Vector4<> previousNewControlPoint = mControlPoints.GetRow(
                                                       0)+previousControlPointLength*tangent;
                 mPreviousInChain->mControlPoints.SetRow(2, previousNewControlPoint);
             }
@@ -119,11 +119,11 @@ namespace bde {
             mControlPoints.SetRow(2, pos);
 
             if(mNextInChain != NULL) {
-                Vector4 nextPieceControlPoint1 = mNextInChain->mControlPoints.GetRow(1);
+                Vector4<> nextPieceControlPoint1 = mNextInChain->mControlPoints.GetRow(1);
                 float nextControlPointLength = (pos-nextPieceControlPoint1).Length();
-                Vector4 tangent = mControlPoints.GetRow(3) - pos;
+                Vector4<> tangent = mControlPoints.GetRow(3) - pos;
                 tangent.Normalize();
-                Vector4 nextNewControlPoint = mControlPoints.GetRow(3)
+                Vector4<> nextNewControlPoint = mControlPoints.GetRow(3)
                                               +nextControlPointLength*tangent;
                 mNextInChain->mControlPoints.SetRow(1, nextNewControlPoint);
             }
@@ -132,11 +132,11 @@ namespace bde {
         }
 
         if(n == 3) {
-            Vector4 currentControlPoint = mControlPoints.GetRow(3);
-            Vector4 translation = pos-currentControlPoint;
+            Vector4<> currentControlPoint = mControlPoints.GetRow(3);
+            Vector4<> translation = pos-currentControlPoint;
 
             if(mNextInChain != NULL) {
-                Vector4 nextNewPosition = mNextInChain->mControlPoints.GetRow(1) + translation;
+                Vector4<> nextNewPosition = mNextInChain->mControlPoints.GetRow(1) + translation;
                 mNextInChain->mControlPoints.SetRow(1, nextNewPosition);
                 mNextInChain->mControlPoints.SetRow(0, pos);
             }
@@ -146,13 +146,13 @@ namespace bde {
     }
 
     void BezierCurve::BezierCurvePiece::setControlPointC1(const unsigned int &n,
-            const Vector4 &pos) {
+            const Vector4<> &pos) {
         if(n == 0) {
-            Vector4 currentControlPoint = mControlPoints.GetRow(0);
-            Vector4 translation = pos-currentControlPoint;
+            Vector4<> currentControlPoint = mControlPoints.GetRow(0);
+            Vector4<> translation = pos-currentControlPoint;
 
             if(mPreviousInChain != NULL) {
-                Vector4 previousNewPosition = mPreviousInChain->mControlPoints.GetRow(
+                Vector4<> previousNewPosition = mPreviousInChain->mControlPoints.GetRow(
                                                   2) + translation;
                 mPreviousInChain->mControlPoints.SetRow(2, translation);
                 mPreviousInChain->mControlPoints.SetRow(3, pos);
@@ -165,11 +165,11 @@ namespace bde {
             mControlPoints.SetRow(1, pos);
 
             if(mPreviousInChain != NULL) {
-                Vector4 previousPieceControlPoint2 = mPreviousInChain->mControlPoints.GetRow(2);
+                Vector4<> previousPieceControlPoint2 = mPreviousInChain->mControlPoints.GetRow(2);
                 float previousControlPointLength = (pos-mControlPoints.GetRow(0)).Length();
-                Vector4 tangent = mControlPoints.GetRow(0) - pos;
+                Vector4<> tangent = mControlPoints.GetRow(0) - pos;
                 tangent.Normalize();
-                Vector4 previousNewControlPoint = mControlPoints.GetRow(
+                Vector4<> previousNewControlPoint = mControlPoints.GetRow(
                                                       0)+previousControlPointLength*tangent;
                 mPreviousInChain->mControlPoints.SetRow(2, previousNewControlPoint);
             }
@@ -181,11 +181,11 @@ namespace bde {
             mControlPoints.SetRow(2, pos);
 
             if(mNextInChain != NULL) {
-                Vector4 nextPieceControlPoint1 = mNextInChain->mControlPoints.GetRow(1);
+                Vector4<> nextPieceControlPoint1 = mNextInChain->mControlPoints.GetRow(1);
                 float nextControlPointLength = (pos-mControlPoints.GetRow(3)).Length();
-                Vector4 tangent = mControlPoints.GetRow(3) - pos;
+                Vector4<> tangent = mControlPoints.GetRow(3) - pos;
                 tangent.Normalize();
-                Vector4 nextNewControlPoint = mControlPoints.GetRow(3)
+                Vector4<> nextNewControlPoint = mControlPoints.GetRow(3)
                                               +nextControlPointLength*tangent;
                 mNextInChain->mControlPoints.SetRow(1, nextNewControlPoint);
             }
@@ -194,11 +194,11 @@ namespace bde {
         }
 
         if(n == 3) {
-            Vector4 currentControlPoint = mControlPoints.GetRow(3);
-            Vector4 translation = pos-currentControlPoint;
+            Vector4<> currentControlPoint = mControlPoints.GetRow(3);
+            Vector4<> translation = pos-currentControlPoint;
 
             if(mNextInChain != NULL) {
-                Vector4 nextNewPosition = mNextInChain->mControlPoints.GetRow(1) + translation;
+                Vector4<> nextNewPosition = mNextInChain->mControlPoints.GetRow(1) + translation;
                 mNextInChain->mControlPoints.SetRow(1, nextNewPosition);
                 mNextInChain->mControlPoints.SetRow(0, pos);
             }
@@ -207,18 +207,18 @@ namespace bde {
         }
     }
 
-    Vector4 BezierCurve::BezierCurvePiece::GetPositionForT(const float &t) {
-        Vector4 T(t*t*t, t*t, t, 1);
-        return T*(sBaseMatrix*mControlPoints);
+    Vector4<> BezierCurve::BezierCurvePiece::GetPositionForT(const float &t) {
+        Vector4<> T(t*t*t, t*t, t, 1);
+        return (sBaseMatrix*mControlPoints)*T;
     }
 
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    BezierCurve::BezierCurve(const Vector4 &p1,
-                             const Vector4 &p2,
-                             const Vector4 &p3,
-                             const Vector4 &p4,
+    BezierCurve::BezierCurve(const Vector4<> &p1,
+                             const Vector4<> &p2,
+                             const Vector4<> &p3,
+                             const Vector4<> &p4,
                              const BezierConstraints &constraint) {
         BezierCurvePiece *piece = new BezierCurvePiece(p1,p2,p3,p4, NULL);
         mConstraint = constraint;
@@ -230,18 +230,18 @@ namespace bde {
         delete mPieces.front();
     }
 
-    void BezierCurve::AppendPiece(const Vector4 &p2,
-                                  const Vector4 &p3,
-                                  const Vector4 &p4) {
+    void BezierCurve::AppendPiece(const Vector4<> &p2,
+                                  const Vector4<> &p3,
+                                  const Vector4<> &p4) {
         BezierCurvePiece *lastPiece = mPieces.back();
-        Vector4 p1 = lastPiece->mControlPoints.GetRow(3);
+        Vector4<> p1 = lastPiece->mControlPoints.GetRow(3);
         BezierCurvePiece *newPiece = new BezierCurvePiece(p1,p2,p3,p4,lastPiece);
         newPiece->mConstraint = mConstraint;
         lastPiece->AddPiece(newPiece);
         mPieces.push_back(newPiece);
     }
 
-    Vector4 BezierCurve::GetPositionForT(const float &t) {
+    Vector4<> BezierCurve::GetPositionForT(const float &t) {
         float pieceNum = floorf(t);
         float pieceT = t-pieceNum;
 
@@ -253,8 +253,8 @@ namespace bde {
         return mPieces[pieceNum]->GetPositionForT(pieceT);
     }
 
-    std::vector<Vector4> BezierCurve::GetControlPoints() const {
-        std::vector<Vector4> points;
+    std::vector<Vector4<>> BezierCurve::GetControlPoints() const {
+        std::vector<Vector4<>> points;
 
         for(int i=0; i<mPieces.size(); ++i) {
             BezierCurvePiece *p = mPieces[i];

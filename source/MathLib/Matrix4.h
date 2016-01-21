@@ -1,11 +1,3 @@
-//
-//  Matrix4.h
-//  BDEMath
-//
-//  Created by Diego Jesus on 29/04/14.
-//  Copyright (c) 2014 BlackDogEngine. All rights reserved.
-//
-
 #ifndef __BDEMath__Matrix4__
 #define __BDEMath__Matrix4__
 
@@ -13,6 +5,7 @@
 
 #include <glm/glm.hpp>
 #include "MathLibConfigurations.h"
+#include "MathLib.h"
 #include "Matrix3.h"
 #include "Vector4.h"
 #include "Vector3.h"
@@ -62,11 +55,11 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        Vector4 GetColumn(const int &c);
-        void SetColumn(const int &index, const Vector4 &c);
+        Vector4<> GetColumn(const int &c);
+        void SetColumn(const int &index, const Vector4<> &c);
 
-        Vector4 GetRow(const int &r);
-        void SetRow(const int &index, const Vector4 &r);
+        Vector4<> GetRow(const int &r);
+        void SetRow(const int &index, const Vector4<> &r);
 
         REAL Get(const int &column, const int &row) const;
         void Set(const int &column, const int &row, const REAL &value);
@@ -74,7 +67,7 @@ namespace bde {
         /* ************
          * Operations *
          * ***********/
-        Vector4 operator*(const Vector4 &v)const;
+        Vector4<> operator*(const Vector4<> &v)const;
         Matrix4 operator*(const Matrix4 &m)const;
 
         /**
@@ -130,6 +123,13 @@ namespace bde {
          */
         static Matrix4 TranslationMatrix(const Vector3f &vector);
     };
+    
+    // Matrix left multiplication
+    template<typename R>
+    Vector4<R> operator*(const Vector4<R> &v, const Matrix4 &m){
+        glm::mat4 mat = m;
+        return glm::vec4(v) * mat;
+    }
 } // namespace bde
 
 #else

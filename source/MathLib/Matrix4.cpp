@@ -71,20 +71,20 @@ namespace bde {
     /* *******************
      * Getters & Setters *
      * ******************/
-    Vector4 Matrix4::GetColumn(const int &c) {
-        return Vector4(glm::column(mMatrix, c));
+    Vector4<> Matrix4::GetColumn(const int &c) {
+        return Vector4<>(glm::column(mMatrix, c));
     }
 
-    void Matrix4::SetColumn(const int &index, const Vector4 &c) {
+    void Matrix4::SetColumn(const int &index, const Vector4<> &c) {
         glm::vec4 v(c.X(), c.Y(), c.Z(), c.W());
         mMatrix = glm::column(mMatrix, index, v);
     }
 
-    Vector4 Matrix4::GetRow(const int &r) {
-        return Vector4(glm::row(mMatrix, r));
+    Vector4<> Matrix4::GetRow(const int &r) {
+        return Vector4<>(glm::row(mMatrix, r));
     }
 
-    void Matrix4::SetRow(const int &index, const Vector4 &r) {
+    void Matrix4::SetRow(const int &index, const Vector4<> &r) {
         glm::vec4 v(r.X(), r.Y(), r.Z(), r.W());
         mMatrix = glm::row(mMatrix, index, v);
     }
@@ -100,8 +100,8 @@ namespace bde {
     /* ************
      * Operations *
      * ***********/
-    Vector4 Matrix4::operator*(const Vector4 &v)const {
-        return mMatrix*v;
+    Vector4<> Matrix4::operator*(const Vector4<> &v)const {
+        return mMatrix*glm::vec4(v);
     }
 
     Matrix4 Matrix4::operator*(const Matrix4 &m)const {

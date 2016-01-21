@@ -134,8 +134,8 @@ namespace bde{
     }
     
     Vector3<> TransformComponent::TransformPointToWorldCoordinates(const Vector3<> &localPoint){
-        Vector4 homogeneousTransformedPoint = GetLocalToWorldMatrix() *
-                                              Vector4(localPoint.X(),
+        Vector4<> homogeneousTransformedPoint = GetLocalToWorldMatrix() *
+                                              Vector4<>(localPoint.X(),
                                                       localPoint.Y(),
                                                       localPoint.Z(), 1.0f);
         
@@ -147,7 +147,7 @@ namespace bde{
     }
     
     Vector3<> TransformComponent::TransformPointToLocalCoordinates(const Vector3<> &worldPoint){
-        Vector4 homogeneousTransformedPoint = GetWorldToLocalMatrix() *
+        Vector4<> homogeneousTransformedPoint = GetWorldToLocalMatrix() *
                                               glm::vec4(worldPoint.X(),
                                                         worldPoint.Y(),
                                                         worldPoint.Z(),
@@ -164,7 +164,7 @@ namespace bde{
         // notice that the worldToLocalMatrix is used here
         // and the point is multiplied as a row matrix before the
         // transform matrix.
-        Vector4 homogeneousTransformedDirection = Vector4(localDirection.X(),
+        Vector4<> homogeneousTransformedDirection = Vector4<>(localDirection.X(),
                                                           localDirection.Y(),
                                                           localDirection.Z(),
                                                           0.0f) * GetWorldToLocalMatrix();
@@ -175,7 +175,7 @@ namespace bde{
     }
     
     Vector3<> TransformComponent::TransformDirectionToLocalCoordinates(const Vector3<> &worldDirection){
-        Vector4 homogeneousTransformedDirection = Vector4(worldDirection.X(),
+        Vector4<> homogeneousTransformedDirection = Vector4<>(worldDirection.X(),
                                                           worldDirection.Y(),
                                                           worldDirection.Z(),
                                                           0.0f) * GetLocalToWorldMatrix();
