@@ -3,8 +3,16 @@
 
 #include <memory>
 
-#include "../DataTypes.h"
 #include "../MathLib/ColorRGB.h"
+#include "../MathLib/ColorRGBA.h"
+#include "../MathLib/Vector2.h"
+#include "../MathLib/Vector3.h"
+#include "../MathLib/Vector4.h"
+#include "../MathLib/Matrix2.h"
+#include "../MathLib/Matrix3.h"
+#include "../MathLib/Matrix4.h"
+
+#include "../DataTypes.h"
 #include "../Geometry/Geometry.h"
 #include "../GameObject.h"
 #include "Shader.h"
@@ -102,24 +110,24 @@ namespace bde {
          * Uniform Setting *
          * ****************/
         virtual void SetUniformValue(ShaderUniformPtr uniform, const float &f) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2<> &v) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3<> &v) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4 &v) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2f &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3f &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4f &v) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternionf &q) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGB &c) = 0;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGBA &c) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m) = 0;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3f &m) = 0;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4f &m) = 0;
         
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const float &f) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2<> &v) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3<> &v) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4 &v) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2f &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3f &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4f &v) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternionf &q) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGB &c) = 0;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGBA &c) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m) = 0;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3f &m) = 0;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4f &m) = 0;
         
 		/* **********************
 		 * Render State Setting *

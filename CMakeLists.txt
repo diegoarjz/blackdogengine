@@ -44,6 +44,7 @@ enable_testing()
 add_subdirectory(source)
 add_subdirectory(tests)
 add_subdirectory(demos)
+add_subdirectory(docs)
 
 add_test(NAME BlackDogEngine    COMMAND UnitTest BlackDogEngine)
 add_test(NAME Geometry          COMMAND UnitTest Geometry)

@@ -1,11 +1,3 @@
-//
-//  ColorRGB.h
-//  BlackDogEngine
-//
-//  Created by Diego Jesus on 12/1/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
-
 #ifndef BlackDogEngine_ColorRGB_h
 #define BlackDogEngine_ColorRGB_h
 

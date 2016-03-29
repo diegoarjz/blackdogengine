@@ -1,79 +1,113 @@
-//
-//  Matrix3.h
-//  BDEMath
-//
-//  Created by Diego Jesus on 29/04/14.
-//  Copyright (c) 2014 BlackDogEngine. All rights reserved.
-//
+// The contents of this file are based (in part or totally) in the
+// source code authored by:
+// David Eberly, Geometric Tools, Redmond WA 98052
+// Copyright (c) 1998-2016
+// Distributed under the Boost Software License, Version 1.0.
+// http://www.boost.org/LICENSE_1_0.txt
+// http://www.geometrictools.com/License/Boost/LICENSE_1_0.txt
+// File Version: 2.1.0 (2016/01/25)
 
-#ifndef __BDEMath__Matrix3__
-#define __BDEMath__Matrix3__
+#pragma once
 
-#include <iostream>
-#include <glm/glm.hpp>
-#include "MathLibConfigurations.h"
+#include "Matrix.h"
 #include "Vector3.h"
-#include "Quaternion.h"
 
-namespace bde {
-    class Matrix3 {
-      private:
-        glm::mat3 mMatrix;
+namespace bde
+{
 
-      public:
+// Template alias for convenience.
+template <typename Real>
+using Matrix3 = Matrix<3, 3, Real>;
+using Matrix3f = Matrix<3,3, float>;
+using Matrix3d = Matrix<3,3, double>;
 
-        /* ****************************
-         * Construction & Destruction *
-         * ***************************/
-        Matrix3();
-        Matrix3(const Matrix3 &m);
-        /**
-         * Construct a matrix in the following format
-         * | m00 m10 m20 |
-         * | m01 m11 m21 |
-         * | m02 m12 m22 |
-         */
-        Matrix3(const REAL &m00,const REAL &m10,const REAL &m20,
-                const REAL &m01,const REAL &m11,const REAL &m21,
-                const REAL &m02,const REAL &m12,const REAL &m22);
-        Matrix3(const Quaternion &q);
-        ~Matrix3();
+// Geometric operations.
+template <typename Real>
+Matrix3<Real> Inverse(Matrix3<Real> const& M,
+    bool* reportInvertibility = nullptr);
 
-#if GLM_COMPATIBLE == 1
-        Matrix3(const glm::mat3 &m);
-        operator glm::mat3() const;
-#endif
+template <typename Real>
+Matrix3<Real> Adjoint(Matrix3<Real> const& M);
 
-        /* *******************
-         * Getters & Setters *
-         * ******************/
-        Vector3f GetColumn(const int &c) const;
-        void SetColumn(const int &index, const Vector3f &c);
+template <typename Real>
+Real Determinant(Matrix3<Real> const& M);
 
-        Vector3f GetRow(const int &r) const;
-        void SetRow(const int &index, const Vector3f &r);
+template <typename Real>
+Real Trace(Matrix3<Real> const& M);
 
-        REAL Get(const int &column, const int &row) const;
-        void Set(const int &column, const int &row, const REAL &value);
 
-        /* ************
-         * Operations *
-         * ***********/
-        Vector3f operator*(const Vector3f &v)const;
-        Matrix3 operator*(const Matrix3 &m)const;
-        bool operator==(const Matrix3 &m);
-        bool operator!=(const Matrix3 &m);
+template <typename Real>
+Matrix3<Real> Inverse(Matrix3<Real> const& M, bool* reportInvertibility)
+{
+    Matrix3<Real> inverse;
+    bool invertible;
+    Real c00 = M(1, 1)*M(2, 2) - M(1, 2)*M(2, 1);
+    Real c10 = M(1, 2)*M(2, 0) - M(1, 0)*M(2, 2);
+    Real c20 = M(1, 0)*M(2, 1) - M(1, 1)*M(2, 0);
+    Real det = M(0, 0)*c00 + M(0, 1)*c10 + M(0, 2)*c20;
+    if (det != (Real)0)
+    {
+        Real invDet = ((Real)1) / det;
+        inverse = Matrix3<Real>
+        {
+            c00*invDet,
+                (M(0, 2)*M(2, 1) - M(0, 1)*M(2, 2))*invDet,
+                (M(0, 1)*M(1, 2) - M(0, 2)*M(1, 1))*invDet,
+                c10*invDet,
+                (M(0, 0)*M(2, 2) - M(0, 2)*M(2, 0))*invDet,
+                (M(0, 2)*M(1, 0) - M(0, 0)*M(1, 2))*invDet,
+                c20*invDet,
+                (M(0, 1)*M(2, 0) - M(0, 0)*M(2, 1))*invDet,
+                (M(0, 0)*M(1, 1) - M(0, 1)*M(1, 0))*invDet
+        };
+        invertible = true;
+    }
+    else
+    {
+        inverse.MakeZero();
+        invertible = false;
+    }
 
-        bool IsOrthogonal() const;
+    if (reportInvertibility)
+    {
+        *reportInvertibility = invertible;
+    }
+    return inverse;
+}
 
-        friend std::ostream &operator<< (std::ostream &o, const Matrix3 &m);
+template <typename Real>
+Matrix3<Real> Adjoint(Matrix3<Real> const& M)
+{
+    return Matrix3<Real>
+    {
+        M(1, 1)*M(2, 2) - M(1, 2)*M(2, 1),
+            M(0, 2)*M(2, 1) - M(0, 1)*M(2, 2),
+            M(0, 1)*M(1, 2) - M(0, 2)*M(1, 1),
+            M(1, 2)*M(2, 0) - M(1, 0)*M(2, 2),
+            M(0, 0)*M(2, 2) - M(0, 2)*M(2, 0),
+            M(0, 2)*M(1, 0) - M(0, 0)*M(1, 2),
+            M(1, 0)*M(2, 1) - M(1, 1)*M(2, 0),
+            M(0, 1)*M(2, 0) - M(0, 0)*M(2, 1),
+            M(0, 0)*M(1, 1) - M(0, 1)*M(1, 0)
     };
+}
+
+template <typename Real>
+Real Determinant(Matrix3<Real> const& M)
+{
+    Real c00 = M(1, 1)*M(2, 2) - M(1, 2)*M(2, 1);
+    Real c10 = M(1, 2)*M(2, 0) - M(1, 0)*M(2, 2);
+    Real c20 = M(1, 0)*M(2, 1) - M(1, 1)*M(2, 0);
+    Real det = M(0, 0)*c00 + M(0, 1)*c10 + M(0, 2)*c20;
+    return det;
+}
+
+template <typename Real>
+Real Trace(Matrix3<Real> const& M)
+{
+    Real trace = M(0, 0) + M(1, 1) + M(2, 2);
+    return trace;
+}
+
+
 } // namespace bde
-
-#else
-
-namespace bde {
-    class Matrix3;
-} // namespace bde
-
-#endif /* defined(__BDEMath__Matrix3__) */

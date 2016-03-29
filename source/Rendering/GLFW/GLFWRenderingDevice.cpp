@@ -393,24 +393,24 @@ namespace bde {
 			glUniform1f(uniform->GetBindingInfo()->GetBindingID(), f);
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector2<> &v){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector2f &v){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
-			glUniform2f(uniform->GetBindingInfo()->GetBindingID(), v.X(), v.Y());
+			glUniform2f(uniform->GetBindingInfo()->GetBindingID(), v[0], v[1]);
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector3<> &v){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector3f &v){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
-			glUniform3f(uniform->GetBindingInfo()->GetBindingID(), v.X(), v.Y(), v.Z());
+			glUniform3f(uniform->GetBindingInfo()->GetBindingID(), v[0], v[1], v[2]);
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector4 &v){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Vector4f &v){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
-			glUniform4f(uniform->GetBindingInfo()->GetBindingID(), v.X(), v.Y(), v.Z(), v.W());
+			glUniform4f(uniform->GetBindingInfo()->GetBindingID(), v[0], v[1], v[2], v[3]);
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Quaternionf &q){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
-			glUniform4f(uniform->GetBindingInfo()->GetBindingID(), q.X(), q.Y(), q.Z(), q.W());
+			glUniform4f(uniform->GetBindingInfo()->GetBindingID(), q[0], q[1], q[2], q[3]);
 	}
     
 	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const ColorRGB &c){
@@ -423,12 +423,12 @@ namespace bde {
 			glUniform4f(uniform->GetBindingInfo()->GetBindingID(), c.R(), c.G(), c.B(), c.A());
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Matrix3f &m){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
 			glUniformMatrix3fv(uniform->GetBindingInfo()->GetBindingID(), 1, GL_FALSE, (const GLfloat*)&m);
 	}
     
-	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m){
+	void GLFWRenderingDevice::SetUniformValue(ShaderUniformPtr uniform, const Matrix4f &m){
 		if(uniform->GetBindingInfo() && uniform->GetBindingInfo()->IsBound())
 			glUniformMatrix4fv(uniform->GetBindingInfo()->GetBindingID(), 1, GL_FALSE, (const GLfloat*)&m);
 	}
@@ -441,24 +441,24 @@ namespace bde {
 			glUniform1f(attribute->GetBindingInfo()->GetBindingID(), f);
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector2<> &v){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector2f &v){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
-			glUniform2f(attribute->GetBindingInfo()->GetBindingID(), v.X(), v.Y());
+			glUniform2f(attribute->GetBindingInfo()->GetBindingID(), v[0], v[1]);
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector3<> &v){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector3f &v){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
-			glUniform3f(attribute->GetBindingInfo()->GetBindingID(), v.X(), v.Y(), v.Z());
+			glUniform3f(attribute->GetBindingInfo()->GetBindingID(), v[0], v[1], v[2]);
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector4 &v){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Vector4f &v){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
-			glUniform4f(attribute->GetBindingInfo()->GetBindingID(), v.X(), v.Y(), v.Z(), v.W());
+			glUniform4f(attribute->GetBindingInfo()->GetBindingID(), v[0], v[1], v[2], v[3]);
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Quaternionf &q){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
-			glUniform4f(attribute->GetBindingInfo()->GetBindingID(), q.X(), q.Y(), q.Z(), q.W());
+			glUniform4f(attribute->GetBindingInfo()->GetBindingID(), q[0], q[1], q[2], q[3]);
 	}
     
 	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const ColorRGB &c){
@@ -471,12 +471,12 @@ namespace bde {
 			glUniform4f(attribute->GetBindingInfo()->GetBindingID(), c.R(), c.G(), c.B(), c.A());
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Matrix3f &m){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
 			glUniformMatrix3fv(attribute->GetBindingInfo()->GetBindingID(), 1, GL_FALSE, (const GLfloat*)&m);
 	}
     
-	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m){
+	void GLFWRenderingDevice::SetAttributeValue(ShaderAttributePtr attribute, const Matrix4f &m){
 		if(attribute->GetBindingInfo() && attribute->GetBindingInfo()->IsBound())
 			glUniformMatrix4fv(attribute->GetBindingInfo()->GetBindingID(), 1, GL_FALSE, (const GLfloat*)&m);
 	}

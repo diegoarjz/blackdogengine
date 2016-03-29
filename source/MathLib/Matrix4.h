@@ -1,139 +1,351 @@
-//
-//  Matrix4.h
-//  BDEMath
-//
-//  Created by Diego Jesus on 29/04/14.
-//  Copyright (c) 2014 BlackDogEngine. All rights reserved.
-//
+// David Eberly, Geometric Tools, Redmond WA 98052
+// Copyright (c) 1998-2016
+// Distributed under the Boost Software License, Version 1.0.
+// http://www.boost.org/LICENSE_1_0.txt
+// http://www.geometrictools.com/License/Boost/LICENSE_1_0.txt
+// File Version: 2.1.1 (2016/02/06)
 
-#ifndef __BDEMath__Matrix4__
-#define __BDEMath__Matrix4__
+#pragma once
 
-#include <iostream>
-
-#include <glm/glm.hpp>
-#include "MathLibConfigurations.h"
-#include "Matrix3.h"
+#include "Matrix.h"
 #include "Vector4.h"
-#include "Vector3.h"
-#include "Quaternion.h"
 
-namespace bde {
-    class Matrix4 {
-      private:
-        glm::mat4 mMatrix;
+namespace bde
+{
 
-      public:
+// Template alias for convenience.
+template <typename Real>
+using Matrix4 = Matrix<4, 4, Real>;
+using Matrix4f = Matrix<4,4, float>;
+using Matrix4d = Matrix<4,4, double>;
 
-        /* ****************************
-         * Construction & Destruction *
-         * ***************************/
-        Matrix4();
-        Matrix4(const Matrix4 &m);
-        /**
-         * Construct a matrix in the following format
-         * | m00 m10 m20 m30 |
-         * | m01 m11 m21 m31 |
-         * | m02 m12 m22 m32 |
-         * | m03 m13 m23 m33 |
-         */
-        Matrix4(const REAL &m00,const REAL &m10,const REAL &m20, const REAL &m30,
-                const REAL &m01,const REAL &m11,const REAL &m21, const REAL &m31,
-                const REAL &m02,const REAL &m12,const REAL &m22, const REAL &m32,
-                const REAL &m03,const REAL &m13,const REAL &m23, const REAL &m33);
-        /**
-         * Constructs a matrix expanding the given Matrix3 in the following way
-         * | m3 0 |
-         * | 0  1 |
-         */
-        Matrix4(const Matrix3 &m3);
-        /**
-         * Constructs a rotation matrix equivalent to the 
-         * quaternion.
-         */
-        Matrix4(const Quaternion &q);
-        ~Matrix4();
+// Geometric operations.
+template <typename Real>
+Matrix4<Real> Inverse(Matrix4<Real> const& M,
+    bool* reportInvertibility = nullptr);
 
-#if GLM_COMPATIBLE == 1
-        Matrix4(const glm::mat4 &m);
-        operator glm::mat4() const;
+template <typename Real>
+Matrix4<Real> Adjoint(Matrix4<Real> const& M);
+
+template <typename Real>
+Real Determinant(Matrix4<Real> const& M);
+
+template <typename Real>
+Real Trace(Matrix4<Real> const& M);
+
+// Special matrices.  In the comments, the matrices are shown using the
+// GTE_USE_MAT_VEC multiplication convention.
+
+// The projection plane is Dot(N,X-P) = 0 where N is a 3-by-1 unit-length
+// normal vector and P is a 3-by-1 point on the plane.  The projection is
+// oblique to the plane, in the direction of the 3-by-1 vector D.  Necessarily
+// Dot(N,D) is not zero for this projection to make sense.  Given a 3-by-1
+// point U, compute the intersection of the line U+t*D with the plane to
+// obtain t = -Dot(N,U-P)/Dot(N,D); then
+//
+//   projection(U) = P + [I - D*N^T/Dot(N,D)]*(U-P)
+//
+// A 4-by-4 homogeneous transformation representing the projection is
+//
+//       +-                               -+
+//   M = | D*N^T - Dot(N,D)*I   -Dot(N,P)D |
+//       |          0^T          -Dot(N,D) |
+//       +-                               -+
+//
+// where M applies to [U^T 1]^T by M*[U^T 1]^T.  The matrix is chosen so
+// that M[3][3] > 0 whenever Dot(N,D) < 0; the projection is onto the
+// "positive side" of the plane.
+template <typename Real>
+Matrix4<Real> MakeObliqueProjection(Vector4<Real> const& origin,
+    Vector4<Real> const& normal, Vector4<Real> const& direction);
+
+// The perspective projection of a point onto a plane is
+//
+//     +-                                                 -+
+// M = | Dot(N,E-P)*I - E*N^T    -(Dot(N,E-P)*I - E*N^T)*E |
+//     |        -N^t                      Dot(N,E)         |
+//     +-                                                 -+
+//
+// where E is the eye point, P is a point on the plane, and N is a
+// unit-length plane normal.
+template <typename Real>
+Matrix4<Real> MakePerspectiveProjection(Vector4<Real> const& origin,
+    Vector4<Real> const& normal, Vector4<Real> const& eye);
+
+// The reflection of a point through a plane is
+//     +-                         -+
+// M = | I-2*N*N^T    2*Dot(N,P)*N |
+//     |     0^T            1      |
+//     +-                         -+
+//
+// where P is a point on the plane and N is a unit-length plane normal.
+
+template <typename Real>
+Matrix4<Real> MakeReflection(Vector4<Real> const& origin,
+    Vector4<Real> const& normal);
+
+
+template <typename Real>
+Matrix4<Real> Inverse(Matrix4<Real> const& M, bool* reportInvertibility)
+{
+    Matrix4<Real> inverse;
+    bool invertible;
+    Real a0 = M(0, 0) * M(1, 1) - M(0, 1) * M(1, 0);
+    Real a1 = M(0, 0) * M(1, 2) - M(0, 2) * M(1, 0);
+    Real a2 = M(0, 0) * M(1, 3) - M(0, 3) * M(1, 0);
+    Real a3 = M(0, 1) * M(1, 2) - M(0, 2) * M(1, 1);
+    Real a4 = M(0, 1) * M(1, 3) - M(0, 3) * M(1, 1);
+    Real a5 = M(0, 2) * M(1, 3) - M(0, 3) * M(1, 2);
+    Real b0 = M(2, 0) * M(3, 1) - M(2, 1) * M(3, 0);
+    Real b1 = M(2, 0) * M(3, 2) - M(2, 2) * M(3, 0);
+    Real b2 = M(2, 0) * M(3, 3) - M(2, 3) * M(3, 0);
+    Real b3 = M(2, 1) * M(3, 2) - M(2, 2) * M(3, 1);
+    Real b4 = M(2, 1) * M(3, 3) - M(2, 3) * M(3, 1);
+    Real b5 = M(2, 2) * M(3, 3) - M(2, 3) * M(3, 2);
+    Real det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+    if (det != (Real)0)
+    {
+        Real invDet = ((Real)1) / det;
+        inverse = Matrix4<Real>
+        {
+            (+M(1, 1) * b5 - M(1, 2) * b4 + M(1, 3) * b3) * invDet,
+            (-M(0, 1) * b5 + M(0, 2) * b4 - M(0, 3) * b3) * invDet,
+            (+M(3, 1) * a5 - M(3, 2) * a4 + M(3, 3) * a3) * invDet,
+            (-M(2, 1) * a5 + M(2, 2) * a4 - M(2, 3) * a3) * invDet,
+            (-M(1, 0) * b5 + M(1, 2) * b2 - M(1, 3) * b1) * invDet,
+            (+M(0, 0) * b5 - M(0, 2) * b2 + M(0, 3) * b1) * invDet,
+            (-M(3, 0) * a5 + M(3, 2) * a2 - M(3, 3) * a1) * invDet,
+            (+M(2, 0) * a5 - M(2, 2) * a2 + M(2, 3) * a1) * invDet,
+            (+M(1, 0) * b4 - M(1, 1) * b2 + M(1, 3) * b0) * invDet,
+            (-M(0, 0) * b4 + M(0, 1) * b2 - M(0, 3) * b0) * invDet,
+            (+M(3, 0) * a4 - M(3, 1) * a2 + M(3, 3) * a0) * invDet,
+            (-M(2, 0) * a4 + M(2, 1) * a2 - M(2, 3) * a0) * invDet,
+            (-M(1, 0) * b3 + M(1, 1) * b1 - M(1, 2) * b0) * invDet,
+            (+M(0, 0) * b3 - M(0, 1) * b1 + M(0, 2) * b0) * invDet,
+            (-M(3, 0) * a3 + M(3, 1) * a1 - M(3, 2) * a0) * invDet,
+            (+M(2, 0) * a3 - M(2, 1) * a1 + M(2, 2) * a0) * invDet
+        };
+        invertible = true;
+    }
+    else
+    {
+        inverse.MakeZero();
+        invertible = false;
+    }
+
+    if (reportInvertibility)
+    {
+        *reportInvertibility = invertible;
+    }
+    return inverse;
+}
+
+template <typename Real>
+Matrix4<Real> Adjoint(Matrix4<Real> const& M)
+{
+    Real a0 = M(0, 0) * M(1, 1) - M(0, 1) * M(1, 0);
+    Real a1 = M(0, 0) * M(1, 2) - M(0, 2) * M(1, 0);
+    Real a2 = M(0, 0) * M(1, 3) - M(0, 3) * M(1, 0);
+    Real a3 = M(0, 1) * M(1, 2) - M(0, 2) * M(1, 1);
+    Real a4 = M(0, 1) * M(1, 3) - M(0, 3) * M(1, 1);
+    Real a5 = M(0, 2) * M(1, 3) - M(0, 3) * M(1, 2);
+    Real b0 = M(2, 0) * M(3, 1) - M(2, 1) * M(3, 0);
+    Real b1 = M(2, 0) * M(3, 2) - M(2, 2) * M(3, 0);
+    Real b2 = M(2, 0) * M(3, 3) - M(2, 3) * M(3, 0);
+    Real b3 = M(2, 1) * M(3, 2) - M(2, 2) * M(3, 1);
+    Real b4 = M(2, 1) * M(3, 3) - M(2, 3) * M(3, 1);
+    Real b5 = M(2, 2) * M(3, 3) - M(2, 3) * M(3, 2);
+
+    return Matrix4<Real>
+    {
+        +M(1, 1) * b5 - M(1, 2) * b4 + M(1, 3) * b3,
+        -M(0, 1) * b5 + M(0, 2) * b4 - M(0, 3) * b3,
+        +M(3, 1) * a5 - M(3, 2) * a4 + M(3, 3) * a3,
+        -M(2, 1) * a5 + M(2, 2) * a4 - M(2, 3) * a3,
+        -M(1, 0) * b5 + M(1, 2) * b2 - M(1, 3) * b1,
+        +M(0, 0) * b5 - M(0, 2) * b2 + M(0, 3) * b1,
+        -M(3, 0) * a5 + M(3, 2) * a2 - M(3, 3) * a1,
+        +M(2, 0) * a5 - M(2, 2) * a2 + M(2, 3) * a1,
+        +M(1, 0) * b4 - M(1, 1) * b2 + M(1, 3) * b0,
+        -M(0, 0) * b4 + M(0, 1) * b2 - M(0, 3) * b0,
+        +M(3, 0) * a4 - M(3, 1) * a2 + M(3, 3) * a0,
+        -M(2, 0) * a4 + M(2, 1) * a2 - M(2, 3) * a0,
+        -M(1, 0) * b3 + M(1, 1) * b1 - M(1, 2) * b0,
+        +M(0, 0) * b3 - M(0, 1) * b1 + M(0, 2) * b0,
+        -M(3, 0) * a3 + M(3, 1) * a1 - M(3, 2) * a0,
+        +M(2, 0) * a3 - M(2, 1) * a1 + M(2, 2) * a0
+    };
+}
+
+template <typename Real>
+Real Determinant(Matrix4<Real> const& M)
+{
+    Real a0 = M(0, 0) * M(1, 1) - M(0, 1) * M(1, 0);
+    Real a1 = M(0, 0) * M(1, 2) - M(0, 2) * M(1, 0);
+    Real a2 = M(0, 0) * M(1, 3) - M(0, 3) * M(1, 0);
+    Real a3 = M(0, 1) * M(1, 2) - M(0, 2) * M(1, 1);
+    Real a4 = M(0, 1) * M(1, 3) - M(0, 3) * M(1, 1);
+    Real a5 = M(0, 2) * M(1, 3) - M(0, 3) * M(1, 2);
+    Real b0 = M(2, 0) * M(3, 1) - M(2, 1) * M(3, 0);
+    Real b1 = M(2, 0) * M(3, 2) - M(2, 2) * M(3, 0);
+    Real b2 = M(2, 0) * M(3, 3) - M(2, 3) * M(3, 0);
+    Real b3 = M(2, 1) * M(3, 2) - M(2, 2) * M(3, 1);
+    Real b4 = M(2, 1) * M(3, 3) - M(2, 3) * M(3, 1);
+    Real b5 = M(2, 2) * M(3, 3) - M(2, 3) * M(3, 2);
+    Real det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+    return det;
+}
+
+template <typename Real>
+Real Trace(Matrix4<Real> const& M)
+{
+    Real trace = M(0, 0) + M(1, 1) + M(2, 2) + M(3, 3);
+    return trace;
+}
+
+template <typename Real>
+Matrix4<Real> MakeObliqueProjection(Vector4<Real> const& origin,
+    Vector4<Real> const& normal, Vector4<Real> const& direction)
+{
+    Matrix4<Real> M;
+
+    Real const zero = (Real)0;
+    Real dotND = Dot(normal, direction);
+    Real dotNO = Dot(origin, normal);
+
+#if defined(GTE_USE_MAT_VEC)
+    M(0, 0) = direction[0] * normal[0] - dotND;
+    M(0, 1) = direction[0] * normal[1];
+    M(0, 2) = direction[0] * normal[2];
+    M(0, 3) = -dotNO * direction[0];
+    M(1, 0) = direction[1] * normal[0];
+    M(1, 1) = direction[1] * normal[1] - dotND;
+    M(1, 2) = direction[1] * normal[2];
+    M(1, 3) = -dotNO * direction[1];
+    M(2, 0) = direction[2] * normal[0];
+    M(2, 1) = direction[2] * normal[1];
+    M(2, 2) = direction[2] * normal[2] - dotND;
+    M(2, 3) = -dotNO * direction[2];
+    M(3, 0) = zero;
+    M(3, 1) = zero;
+    M(3, 2) = zero;
+    M(3, 3) = -dotND;
+#else
+    M(0, 0) = direction[0] * normal[0] - dotND;
+    M(1, 0) = direction[0] * normal[1];
+    M(2, 0) = direction[0] * normal[2];
+    M(3, 0) = -dotNO * direction[0];
+    M(0, 1) = direction[1] * normal[0];
+    M(1, 1) = direction[1] * normal[1] - dotND;
+    M(2, 1) = direction[1] * normal[2];
+    M(3, 1) = -dotNO * direction[1];
+    M(0, 2) = direction[2] * normal[0];
+    M(1, 2) = direction[2] * normal[1];
+    M(2, 2) = direction[2] * normal[2] - dotND;
+    M(3, 2) = -dotNO * direction[2];
+    M(0, 2) = zero;
+    M(1, 3) = zero;
+    M(2, 3) = zero;
+    M(3, 3) = -dotND;
 #endif
 
-        /* *******************
-         * Getters & Setters *
-         * ******************/
-        Vector4 GetColumn(const int &c);
-        void SetColumn(const int &index, const Vector4 &c);
+    return M;
+}
 
-        Vector4 GetRow(const int &r);
-        void SetRow(const int &index, const Vector4 &r);
+template <typename Real>
+Matrix4<Real> MakePerspectiveProjection(Vector4<Real> const& origin,
+    Vector4<Real> const& normal, Vector4<Real> const& eye)
+{
+    Matrix4<Real> M;
 
-        REAL Get(const int &column, const int &row) const;
-        void Set(const int &column, const int &row, const REAL &value);
+    Real dotND = Dot(normal, eye - origin);
 
-        /* ************
-         * Operations *
-         * ***********/
-        Vector4 operator*(const Vector4 &v)const;
-        Matrix4 operator*(const Matrix4 &m)const;
-
-        /**
-         * Calculates and returns the matrix inverse
-         * @return The Matrix inverse
-         */
-        Matrix4 Inverse() const;
-        /**
-         * Calculates and returns the transpose matrix.
-         * @return The Transpose Matrix.
-         */
-        Matrix4 Transpose() const;
-
-        friend std::ostream &operator<< (std::ostream &o, const Matrix4 &m);
-
-      public: // static methods
-
-        /**
-         * Creates a scale matrix.
-         */
-        static Matrix4 ScaleMatrix(const Vector3f &scaleVector);
-        /**
-         * Creates a Scale Matrix.
-         * @param x The amount to scale along x.
-         * @param y The amount to scale along y.
-         * @param z The amount to scale along z.
-         * @returns A Scale Matrix
-         */
-        static Matrix4 ScaleMatrix(const float &x, const float &y, const float &z);
-        /**
-         * Creates a Rotation Matrix from Euler Angles.
-         * First applies the yaw (rotation along Y), then
-         * pitch (along X) and finally roll (along Z).
-         * @param yaw   The amount to rotate along Y.
-         * @param pitch The amount to rotate along X.
-         * @param roll  The amount to rotate along Z.
-         * @returns A Rotation Matrix
-         */
-        static Matrix4 FromEulerAnglesYXZ(const float &yaw, const float &pitch,
-                                          const float &roll);
-        /**
-         * Creates a Translation Matrix.
-         * @param x The amount to translate along x.
-         * @param y The amount to translate along y.
-         * @param z The amount to translate along z.
-         * @returns A Translation Matrix
-         */
-        static Matrix4 TranslationMatrix(const float &x, const float &y,const float &z);
-        /**
-         * Creates a Translation Matrix.
-         * @param translation The translation vector.
-         * @returns A Translation Matrix
-         */
-        static Matrix4 TranslationMatrix(const Vector3f &vector);
-    };
-} // namespace bde
-
+#if defined(GTE_USE_MAT_VEC)
+    M(0, 0) = dotND - eye[0] * normal[0];
+    M(0, 1) = -eye[0] * normal[1];
+    M(0, 2) = -eye[0] * normal[2];
+    M(0, 3) = -(M(0, 0) * eye[0] + M(0, 1) * eye[1] + M(0, 2) * eye[2]);
+    M(1, 0) = -eye[1] * normal[0];
+    M(1, 1) = dotND - eye[1] * normal[1];
+    M(1, 2) = -eye[1] * normal[2];
+    M(1, 3) = -(M(1, 0) * eye[0] + M(1, 1) * eye[1] + M(1, 2) * eye[2]);
+    M(2, 0) = -eye[2] * normal[0];
+    M(2, 1) = -eye[2] * normal[1];
+    M(2, 2) = dotND - eye[2] * normal[2];
+    M(2, 3) = -(M(2, 0) * eye[0] + M(2, 1) * eye[1] + M(2, 2) * eye[2]);
+    M(3, 0) = -normal[0];
+    M(3, 1) = -normal[1];
+    M(3, 2) = -normal[2];
+    M(3, 3) = Dot(eye, normal);
 #else
-namespace bde {
-    class Matrix4;
+    M(0, 0) = dotND - eye[0] * normal[0];
+    M(1, 0) = -eye[0] * normal[1];
+    M(2, 0) = -eye[0] * normal[2];
+    M(3, 0) = -(M(0, 0) * eye[0] + M(0, 1) * eye[1] + M(0, 2) * eye[2]);
+    M(0, 1) = -eye[1] * normal[0];
+    M(1, 1) = dotND - eye[1] * normal[1];
+    M(2, 1) = -eye[1] * normal[2];
+    M(3, 1) = -(M(1, 0) * eye[0] + M(1, 1) * eye[1] + M(1, 2) * eye[2]);
+    M(0, 2) = -eye[2] * normal[0];
+    M(1, 2) = -eye[2] * normal[1];
+    M(2, 2) = dotND - eye[2] * normal[2];
+    M(3, 2) = -(M(2, 0) * eye[0] + M(2, 1) * eye[1] + M(2, 2) * eye[2]);
+    M(0, 3) = -normal[0];
+    M(1, 3) = -normal[1];
+    M(2, 3) = -normal[2];
+    M(3, 3) = Dot(eye, normal);
+#endif
+
+    return M;
+}
+
+template <typename Real>
+Matrix4<Real> MakeReflection(Vector4<Real> const& origin,
+    Vector4<Real> const& normal)
+{
+    Matrix4<Real> M;
+
+    Real const zero = (Real)0, one = (Real)1, two = (Real)2;
+    Real twoDotNO = two * Dot(origin, normal);
+
+#if defined(GTE_USE_MAT_VEC)
+    M(0, 0) = one - two * normal[0] * normal[0];
+    M(0, 1) = -two * normal[0] * normal[1];
+    M(0, 2) = -two * normal[0] * normal[2];
+    M(0, 3) = twoDotNO * normal[0];
+    M(1, 0) = M(0, 1);
+    M(1, 1) = one - two * normal[1] * normal[1];
+    M(1, 2) = -two * normal[1] * normal[2];
+    M(1, 3) = twoDotNO * normal[1];
+    M(2, 0) = M(0, 2);
+    M(2, 1) = M(1, 2);
+    M(2, 2) = one - two * normal[2] * normal[2];
+    M(2, 3) = twoDotNO * normal[2];
+    M(3, 0) = zero;
+    M(3, 1) = zero;
+    M(3, 2) = zero;
+    M(3, 3) = one;
+#else
+    M(0, 0) = one - two * normal[0] * normal[0];
+    M(1, 0) = -two * normal[0] * normal[1];
+    M(2, 0) = -two * normal[0] * normal[2];
+    M(3, 0) = twoDotNO * normal[0];
+    M(0, 1) = M(1, 0);
+    M(1, 1) = one - two * normal[1] * normal[1];
+    M(2, 1) = -two * normal[1] * normal[2];
+    M(3, 1) = twoDotNO * normal[1];
+    M(0, 2) = M(2, 0);
+    M(1, 2) = M(2, 1);
+    M(2, 2) = one - two * normal[2] * normal[2];
+    M(3, 2) = twoDotNO * normal[2];
+    M(0, 3) = zero;
+    M(1, 3) = zero;
+    M(2, 3) = zero;
+    M(3, 3) = one;
+#endif
+
+    return M;
+}
+
+
 } // namespace bde
-#endif /* defined(__BDEMath__Matrix4__) */
