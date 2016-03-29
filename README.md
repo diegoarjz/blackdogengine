@@ -51,11 +51,9 @@ For more information, read [this](http://nvie.com/posts/a-successful-git-branchi
 
 To build Black Dog Engine you need the following dependencies:
 
-* [CGAL](http://www.cgal.org)
-* [glm](http://glm.g-truc.net/0.9.6/index.html)
 * [GLFW](http://www.glfw.org)
 * [GLEW](http://glew.sourceforge.net)
-* [CPPTest](http://cpptest.sourceforge.net) (To run unit tests)
+* [CPPTest](http://cpptest.sourceforge.net) (To run unit tests, althoug I'm moving to boost unit testing)
 
 You'll also need cmake installed to configure and build BDE. It's advised to do an out-of-source build, so we will create a build directory and run cmake there. 
 
