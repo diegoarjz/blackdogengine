@@ -1,7 +1,11 @@
 #ifndef __BlackDogEngine__Transformation__
 #define __BlackDogEngine__Transformation__
 
-#include "MathLib/MathLib.h"
+#include "MathLib/Vector3.h"
+#include "MathLib/Vector4.h"
+#include "MathLib/Matrix3.h"
+#include "MathLib/Matrix4.h"
+#include "MathLib/Quaternion.h"
 
 namespace bde {
     /**
@@ -9,10 +13,10 @@ namespace bde {
      */
     class Transformation{
     private:
-        Quaternion mRotation;
-        Vector3<> mPosition;
-        Vector3<> mScale;
-        Matrix4 mHomogeneousMatrix;
+        Quaternionf mRotation;
+        Vector3f mPosition;
+        Vector3f mScale;
+        Matrix4f mHomogeneousMatrix;
         bool mHomogeneousMatrixCurrent;
     public:
         
@@ -22,7 +26,7 @@ namespace bde {
          * Construction & Destruction *
          * ***************************/
         Transformation();
-        Transformation(const Vector3<> &eulerAngles, const Vector3<> &pos, const Vector3<> &scale);
+        Transformation(const Vector3f &eulerAngles, const Vector3f &pos, const Vector3f &scale);
         Transformation(const Transformation& other);
         ~Transformation();
         
@@ -30,9 +34,9 @@ namespace bde {
          * Getters & Setters *
          * ******************/
         void SetPosition(const float& x, const float& y, const float& z);
-        void SetPosition(const Vector3<> &pos);
+        void SetPosition(const Vector3f &pos);
         void Translate(const float& x, const float& y, const float& z);
-        void Translate(const Vector3<> &translation);
+        void Translate(const Vector3f &translation);
         
         // Rotation around Z axis
         void Yaw(const float& angle);
@@ -43,12 +47,12 @@ namespace bde {
         
         void SetScale(const float& scale);
         void SetScale(const float& x, const float& y, const float& z);
-        void SetScale(const Vector3<> &s);
+        void SetScale(const Vector3f &s);
         
-        Vector3<> GetPosition()const;
-        Vector3<> GetScale()const;
-        Quaternion GetRotation()const;
-        void SetRotation(const Quaternion& rot);
+        Vector3f GetPosition()const;
+        Vector3f GetScale()const;
+        Quaternionf GetRotation()const;
+        void SetRotation(const Quaternionf& rot);
         
         /* ***********
          * Operators *

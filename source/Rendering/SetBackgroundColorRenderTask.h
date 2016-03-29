@@ -2,7 +2,7 @@
 #define SETBACKGROUNDCOLORRENDERTASK_H_
 
 #include "RenderTask.h"
-#include "../MathLib/MathLib.h"
+#include "../MathLib/ColorRGB.h"
 
 namespace bde {
     /**

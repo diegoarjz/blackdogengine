@@ -11,5 +11,4 @@ file(GLOB headers
     "*.h"
 )
 INSTALL(FILES ${headers} DESTINATION include/blackdogengine/mathlib)
-
 INSTALL(TARGETS bdemath ARCHIVE DESTINATION lib/blackdogengine/mathlib)

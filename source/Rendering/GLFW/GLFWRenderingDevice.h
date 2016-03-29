@@ -86,27 +86,27 @@ namespace bde {
          * Uniform Setting *
          * ****************/
         virtual void SetUniformValue(ShaderUniformPtr uniform, const float &f) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2<> &v) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3<> &v) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4<> &v) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternion &q) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector2f &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector3f &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Vector4f &v) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Quaternionf &q) override;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGB &c) override;
         virtual void SetUniformValue(ShaderUniformPtr uniform, const ColorRGBA &c) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3 &m) override;
-        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4 &m) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix3f &m) override;
+        virtual void SetUniformValue(ShaderUniformPtr uniform, const Matrix4f &m) override;
         
         /* *******************
          * Shader Attributes *
          * ******************/
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const float &f) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2<> &v) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3<> &v) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4<> &v) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternion &q) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector2f &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector3f &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Vector4f &v) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Quaternionf &q) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGB &c) override;
         virtual void SetAttributeValue(ShaderAttributePtr attribute, const ColorRGBA &c) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3 &m) override;
-        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4 &m) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix3f &m) override;
+        virtual void SetAttributeValue(ShaderAttributePtr attribute, const Matrix4f &m) override;
 		
 		/* **********************
 		* Render State Setting *

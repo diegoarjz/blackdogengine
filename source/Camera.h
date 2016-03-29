@@ -3,7 +3,11 @@
 
 #include "GOComponent.h"
 
-#include "MathLib/MathLib.h"
+#include "MathLib/Vector3.h"
+#include "MathLib/Matrix3.h"
+#include "MathLib/Matrix4.h"
+#include "MathLib/Quaternion.h"
+#include "MathLib/HyperPlane.h"
 
 namespace bde{
     class CameraSystem;
@@ -53,12 +57,12 @@ namespace bde{
             PLANE_FAR
         };
         
-        Matrix4 mProjectionMatrix;
-        Matrix4 mViewMatrix;
+        Matrix4f mProjectionMatrix;
+        Matrix4f mViewMatrix;
     private:
         U8 mNumberOfCullingPlanes;
-        Plane mCullingPlanes[MAX_CULLING_PLANES];
-        Plane mLocalPlanes[MAX_CULLING_PLANES];
+        Plane3f mCullingPlanes[MAX_CULLING_PLANES];
+        Plane3f mLocalPlanes[MAX_CULLING_PLANES];
     public:
         RTTI_DECL;
         
@@ -71,15 +75,15 @@ namespace bde{
         /* *******
          * Frame *
          * ******/
-        Quaternion GetOrientation();
-        Vector3<> GetDirection();
-        Vector3<> GetUp();
-        Vector3<> GetRight();
-        Vector3<> GetPosition();
+        Quaternionf GetOrientation();
+        Vector3f GetDirection();
+        Vector3f GetUp();
+        Vector3f GetRight();
+        Vector3f GetPosition();
         
         void OnFrameChanged();
         
-        inline Matrix4 GetViewMatrix() { return mViewMatrix;}
+        inline Matrix4f GetViewMatrix() { return mViewMatrix;}
         
         /* *********
          * Frustum *
@@ -89,7 +93,7 @@ namespace bde{
         void GetFrustum(float &left, float &right, float &top, float &bottom, float &nearPlane, float &farPlane) const;
         void OnFrustumChanged();
         
-        inline Matrix4 GetProjectionMatrix() { return mProjectionMatrix; }
+        inline Matrix4f GetProjectionMatrix() { return mProjectionMatrix; }
         
     protected:
         virtual void updatePlanes();

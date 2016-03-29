@@ -7,7 +7,6 @@
 
 #include "BindingInfo.h"
 #include "ShaderUniformValue.h"
-#include "../MathLib/MathLib.h"
 #include "Bindable.h"
 
 namespace bde {

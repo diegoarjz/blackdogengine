@@ -1,4 +1,7 @@
 #include "TransformComponent.h"
+#include "MathLib/Rotation.h"
+#include "MathLib/translation_matrix.h"
+#include "MathLib/scale_matrix.h"
 
 namespace bde{
     RTTI_DEF(TransformComponent, "TransformComponent", GOComponent);
@@ -6,7 +9,7 @@ namespace bde{
     /* ****************************
      * Construction & Destruction *
      * ***************************/
-    TransformComponent::TransformComponent():mLocalScale(1,1,1){
+    TransformComponent::TransformComponent():mLocalScale({1,1,1}){
         mIsDirty = true;
         mInverseIsDirty = true;
         mNeedsUpdate = true;
@@ -39,76 +42,82 @@ namespace bde{
         return mParentTransform.lock();
     }
     
-    void TransformComponent::SetPosition(const Vector3<> &position){
+    void TransformComponent::SetPosition(const Vector3f &position){
         mLocalPosition = position;
         setDirty();
     }
     
     void TransformComponent::SetPosition(const float& x, const float& y, const float& z){
-        SetPosition(Vector3<>(x,y,z));
+        SetPosition(Vector3f({x,y,z}));
     }
     
     void TransformComponent::Translate(const float& x, const float& y, const float& z){
-        Translate(Vector3<>(x,y,z));
+        Translate(Vector3f({x,y,z}));
     }
     
-    void TransformComponent::Translate(const Vector3<> &translation){
+    void TransformComponent::Translate(const Vector3f &translation){
         mLocalPosition = mLocalPosition + translation;
         setDirty();
     }
     
-    Vector3<> TransformComponent::GetPosition() const{
+    Vector3f TransformComponent::GetPosition() const{
         return mLocalPosition;
     }
     
-    void TransformComponent::SetRotation(const Quaternion &rotation){
+    void TransformComponent::SetRotation(const Quaternionf &rotation){
         mLocalRotation = rotation;
         setDirty();
     }
     
     void TransformComponent::Yaw(const float& angle){
-        mLocalRotation = Quaternion::FromEulerAngles(Vector3<>(0,0,angle)) * mLocalRotation;
+        Quaternionf rot = Rotation<3, float>(EulerAngles<float>(0, 1, 2, 0, 0, angle));
+        mLocalRotation = rot * mLocalRotation;
+//        mLocalRotation = Quaternionf::FromEulerAngles(Vector3f(0,0,angle)) * mLocalRotation;
         setDirty();
     }
     
     void TransformComponent::Pitch(const float& angle){
-        mLocalRotation = Quaternion::FromEulerAngles(Vector3<>(angle,0,0)) * mLocalRotation;
+        Quaternionf rot = Rotation<3, float>(EulerAngles<float>(0, 1, 2, angle, 0, 0));
+        mLocalRotation = rot * mLocalRotation;
+//        mLocalRotation = Quaternionf::FromEulerAngles(Vector3f(angle,0,0)) * mLocalRotation;
         setDirty();
     }
     
     void TransformComponent::Roll(const float& angle){
-        mLocalRotation = Quaternion::FromEulerAngles(Vector3<>(0,angle,0)) * mLocalRotation;
+        Quaternionf rot = Rotation<3, float>(EulerAngles<float>(0, 1, 2, 0, angle, 0));
+        mLocalRotation = rot * mLocalRotation;
+//        mLocalRotation = Quaternionf::FromEulerAngles(Vector3f(0,angle,0)) * mLocalRotation;
         setDirty();
     }
     
-    Quaternion TransformComponent::GetRotation() const{
+    Quaternionf TransformComponent::GetRotation() const{
         return mLocalRotation;
     }
     
-    void TransformComponent::SetScale(const Vector3<> &scale){
+    void TransformComponent::SetScale(const Vector3f &scale){
         mLocalScale = scale;
         setDirty();
     }
     
     void TransformComponent::SetScale(const float& scale){
-        SetScale(Vector3<>(scale,scale,scale));
+        SetScale(Vector3f({scale,scale,scale}));
     }
     
     void TransformComponent::SetScale(const float& x, const float& y, const float& z){
-        SetScale(Vector3<>(x,y,z));
+        SetScale(Vector3f({x,y,z}));
     }
     
-    Vector3<> TransformComponent::GetScale(){
+    Vector3f TransformComponent::GetScale(){
         return mLocalScale;
     }
     
-    Matrix4 TransformComponent::CalculateLocalToParentMatrix(){
-        return  Matrix4::TranslationMatrix(mLocalPosition) *
-                Matrix4(mLocalRotation) *
-                Matrix4::ScaleMatrix(mLocalScale);
+    Matrix4f TransformComponent::CalculateLocalToParentMatrix(){
+        return  translation_matrix(mLocalPosition) *
+                Matrix4f(Rotation<4, float>(mLocalRotation)) *
+                scale_matrix(mLocalScale);
     }
     
-    Matrix4 TransformComponent::GetLocalToWorldMatrix(){
+    Matrix4f TransformComponent::GetLocalToWorldMatrix(){
         if(mIsDirty){
             if(mParentTransform.expired()){
                 mLocalToWorld = CalculateLocalToParentMatrix();
@@ -123,9 +132,9 @@ namespace bde{
         return mLocalToWorld;
     }
     
-    Matrix4 TransformComponent::GetWorldToLocalMatrix(){
+    Matrix4f TransformComponent::GetWorldToLocalMatrix(){
         if(mInverseIsDirty){
-            mWorldToLocal = GetLocalToWorldMatrix().Inverse();
+            mWorldToLocal = Inverse( GetLocalToWorldMatrix() );
             
             mInverseIsDirty = false;
         }
@@ -133,56 +142,60 @@ namespace bde{
         return mWorldToLocal;
     }
     
-    Vector3<> TransformComponent::TransformPointToWorldCoordinates(const Vector3<> &localPoint){
-        Vector4<> homogeneousTransformedPoint = GetLocalToWorldMatrix() *
-                                              Vector4<>(localPoint.X(),
-                                                      localPoint.Y(),
-                                                      localPoint.Z(), 1.0f);
+    Vector3f TransformComponent::TransformPointToWorldCoordinates(const Vector3f &localPoint){
+        Vector4f homogeneousTransformedPoint = GetLocalToWorldMatrix() *
+                                                Vector4f({
+                                                    localPoint[0],
+                                                    localPoint[1],
+                                                    localPoint[2], 1.0f
+                                                });
         
-        homogeneousTransformedPoint = homogeneousTransformedPoint / homogeneousTransformedPoint.W();
+        homogeneousTransformedPoint = homogeneousTransformedPoint / homogeneousTransformedPoint[3];
         
-        return Vector3<>(homogeneousTransformedPoint.X(),
-                       homogeneousTransformedPoint.Y(),
-                       homogeneousTransformedPoint.Z());
+        return Vector3f({
+            homogeneousTransformedPoint[0],
+            homogeneousTransformedPoint[1],
+            homogeneousTransformedPoint[2]
+        });
     }
     
-    Vector3<> TransformComponent::TransformPointToLocalCoordinates(const Vector3<> &worldPoint){
-        Vector4<> homogeneousTransformedPoint = GetWorldToLocalMatrix() *
-                                              glm::vec4(worldPoint.X(),
-                                                        worldPoint.Y(),
-                                                        worldPoint.Z(),
-                                                        1.0f);
-        homogeneousTransformedPoint = homogeneousTransformedPoint / homogeneousTransformedPoint.W();
+    Vector3f TransformComponent::TransformPointToLocalCoordinates(const Vector3f &worldPoint){
+        Vector4f homogeneousTransformedPoint = GetWorldToLocalMatrix() *
+                                               Vector4f({worldPoint[0],
+                                                        worldPoint[1],
+                                                        worldPoint[2],
+                                                        1.0f});
+        homogeneousTransformedPoint = homogeneousTransformedPoint / homogeneousTransformedPoint[3];
 
-        return Vector3<>(homogeneousTransformedPoint.X(),
-                       homogeneousTransformedPoint.Y(),
-                       homogeneousTransformedPoint.Z());
+        return Vector3f({homogeneousTransformedPoint[0],
+                        homogeneousTransformedPoint[1],
+                        homogeneousTransformedPoint[2]});
     }
     
-    Vector3<> TransformComponent::TransformDirectionToWorldCoordinates(const Vector3<> &localDirection){
+    Vector3f TransformComponent::TransformDirectionToWorldCoordinates(const Vector3f &localDirection){
         // matrix multiply padding the extra element with a 0
         // notice that the worldToLocalMatrix is used here
         // and the point is multiplied as a row matrix before the
         // transform matrix.
-        Vector4<> homogeneousTransformedDirection = Vector4<>(localDirection.X(),
-                                                          localDirection.Y(),
-                                                          localDirection.Z(),
-                                                          0.0f) * GetWorldToLocalMatrix();
-        homogeneousTransformedDirection = homogeneousTransformedDirection / homogeneousTransformedDirection.W();
-        return Vector3<>(homogeneousTransformedDirection.X(),
-                         homogeneousTransformedDirection.Y(),
-                         homogeneousTransformedDirection.Z());
+        Vector4f homogeneousTransformedDirection = Vector4f({localDirection[0],
+                                                          localDirection[1],
+                                                          localDirection[2],
+                                                          0.0f}) * GetWorldToLocalMatrix();
+        homogeneousTransformedDirection = homogeneousTransformedDirection / homogeneousTransformedDirection[3];
+        return Vector3f({homogeneousTransformedDirection[0],
+                         homogeneousTransformedDirection[1],
+                        homogeneousTransformedDirection[2]});
     }
     
-    Vector3<> TransformComponent::TransformDirectionToLocalCoordinates(const Vector3<> &worldDirection){
-        Vector4<> homogeneousTransformedDirection = Vector4<>(worldDirection.X(),
-                                                          worldDirection.Y(),
-                                                          worldDirection.Z(),
-                                                          0.0f) * GetLocalToWorldMatrix();
-        homogeneousTransformedDirection = homogeneousTransformedDirection / homogeneousTransformedDirection.W();
-        return Vector3<>(homogeneousTransformedDirection.X(),
-                         homogeneousTransformedDirection.Y(),
-                         homogeneousTransformedDirection.Z());
+    Vector3f TransformComponent::TransformDirectionToLocalCoordinates(const Vector3f &worldDirection){
+        Vector4f homogeneousTransformedDirection = Vector4f({worldDirection[0],
+                                                            worldDirection[1],
+                                                            worldDirection[2],
+                                                            0.0f}) * GetLocalToWorldMatrix();
+        homogeneousTransformedDirection = homogeneousTransformedDirection / homogeneousTransformedDirection[3];
+        return Vector3f({homogeneousTransformedDirection[0],
+                        homogeneousTransformedDirection[1],
+                        homogeneousTransformedDirection[2]});
     }
     
     void TransformComponent::setDirty(){

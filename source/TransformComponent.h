@@ -3,7 +3,9 @@
 
 #include <list>
 
-#include "MathLib/MathLib.h"
+#include "MathLib/Vector3.h"
+#include "MathLib/Quaternion.h"
+#include "MathLib/Matrix4.h"
 #include "GOComponent.h"
 
 namespace bde {
@@ -27,16 +29,16 @@ namespace bde {
         std::list<TransformComponentWeakPtr> mChildren;
         
         /// Position relative to the parent transform.
-        Vector3<> mLocalPosition;
+        Vector3f mLocalPosition;
         /// Rotation relative to the parent transform.
-        Quaternion mLocalRotation;
+        Quaternionf mLocalRotation;
         /// Scale relative to the parent transform.
-        Vector3<> mLocalScale;
+        Vector3f mLocalScale;
         
         /// The matrix that converts from local to world coordinates
-        Matrix4 mLocalToWorld;
+        Matrix4f mLocalToWorld;
         /// The matrix that converst from world to local coordinates
-        Matrix4 mWorldToLocal;
+        Matrix4f mWorldToLocal;
         
         /// Specifies if the mLocalToWorld matrix needs to be calculated
         bool mIsDirty;
@@ -74,7 +76,7 @@ namespace bde {
          * Sets the local position. Sets dirty.
          * @param position [in] The new position.
          */
-        void SetPosition(const Vector3<> &position);
+        void SetPosition(const Vector3f &position);
         /**
          * Sets the local position. Sets dirty.
          * @param x [in] New x coordinate.
@@ -93,18 +95,18 @@ namespace bde {
          * Sets the local position by translation. Sets dirty.
          * @param translation [in] Translation vector.
          */
-        void Translate(const Vector3<> &translation);
+        void Translate(const Vector3f &translation);
         /**
          * Returns the local position.
          * @return The local position.
          */
-        Vector3<> GetPosition() const;
+        Vector3f GetPosition() const;
         
         /**
          * Sets the local rotation. Sets dirty.
          * @param rotation [in] The new rotation.
          */
-        void SetRotation(const Quaternion &rotation);
+        void SetRotation(const Quaternionf &rotation);
         /**
          * Rotates the local coordinate system around
          * local z axis by angle.
@@ -127,12 +129,12 @@ namespace bde {
          * Returns the local rotation.
          * @return The local rotation.
          */
-        Quaternion GetRotation() const;
+        Quaternionf GetRotation() const;
         /**
          * Sets the local scale. Sets dirty.
          * @param scale [in] The new scale.
          */
-        void SetScale(const Vector3<> &scale);
+        void SetScale(const Vector3f &scale);
         /**
          * Set uniform scale. All of the scale components
          * are equal. Sets dirty.
@@ -150,14 +152,14 @@ namespace bde {
          * Returns the local scale.
          * @return The local scale.
          */
-        Vector3<> GetScale();
+        Vector3f GetScale();
         
         /**
          * Calculates and returns the matrix that transforms this
          * into the parent coordinates.
          * @return 4x4 homogeneous matrix with the local to parent transform.
          */
-        Matrix4 CalculateLocalToParentMatrix();
+        Matrix4f CalculateLocalToParentMatrix();
         
         /**
          * Calculates (if needed) and returns the matrix that transforms this
@@ -165,7 +167,7 @@ namespace bde {
          * and unsets the dirty flag.
          *  @return 4x4 homogeneous matrix with the local to world transform.
          */
-        Matrix4 GetLocalToWorldMatrix();
+        Matrix4f GetLocalToWorldMatrix();
         
         /**
          * Calculates (if needed) and returns the matrix that transforms world
@@ -173,35 +175,35 @@ namespace bde {
          * and unsusts the inverse dirty flag.
          * @return 4x4 homogeneous matrix with the world to local transform.
          */
-        Matrix4 GetWorldToLocalMatrix();
+        Matrix4f GetWorldToLocalMatrix();
         
         /**
          * Transforms a point from local coordinates into world coordinates.
          * @param localPoint [in] A point in local coordinates
          * @return A point in world coordinates
          */
-        Vector3<> TransformPointToWorldCoordinates(const Vector3<> &localPoint);
+        Vector3f TransformPointToWorldCoordinates(const Vector3f &localPoint);
         
         /**
          * Transforms a point from world coordinates into local coordinates.
          * @param worldPoint [in] A point in world cooridnates.
          * @return A point in local coordinates.
          */
-        Vector3<> TransformPointToLocalCoordinates(const Vector3<> &worldPoint);
+        Vector3f TransformPointToLocalCoordinates(const Vector3f &worldPoint);
         
         /**
          * Transforms a direction from local coordinates into world coordinates.
          * @param localDirection [in] A direction in local coordinates.
          * @return A direction in world coordinates.
          */
-        Vector3<> TransformDirectionToWorldCoordinates(const Vector3<> &localDirection);
+        Vector3f TransformDirectionToWorldCoordinates(const Vector3f &localDirection);
         
         /**
          * Transforms a direction from world coordinates into local coordinates.
          * @param worldDirection [in] A direction in world coordinates.
          * @return A direction in local coordinates.
          */
-        Vector3<> TransformDirectionToLocalCoordinates(const Vector3<> &worldDirection);
+        Vector3f TransformDirectionToLocalCoordinates(const Vector3f &worldDirection);
         
         bool NeedsUpdate() const;
     private:

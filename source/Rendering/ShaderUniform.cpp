@@ -2,7 +2,6 @@
 
 #include "RenderingDevice.h"
 #include "ShaderUniformValue.h"
-#include "../MathLib/MathLib.h"
 
 namespace bde {
     ShaderUniformBase::ShaderUniformBase(const std::string &name){
