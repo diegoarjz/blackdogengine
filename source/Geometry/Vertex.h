@@ -1,28 +1,29 @@
 #ifndef VERTEX_H_
 #define VERTEX_H_
 
-#include "../MathLib/MathUtils.h"
-
 #include "VertexDescription.h"
+#include "../MathLib/Vector3.h"
 
 namespace bde {
 
     /**
     * Default Vertex in the Black Dog Engine.
     *
-    * A vertex is made of several semantic channels. A VertexDescription is
-    * used to create VertexDataSources, one for each semantic channel.
+    * A vertex is made of several semantic channels.
+    *
+    * The  VertexDescription describes the elements of this vertex, its semantics,
+    * number of components, size per component and wether each component is a
+    * floating point value.
+    * It can be used to create VertexDataSources, one for each semantic channel.
     * Channels can be made of several components, e.g., a Vector3 channel has
     * 3 components.
-    *
-    * @author Diego Jesus <diego.a.r.jz@gmail.com>
     */
     class Vertex {
       public:
         static const VertexDescription description; ///< Describes the vertex semantics
 
-        Vector3<> mPosition;  ///< The vertex position
-        Vector3<> mNormal;    ///< The vertex normal
+        Vector3f mPosition;  ///< The vertex position
+        Vector3f mNormal;    ///< The vertex normal
     };
 
     bool operator==(const Vertex &v1, const Vertex &v2);

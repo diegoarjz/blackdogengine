@@ -9,73 +9,80 @@
 namespace bde {
 
     /**
-     * Indicates how an interleaved vertex data source should be read when
-     * rendered.
-     *
-     * @author Diego Jesus <diego.a.r.jz@gmail.com>
+     * Indicates how a specific semantic channel of vertex data
+     * (e.g., position or normals) should be read from a  vertex buffer.
      */
     class VertexDataSource {
       private:
+        /// The data source semantics.
         VertexDataSourceSemantics mSemantics;
-        U32                       mVertexCount;
-        BOOLEAN                   mIsFloat;
-        U32                       mComponentCount;
-        U32                       mBytesPerComponent;
-        U32                       mOffset;
-        U32                       mStride;
+        /// The number of vertices
+        U32 mVertexCount;
+        /// Indicates if the data source elements are floats.
+        BOOLEAN mIsFloat;
+        /// The number of components per vertex.
+        U32 mComponentCount;
+        /// The number of bytes per component
+        U32 mBytesPerComponent;
+        /// The offset within a vertex buffer
+        U32 mOffset;
+        /// The stride between elements in a vertex buffer.
+        U32 mStride;
       public:
-
-        /* ***************************
-         * Construction & Destruction *
-         * ***************************/
+        /**
+         * Constructs a vertex data source with a null semantics.
+         */
         VertexDataSource();
-        VertexDataSource(const VertexDataSourceSemantics &semantics,
-                         const U32 &vertexCount,
-                         const BOOLEAN &isFloat,
-                         const U32 &componentCount,
-                         const U32 &bytesPerComponent,
-                         const U32 &offset,
-                         const U32 &stride);
-        ~VertexDataSource();
+        /**
+         * Constructs the vertex data source with the given
+         * semantics and parameters.
+         */
+        VertexDataSource(
+                /// The semantics for the data source
+                const VertexDataSourceSemantics &semantics,
+                /// The number of vertices.
+                const U32 &vertexCount,
+                /// If the data is float.
+                const BOOLEAN &isFloat,
+                /// Number of components in each vertex.
+                const U32 &componentCount,
+                /// Number of bytes in each component.
+                const U32 &bytesPerComponent,
+                /// The offset within a vertex buffer
+                const U32 &offset,
+                /// The stride between elements in a vertex buffer
+                const U32 &stride);
 
-        /* ******************
-         * Getters & Setters *
-         * ******************/
-        VertexDataSourceSemantics   GetSemantics() const;
-        U32                         GetVertexCount() const;
-        BOOLEAN                     IsFloat() const;
-        U32                         GetComponentCount() const;
-        U32                         GetBytesPerComponent() const;
-        U32                         GetOffset() const;
-        U32                         GetStride() const;
-
-        //  public: // static methods
-        //
-        //    static std::map<VertexDataSourceSemantics, std::shared_ptr<CustomVertexDataSource<vertex_t>>> CreateDataSources(std::vector<vertex_t> &vertices){
-        //        std::map<VertexDataSourceSemantics, std::shared_ptr<CustomVertexDataSource<vertex_t>>> dataSources;
-        //
-        //        U64 vertexCount = vertices.size();
-        //        U32 vertexSize = sizeof(vertex_t);
-        //
-        //        auto description = vertex_t::description;
-        //        U32 offset = 0;
-        //
-        //        for(auto d : description){
-        //            std::shared_ptr<CustomVertexDataSource<vertex_t>> ds = std::make_shared<CustomVertexDataSource<vertex_t>>( d.mSourceSemantics,
-        //                    vertexCount,
-        //                    d.mIsFloat,
-        //                    d.mComponentCount,
-        //                    d.mBytesPerComponent,
-        //                    offset,
-        //                    vertexSize);
-        //
-        //            offset += d.mComponentCount * d.mBytesPerComponent;
-        //
-        //            dataSources[ d.mSourceSemantics ] = ds;
-        //        }
-        //
-        //        return dataSources;
-        //    }
+        /**
+         * Returns the semantics of this data source.
+         */
+        VertexDataSourceSemantics GetSemantics() const;
+        /**
+         * Returns the number of vertices.
+         */
+        U32 GetVertexCount() const;
+        /**
+         * Returns wether the data in this data source
+         * is float or not.
+         */
+        BOOLEAN IsFloat() const;
+        /**
+         * Returns the number of components per vertex.
+         */
+        U32 GetComponentCount() const;
+        /**
+         * Returns the number of bytes per vertex
+         * component.
+         */
+        U32 GetBytesPerComponent() const;
+        /**
+         * Returns the offset in the data source.
+         */
+        U32 GetOffset() const;
+        /**
+         * Returns the stride in the vertex buffer.
+         */
+        U32 GetStride() const;
     }; // class VertexDataSource
 
     typedef std::shared_ptr<VertexDataSource> VertexDataSourcePtr;

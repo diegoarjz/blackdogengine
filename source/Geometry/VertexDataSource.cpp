@@ -32,9 +32,6 @@ namespace bde {
         mStride            = stride;
     }
 
-    VertexDataSource::~VertexDataSource() {
-    }
-
     /* ******************
      * Getters & Setters *
      * ******************/
@@ -66,4 +63,4 @@ namespace bde {
         return mStride;
     }
 
-} // namespace bde
+    } // namespace bde

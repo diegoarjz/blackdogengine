@@ -3,6 +3,9 @@
 
 namespace bde {
 
+    /**
+     * Types of primitives that can be defined by a ElementDataSource.
+     */
     enum PrimitiveType {
         Triangles,
         TriangleStrip,

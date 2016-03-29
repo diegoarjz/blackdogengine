@@ -1,5 +1,8 @@
 #include "GeometryBase.h"
 
+#include <cassert>
+#include <iostream>
+
 namespace bde {
     /* ****************************
      * Construction & Destruction *
@@ -9,15 +12,19 @@ namespace bde {
                                ElementDataSourcePtr elements) {
         mVertexCount = vertexCount;
 
+        // Set every position in the vertex data source array to nullptr
+        memset(mVertexDataSources, 0, sizeof(VertexDataSourcePtr)*max_vertex_channels);
+        // For each of the vertex data sources in the map,
+        // set its corresponding position in the vertex
+        // data source array
         for(auto ds : dataSources) {
-            mVertexDataSources[(int)ds.first] = ds.second;
+            mVertexDataSources[static_cast<int>(ds.first)] = ds.second;
         }
 
         mElementDataSource = elements;
     }
 
     GeometryBase::~GeometryBase() {
-        std::cout << "Destroying geometry" << std::endl;
     }
 
     /* *******************

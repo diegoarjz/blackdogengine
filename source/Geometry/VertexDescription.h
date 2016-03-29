@@ -10,9 +10,11 @@
 namespace bde {
 
     /**
-    * Describes the semantic of a vertex semantic channel.
+    * Describes a vertex channel in a vertex buffer.
     *
-    * @author Diego Jesus <diego.a.r.jz@gmail.com>
+    * It indicates the semantics of a channel, wether the 
+    * channel has floating point components, the number of comonents
+    * for each vertex and the size in bytes per component.
     */
     struct VertexChannelDescription {
         /// The semantics of a vertex channel.

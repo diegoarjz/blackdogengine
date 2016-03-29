@@ -1,11 +1,3 @@
-//
-//  create_vertex_data_sources.h
-//  BlackDogEngine
-//
-//  Created by Diego Jesus on 02/06/15.
-//
-//
-
 #ifndef BlackDogEngine_create_vertex_data_sources_h
 #define BlackDogEngine_create_vertex_data_sources_h
 

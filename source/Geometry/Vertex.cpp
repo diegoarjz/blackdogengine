@@ -19,7 +19,7 @@ namespace bde {
     }
 
     std::ostream &operator<<(std::ostream &o, const Vertex &v) {
-        o << "Position: " << v.mPosition << " Normal: " << v.mNormal << std::endl;
+//        o << "Position: " << v.mPosition << " Normal: " << v.mNormal << std::endl;
         return o;
     }
 
