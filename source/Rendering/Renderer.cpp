@@ -12,9 +12,6 @@ namespace bde {
         mRenderPool = std::make_shared<RenderPool>();
     }
 
-    Renderer::~Renderer() {
-    }
-
     /* *******************
      * Getters & Setters *
      * ******************/
@@ -58,10 +55,14 @@ namespace bde {
         // and wait for the update cycle to be ready
         mRenderPool->WaitForUpdateReady();
         // create a window (for now)
+#warning TODO: this should not be hardcoded
         mRenderingDevice->CreateWindow(500, 500);
 
-        // while loop
-        while(! mRenderingDevice->ShouldClose() ) {
+        // While the rendering device indicates that it should stay
+        // open, meaning that the user hasn't closed the window
+        // we execute all render tasks
+        while( !mRenderingDevice->ShouldClose() ) {
+            // Start by clearing the buffers
             mRenderingDevice->ClearBuffers();
             // Read the render pool
             auto pool = mRenderPool->GetCurrentFrameQueue();

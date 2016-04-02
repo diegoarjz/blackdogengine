@@ -37,7 +37,7 @@ namespace bde {
     typedef std::shared_ptr<ShaderUniformBase> ShaderUniformPtr;
     
     /**
-     * Interface for a rendering device.
+     * Abstract interface for a rendering device.
      *
      * This creates a common interaface for higher levels of the rendering system
      * for specific platforms (e.g., OpenGL or DirectX).
