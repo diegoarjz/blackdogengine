@@ -8,16 +8,13 @@ namespace bde {
     RenderPool::RenderPool() {
         mCurrentFrame = 0;
     }
-
-    RenderPool::~RenderPool() {
-    }
-
+    
     void RenderPool::Push(RenderTaskPtr task) {
         mFrames[NextFrame()].push(task);
     }
 
     void RenderPool::SwapRenderQueues() {
-        mFrames[mCurrentFrame] = std::queue<RenderTaskPtr>();
+        mFrames[mCurrentFrame] = pool_t();
         mCurrentFrame = (mCurrentFrame + 1) % 2;
     }
 
@@ -64,7 +61,7 @@ namespace bde {
         return (CurrentFrame() + 1) % 2;
     }
 
-    std::queue<RenderTaskPtr> RenderPool::GetCurrentFrameQueue() {
+    RenderPool::pool_t RenderPool::GetCurrentFrameQueue() {
         return mFrames[CurrentFrame()];
     }
 
