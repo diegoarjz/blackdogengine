@@ -8,9 +8,6 @@ namespace bde {
 
     /**
      * Render task that loads a geometry into Video Memory
-     *
-     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
-     * @date    28 May 2015
      */
     class DrawGeometryRenderTask : public RenderTask {
       private:

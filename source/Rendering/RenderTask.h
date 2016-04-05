@@ -4,14 +4,10 @@
 #include "Renderer.h"
 
 namespace bde {
-    
     /**
      * Performs a given task on the Rendering Device.
      * Objects of this type are queued in a RenderPool and are fetched
      * by the Renderer thread and executed in sequence, creating a frame.
-     *
-     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
-     * @date    18 May 2015
      */
     class RenderTask {
       public:
@@ -21,15 +17,21 @@ namespace bde {
         RenderTask();
         virtual ~RenderTask();
 
+        /**
+         * Abstract method to execute the rendering task.
+         *
+         * Subclasses must provide their implementation.
+         */
         virtual void Execute(RendererPtr renderer) = 0;
     }; // class RenderTask
 
-    typedef std::shared_ptr<RenderTask> RenderTaskPtr;
+    /// Smart, shared pointer to a RenderTask.
+    using RenderTaskPtr = std::shared_ptr<RenderTask>;
 } // namespace bde
 
 #else
 namespace bde {
     class RenderTask;
-    typedef std::shared_ptr<RenderTask> RenderTaskPtr;
+    using RenderTaskPtr = std::shared_ptr<RenderTask>;
 } // namespace bde
 #endif

@@ -46,7 +46,7 @@ namespace bde{
 		void SetDestinationFunction(const BlendFunction& function);
         
 		virtual void Set(RenderingDevice* device) override;
-		virtual RenderStateNames GetRenderStateName() { return RenderState::ALPHA_BLEND; }
+		virtual RenderStateNames GetRenderStateName() override { return RenderState::ALPHA_BLEND; }
 	};
 }
 

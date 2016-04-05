@@ -30,50 +30,110 @@ namespace bde {
      *
      * This mechanism allows the proper synchronisation between threads and allows the
      * creation of the next frame to execute while the current is being rendered.
+     *
+     * The current frame queue is the one that is currently being rendered.
      */
     class RenderPool {
-      private:
-        std::queue<RenderTaskPtr>   mFrames[2];
-        U32                         mCurrentFrame;
-        AutoResetEvent              mRenderReadyEvent;
-        AutoResetEvent              mRenderDoneEvent;
-        AutoResetEvent              mUpdateReadyEvent;
-        AutoResetEvent              mSwapDoneEvent;
       public:
-        /* ****************************
-         * Construction & Destruction *
-         * ***************************/
+        using pool_t = std::queue<RenderTaskPtr>;
+      private:
+        /// The frame queues.
+        pool_t mFrames[2];
+        /// Index for the currently being rendered.
+        U32 mCurrentFrame;
+        /// Event for the render ready notification.
+        AutoResetEvent mRenderReadyEvent;
+        /// Event for the render done notification.
+        AutoResetEvent mRenderDoneEvent;
+        /// Event for the update ready notification.
+        AutoResetEvent mUpdateReadyEvent;
+        /// Event for the frame swap done notification.
+        AutoResetEvent mSwapDoneEvent;
+      public:
         RenderPool();
-        ~RenderPool();
-
-        /*
-         * Notifications
+        
+        /**
+         * Notifies the RenderPool that the update thread
+         * is ready.
+         *
+         * This is called by the update thread on initialisation.
          */
         void NotifyUpdateReady();
+        /**
+         * Waits for until the update thread is ready.
+         *
+         * This is called by the Renderer on initialisation.
+         */
         void WaitForUpdateReady();
 
+        /**
+         * Notifies the RenderPool that the Renderer is ready.
+         *
+         * This is called by the Renderer on initialisation.
+         */
         void NotifyRenderReady();
+        /**
+         * Waits until the Renderer is ready.
+         *
+         * This is called by the update thread on initialisation.
+         */
         void WaitForRenderReady();
-
+        /**
+         * Notifies that the Renderer has completed rendering
+         * the current frame.
+         *
+         * Called by the Renderer during execution, once finished
+         * executing all RenderTask.
+         */
         void NotifyRenderDone();
+        /**
+         * Waits until the Renderer has finished rendering.
+         *
+         * Called by the update thread during execution, after queueing
+         * all RenderTask for the next frame.
+         */
         void WaitForRenderDone();
 
+        /**
+         * Notifies that the render queues have been swapped.
+         * 
+         * Called by the update thread during execution, after swapping
+         * the render queues.
+         */
         void NotifySwapDone();
+        /**
+         * Waits until the render queues have been swapped.
+         *
+         * Called by the Renderer during execution, after finishing
+         * all RenderTask.
+         */
         void WaitForSwapDone();
 
+        /**
+         * Inserts a RenderTask into the queue for the next frame.
+         */
         void Push(RenderTaskPtr task);
+        /**
+         * Indicates that the update thread has completed the next frame.
+         *
+         * This triggers the swap of the render queues.
+         */
         void SwapRenderQueues();
+        /**
+         * Returns the render queue that should be rendered.
+         */
+        pool_t GetCurrentFrameQueue();
+    private:
         U32 CurrentFrame();
         U32 NextFrame();
-        std::queue<RenderTaskPtr> GetCurrentFrameQueue();
     }; // class CustomRenderPool
 
-    typedef std::shared_ptr<RenderPool> RenderPoolPtr;      ///< Type definition for a pointer to a RenderPool.
+    using RenderPoolPtr = std::shared_ptr<RenderPool>; ///< Type definition for a pointer to a RenderPool.
 } // namespace bde
 
 #else
 namespace bde {
     class RenderPool;
-    typedef std::shared_ptr<RenderPool> RenderPoolPtr;
+    using RenderPoolPtr = std::shared_ptr<RenderPool>;
 } // namespace bde
 #endif

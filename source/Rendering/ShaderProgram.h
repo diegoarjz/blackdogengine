@@ -18,7 +18,23 @@
 namespace bde {
 
     /**
-     * Describes a ShaderProgram which is made of several shaders
+     * A ShaderProgram is a description of how a primitive should be rendered.
+     *
+     * A ShaderProgram consists of at least two shaders:
+     *
+     * - A vertex shader
+     * - A fragmet shader
+     * - A (optional) geometry shader
+     * 
+     * It also has a series of ShaderAttribute which correspond to values provided
+     * and bound automatically by the engine (e.g., transformation matrices).
+     * 
+     * It is also possible to define custom values to be bound on the shader by using
+     * ShaderUniform. The values of these values are provided by ShaderUniformValue
+     * which are stored in Material instances.
+     *
+     * RenderState provide configurations on the render states (e.g., AlphaBlend, CullState)
+     * which can be used for several effects.
      */
     class ShaderProgram : public Object, public Bindable {
       public:
@@ -45,10 +61,10 @@ namespace bde {
         /* *******************
          * Getters & Setters *
          * ******************/
-        ShaderPtr       GetShader(const Shader::ShaderType &type);
-        void            SetShader(const Shader::ShaderType &type, ShaderPtr shader);
-        std::string     GetOutputName(const ShaderOutputType &type);
-        void            SetOutputName(const ShaderOutputType &type, const std::string &name);
+        ShaderPtr GetShader(const Shader::ShaderType &type);
+        void SetShader(const Shader::ShaderType &type, ShaderPtr shader);
+        std::string GetOutputName(const ShaderOutputType &type);
+        void SetOutputName(const ShaderOutputType &type, const std::string &name);
         
         ShaderAttributePtr BindSemanticsToName(const ShaderAttribute::Semantics &semantics, const std::string &nameInShader);
         ShaderAttributePtr GetAttributeForSemantics(const ShaderAttribute::Semantics &semantics) const;
@@ -69,15 +85,15 @@ namespace bde {
 		}
     }; // class ShaderProgram
 
-    typedef std::shared_ptr<ShaderProgram>  ShaderProgramPtr;
-    typedef std::weak_ptr<ShaderProgram>    ShaderProgramWeakPtr;
+    typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
+    typedef std::weak_ptr<ShaderProgram> ShaderProgramWeakPtr;
 
 } // namespace bde
 
 #else
 namespace bde {
     class ShaderProgram;
-    typedef std::shared_ptr<ShaderProgram>  ShaderProgramPtr;
-    typedef std::weak_ptr<ShaderProgram>    ShaderProgramWeakPtr;
+    typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
+    typedef std::weak_ptr<ShaderProgram> ShaderProgramWeakPtr;
 } // namespace bde
 #endif

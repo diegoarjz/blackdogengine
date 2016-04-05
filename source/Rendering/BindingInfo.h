@@ -10,9 +10,6 @@ namespace bde {
     /**
      * This class contains information about the binding between some structure and
      * its representation in the graphics card.
-     *
-     * @author  Diego Jesus <diego.a.r.jz@gmail.com>
-     * @date    28 May 2015
      */
     class BindingInfo {
       private:
